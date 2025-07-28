@@ -1,0 +1,80 @@
+Ayush Maurya
+International Institute of Information Technology (IIIT), Hyderabad • 2021 – Present
+About Me
+Proficiently trained in both human sciences and computer
+science, I possess a unique perspective that enables me to
+comprehend the far-reaching implications and outcomes of
+technological advancements.
+Contact
+ayushmaurya2003@gmail.com
+ayush.maurya@research.iiit.ac.in
++91-7985149173
+linkedin.com/in/ayush-maurya-a41a9721a
+github.com/Ayush12358
+Skills
+• Machine Learning, Python, PyTorch
+• C/C++, SQL, HTML, CSS, JavaScript
+• UI/UX, Wireframing, Prototyping, User Stories
+• Research and Analysis, Image Processing
+• System Design, Linux
+Education
+IIIT Hyderabad
+B.Tech in Computer Science Engineering (CSE)
+M.S. by Research in Computing and Human Sciences
+Ongoing 2021 – present
+Mary Gardiner’s Convent School
+Class XII, 90.1 percentage 2021
+City Montessori School, RDSO
+Class X, 94.2 percentage 2019
+Relevant Courses
+Design and Analysis of Software Systems (SDLC Training)
+Trained by experts from Microsoft, Qualcomm Dec 2024
+Human Science Lab (HSRC)
+Trained in foundational NLP techniques Dec 2022
+Publication
+The Hindu: Data — The indirect impact of T20s on Test
+cricket Co-authored article analyzing data trends in cricket
+formats.
+Achievements
+• JEE Main Percentile: 96.9
+• UGEE Rank: 111 / 40,000+ expected students
+• Base Guitarist (2nd place, inter-house cultural competition band), Lawn Tennis Enthusiast
+Work Experience
+SERC Digital Twin
+Led development of a real-time environmental monitoring digital twin using MERN stack and on-campus sensors
+(temp, humidity, water, air quality). Followed full SDLC
+over 8 sprints.
+Skills: System Design, Teamwork, Javascript, CSS, HTML,
+SQL.
+tafea - System Design
+Designed an end-to-end client software system following
+SDLC. Leveraged LLM to create student-catered features.
+Skills: System Design, UI Design, User Research.
+Projects
+Age Prediction Model
+Developed a model to predict age from images using transfer
+learning (best results) and tested ensemble methods (RF,
+SVMs).
+Skills: Machine Learning, Image Processing, Standard ML.
+ML for Local Geoguesser
+Created a model to predict location details (latitude, longitude, region, angle) from images using ResNet50 with attention. Achieved 92% region accuracy, low MAE for lat/lon,
+60-degree error for angle.
+Skills: Python, Machine Learning, PyTorch.
+Katha Marketplace
+Designed a UI/UX solution for local artisans, using digital
+storytelling to enhance engagement. Followed agile workflow.
+Skills: UI/UX Design, Wireframing, Prototyping, User Stories, User Research.
+Campus Mart
+UI/UX design of a buy-sell-rent app leveraging humancomputer interaction. Unique feature using NFC for exchange and tracking.
+Skills: UI/UX, Teamwork, Interaction Design, Wireframing, Prototyping, User Stories.
+Hoi Shell
+Built a custom shell in C supporting preliminary Linux commands (ls, clr, piping etc.).
+Skills: C/C++, Linux, Teamwork.
+Highland History Project
+Digitized historical reports using OCR and LLMs to fix
+missing elements, part of a larger project mapping Himalayan trade networks.
+Skills: Machine Learning, Teamwork, Image Processing.
+HSRC Summer Bootcamp
+Trained in computational tools for Human Science. Coauthored The Hindu article, analyzed/visualized cricket
+data using Python.
+Skills: Machine Learning, Teamwork, Research and Analysis.
