@@ -10,15 +10,62 @@ export const useTheme = () => {
   return context;
 };
 
+const accentColors = {
+  blue: {
+    name: 'Blue',
+    primary: '#007bff',
+    'primary-hover': '#0056b3',
+    'primary-dark': '#004085',
+    'primary-light': 'rgba(0, 123, 255, 0.1)',
+    warning: '#ffc107',
+  },
+  green: {
+    name: 'Green',
+    primary: '#28a745',
+    'primary-hover': '#1e7e34',
+    'primary-dark': '#155724',
+    'primary-light': 'rgba(40, 167, 69, 0.1)',
+    warning: '#fd7e14',
+  },
+  purple: {
+    name: 'Purple',
+    primary: '#6f42c1',
+    'primary-hover': '#5a32a3',
+    'primary-dark': '#4e2a84',
+    'primary-light': 'rgba(111, 66, 193, 0.1)',
+    warning: '#e83e8c',
+  },
+  red: {
+    name: 'Red',
+    primary: '#dc3545',
+    'primary-hover': '#c82333',
+    'primary-dark': '#bd2130',
+    'primary-light': 'rgba(220, 53, 69, 0.1)',
+    warning: '#fd7e14',
+  },
+  orange: {
+    name: 'Orange',
+    primary: '#fd7e14',
+    'primary-hover': '#e8650e',
+    'primary-dark': '#d35400',
+    'primary-light': 'rgba(253, 126, 20, 0.1)',
+    warning: '#ffc107',
+  },
+  teal: {
+    name: 'Teal',
+    primary: '#20c997',
+    'primary-hover': '#1abc9c',
+    'primary-dark': '#17a2b8',
+    'primary-light': 'rgba(32, 201, 151, 0.1)',
+    warning: '#ffc107',
+  }
+};
+
 const themes = {
   light: {
     name: 'Light',
     icon: '',
     colors: {
-      primary: '#007bff',
-      'primary-hover': '#0056b3',
-      'primary-dark': '#004085',
-      'primary-light': 'rgba(0, 123, 255, 0.1)',
       secondary: '#6c757d',
       background: '#ffffff',
       'background-secondary': '#f8f9fa',
@@ -29,7 +76,6 @@ const themes = {
       border: '#dee2e6',
       success: '#28a745',
       'success-light': 'rgba(40, 167, 69, 0.1)',
-      warning: '#ffc107',
       error: '#dc3545',
       'error-light': 'rgba(220, 53, 69, 0.1)',
       shadow: 'rgba(0, 0, 0, 0.1)',
@@ -42,10 +88,6 @@ const themes = {
     name: 'Dark',
     icon: '',
     colors: {
-      primary: '#007bff',
-      'primary-hover': '#0056b3',
-      'primary-dark': '#004085',
-      'primary-light': 'rgba(0, 123, 255, 0.2)',
       secondary: '#6c757d',
       background: '#1a1a1a',
       'background-secondary': '#2d2d2d',
@@ -56,7 +98,6 @@ const themes = {
       border: '#495057',
       success: '#28a745',
       'success-light': 'rgba(40, 167, 69, 0.2)',
-      warning: '#ffc107',
       error: '#dc3545',
       'error-light': 'rgba(220, 53, 69, 0.2)',
       shadow: 'rgba(0, 0, 0, 0.3)',
@@ -74,41 +115,67 @@ export const ThemeProvider = ({ children }) => {
     return (savedTheme && themes[savedTheme]) ? savedTheme : 'light';
   });
 
-  // Apply theme immediately on component mount and when theme changes
+  // Initialize with saved accent color or default to blue
+  const [currentAccent, setCurrentAccent] = useState(() => {
+    const savedAccent = localStorage.getItem('selectedAccent');
+    return (savedAccent && accentColors[savedAccent]) ? savedAccent : 'blue';
+  });
+
+  // Apply theme and accent immediately on component mount and when they change
   useEffect(() => {
-    const applyTheme = (themeName) => {
+    const applyTheme = (themeName, accentName) => {
       const theme = themes[themeName];
-      if (!theme) return;
+      const accent = accentColors[accentName];
+      if (!theme || !accent) return;
       
       const root = document.documentElement;
       
-      // Apply CSS custom properties
+      // Apply base theme colors
       Object.entries(theme.colors).forEach(([key, value]) => {
         root.style.setProperty(`--color-${key}`, value);
       });
+
+      // Apply accent colors (these will override the theme's primary colors)
+      Object.entries(accent).forEach(([key, value]) => {
+        if (key !== 'name') {
+          root.style.setProperty(`--color-${key}`, value);
+        }
+      });
       
       // Apply body class for theme-specific styles
-      document.body.className = `theme-${themeName}`;
+      document.body.className = `theme-${themeName} accent-${accentName}`;
       
       // Save to localStorage
       localStorage.setItem('selectedTheme', themeName);
+      localStorage.setItem('selectedAccent', accentName);
     };
 
-    // Apply the current theme
-    applyTheme(currentTheme);
-  }, [currentTheme]);
+    // Apply the current theme and accent
+    applyTheme(currentTheme, currentAccent);
+  }, [currentTheme, currentAccent]);
 
   // Also apply theme on initial load to handle any timing issues
   useEffect(() => {
     const savedTheme = localStorage.getItem('selectedTheme');
+    const savedAccent = localStorage.getItem('selectedAccent');
+    
     if (savedTheme && themes[savedTheme] && savedTheme !== currentTheme) {
       setCurrentTheme(savedTheme);
+    }
+    if (savedAccent && accentColors[savedAccent] && savedAccent !== currentAccent) {
+      setCurrentAccent(savedAccent);
     }
   }, []);
 
   const switchTheme = (themeName) => {
     if (themes[themeName]) {
       setCurrentTheme(themeName);
+    }
+  };
+
+  const switchAccent = (accentName) => {
+    if (accentColors[accentName]) {
+      setCurrentAccent(accentName);
     }
   };
 
@@ -128,9 +195,13 @@ export const ThemeProvider = ({ children }) => {
 
   const value = {
     currentTheme,
+    currentAccent,
     theme: themes[currentTheme],
+    accent: accentColors[currentAccent],
     themes,
+    accentColors,
     switchTheme,
+    switchAccent,
     toggleTheme,
     isDarkMode,
     getNextTheme

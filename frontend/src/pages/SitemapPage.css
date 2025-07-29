@@ -1,0 +1,241 @@
+/* Sitemap Page Styles */
+.sitemap-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sitemap-nav {
+  margin-bottom: 1rem;
+}
+
+.back-to-main {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+}
+
+.back-to-main:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+.sitemap-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sitemap-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.sitemap-header p {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+.sitemap-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.sitemap-section {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--color-shadow-card);
+  transition: all 0.3s ease;
+}
+
+.sitemap-section:hover {
+  box-shadow: var(--color-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.sitemap-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-primary);
+  position: relative;
+}
+
+.sitemap-section h2::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--color-primary-hover);
+  border-radius: 1px;
+}
+
+.sitemap-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sitemap-links li {
+  margin-bottom: 0.75rem;
+}
+
+.sitemap-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.sitemap-link:hover {
+  color: var(--color-primary-hover);
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  transform: translateX(8px);
+}
+
+.sitemap-link:before {
+  content: '→';
+  margin-right: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.sitemap-link:hover:before {
+  opacity: 1;
+}
+
+.current-page {
+  color: var(--color-text-secondary);
+  font-style: italic;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  background: var(--color-background-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.current-page:before {
+  content: '•';
+  margin-right: 0.75rem;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.sitemap-footer {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.sitemap-footer p {
+  margin-bottom: 0.5rem;
+}
+
+.sitemap-footer p:first-child {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.sitemap-footer p:last-child {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Dark mode specific enhancements */
+.theme-dark .sitemap-section {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.theme-dark .sitemap-section:hover {
+  background: var(--color-background-secondary);
+}
+
+.theme-dark .sitemap-link:hover {
+  background: var(--color-primary-light);
+}
+
+.theme-dark .current-page {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sitemap-page {
+    padding: 1rem;
+  }
+  
+  .sitemap-header h1 {
+    font-size: 2rem;
+  }
+  
+  .sitemap-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .sitemap-section {
+    padding: 1rem;
+  }
+  
+  .sitemap-link {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Enhanced animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sitemap-section {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.sitemap-section:nth-child(1) { animation-delay: 0.1s; }
+.sitemap-section:nth-child(2) { animation-delay: 0.2s; }
+.sitemap-section:nth-child(3) { animation-delay: 0.3s; }
+.sitemap-section:nth-child(4) { animation-delay: 0.4s; }

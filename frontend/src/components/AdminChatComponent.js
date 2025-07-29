@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DOMPurify from 'dompurify';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
+import './Chat.css';
 
 const AdminChatComponent = () => {
   const [conversations, setConversations] = useState([]);
@@ -12,6 +13,11 @@ const AdminChatComponent = () => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const { user } = useAuth();
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     console.log('AdminChatComponent mounted, user:', user);
@@ -51,6 +57,7 @@ const AdminChatComponent = () => {
     try {
       const response = await api.get(`/chat/admin/${userId}`);
       setMessages(response.data);
+      setTimeout(scrollToBottom, 100);
     } catch (err) {
       setError('Failed to load messages');
       console.error('Messages fetch error:', err);
@@ -76,6 +83,7 @@ const AdminChatComponent = () => {
       });
       setMessages(prev => [...prev, response.data]);
       setNewMessage('');
+      setTimeout(scrollToBottom, 100);
       // Refresh conversations to update unread counts
       fetchConversations();
     } catch (err) {
@@ -96,68 +104,49 @@ const AdminChatComponent = () => {
 
   if (loading) {
     return (
-      <div style={{textAlign: 'center', padding: '2rem', color: 'var(--color-text-secondary)'}}>
-        Loading admin chat...
+      <div className="chat-container">
+        <div className="chat-loading">Loading admin chat...</div>
       </div>
     );
   }
 
   if (error && !user) {
     return (
-      <div style={{textAlign: 'center', padding: '2rem', color: 'var(--color-error)'}}>
-        {error}
+      <div className="chat-container">
+        <div className="chat-error" style={{padding: '2rem'}}>
+          {error}
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem', height: '500px'}}>
-      <div style={{background: 'var(--color-surface)', borderRadius: '8px', padding: '1rem', overflow: 'hidden', display: 'flex', flexDirection: 'column'}}>
-        <h4 style={{margin: '0 0 1rem 0', color: 'var(--color-text)', fontSize: '1rem'}}>Conversations</h4>
+    <div className="admin-chat-container">
+      <div className="admin-conversations">
+        <h4>Conversations</h4>
         {conversations.length === 0 ? (
-          <div style={{color: 'var(--color-text-secondary)', textAlign: 'center', padding: '2rem'}}>No conversations yet</div>
+          <div className="chat-empty">No conversations yet</div>
         ) : (
-          <div style={{flex: 1, overflowY: 'auto'}}>
+          <div className="admin-conversations-list">
             {conversations.map((conv) => (
               <div
                 key={conv.userId}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0.75rem',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  marginBottom: '0.5rem',
-                  backgroundColor: selectedUserId === conv.userId ? 'var(--color-primary-light)' : 'var(--color-background-secondary)',
-                  border: selectedUserId === conv.userId ? '1px solid var(--color-primary)' : '1px solid transparent'
-                }}
+                className={`admin-conversation-item ${selectedUserId === conv.userId ? 'selected' : ''}`}
                 onClick={() => setSelectedUserId(conv.userId)}
               >
-                <div style={{flex: 1}}>
-                  <div style={{fontWeight: '500', color: 'var(--color-text)', marginBottom: '0.25rem'}}>
+                <div className="admin-conversation-info">
+                  <div className="admin-conversation-name">
                     {conv.User.name}
                   </div>
-                  <div style={{fontSize: '0.875rem', color: 'var(--color-text-secondary)', marginBottom: '0.25rem'}}>
+                  <div className="admin-conversation-email">
                     {conv.User.email}
                   </div>
-                  <div style={{fontSize: '0.75rem', color: 'var(--color-text-secondary)'}}>
+                  <div className="admin-conversation-time">
                     {formatTime(conv.lastMessageTime)}
                   </div>
                 </div>
                 {conv.unreadCount > 0 && (
-                  <div style={{
-                    background: 'var(--color-error)',
-                    color: 'var(--color-surface)',
-                    borderRadius: '50%',
-                    width: '20px',
-                    height: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.75rem',
-                    fontWeight: 'bold'
-                  }}>
+                  <div className="admin-unread-badge">
                     {conv.unreadCount}
                   </div>
                 )}
@@ -167,110 +156,64 @@ const AdminChatComponent = () => {
         )}
       </div>
 
-      <div style={{background: 'var(--color-surface)', borderRadius: '8px', display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
+      <div className="admin-chat-panel">
         {selectedUserId ? (
           <>
-            <div style={{padding: '1rem', background: 'var(--color-background-secondary)', borderBottom: '1px solid var(--color-border)'}}>
-              <h4 style={{margin: 0, color: 'var(--color-text)', fontSize: '1rem'}}>
+            <div className="chat-header">
+              <h3>
                 Chat with {conversations.find(c => c.userId === selectedUserId)?.User.name}
-              </h4>
+              </h3>
             </div>
             
-            <div style={{flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+            <div className="chat-messages">
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  style={{
-                    display: 'flex',
-                    maxWidth: '80%',
-                    alignSelf: message.isFromDev ? 'flex-end' : 'flex-start'
-                  }}
+                  className={`message ${message.isFromDev ? 'message-dev' : 'message-user'}`}
                 >
-                  <div style={{
-                    padding: '0.75rem 1rem',
-                    borderRadius: '18px',
-                    backgroundColor: message.isFromDev ? 'var(--color-primary)' : 'var(--color-background-secondary)',
-                    color: message.isFromDev ? 'var(--color-surface)' : 'var(--color-text)',
-                    borderBottomLeftRadius: message.isFromDev ? '18px' : '4px',
-                    borderBottomRightRadius: message.isFromDev ? '4px' : '18px'
-                  }}>
-                    <p style={{margin: '0 0 0.25rem 0', wordWrap: 'break-word'}} 
-                       dangerouslySetInnerHTML={{
-                         __html: DOMPurify.sanitize(message.message, {
-                           ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'br'],
-                           ALLOWED_ATTR: []
-                         })
-                       }} 
-                    />
-                    <span style={{fontSize: '0.75rem', opacity: 0.7}}>
+                  <div className="message-content">
+                    <p dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(message.message, {
+                        ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'br'],
+                        ALLOWED_ATTR: []
+                      })
+                    }} />
+                    <span className="message-time">
                       {formatTime(message.createdAt)}
                     </span>
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSendMessage} style={{borderTop: '1px solid var(--color-border)', padding: '1rem'}}>
-              {error && (
-                <div style={{color: 'var(--color-error)', fontSize: '0.875rem', marginBottom: '0.5rem', textAlign: 'center'}}>
-                  {error}
-                </div>
-              )}
-              <div style={{display: 'flex', gap: '0.5rem'}}>
+            <form onSubmit={handleSendMessage} className="chat-input-form">
+              {error && <div className="chat-error">{error}</div>}
+              <div className="chat-input-container">
                 <input
                   type="text"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type your reply..."
                   maxLength="1000"
+                  className="chat-input"
                   disabled={sending}
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem',
-                    border: '1px solid var(--color-border)',
-                    background: 'var(--color-surface)',
-                    color: 'var(--color-text)',
-                    borderRadius: '20px',
-                    fontSize: '0.875rem',
-                    outline: 'none'
-                  }}
                 />
                 <button
                   type="submit"
                   disabled={!newMessage.trim() || sending || newMessage.length > 1000}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    background: (!newMessage.trim() || sending || newMessage.length > 1000) ? 'var(--color-text-secondary)' : 'var(--color-primary)',
-                    color: 'var(--color-surface)',
-                    border: 'none',
-                    borderRadius: '20px',
-                    fontSize: '0.875rem',
-                    fontWeight: '500',
-                    cursor: (!newMessage.trim() || sending || newMessage.length > 1000) ? 'not-allowed' : 'pointer'
-                  }}
+                  className="chat-send-btn"
                 >
                   {sending ? 'Sending...' : 'Send'}
                 </button>
               </div>
-              <div style={{
-                fontSize: '0.75rem', 
-                color: newMessage.length > 900 ? 'var(--color-error)' : 'var(--color-text-secondary)',
-                textAlign: 'right',
-                marginTop: '0.25rem'
-              }}>
+              <div className={`char-count ${newMessage.length > 900 ? 'warning' : ''}`}>
                 {newMessage.length}/1000
               </div>
             </form>
           </>
         ) : (
-          <div style={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--color-text-secondary)',
-            fontSize: '1rem'
-          }}>
+          <div className="admin-chat-empty">
             Select a conversation to start chatting
           </div>
         )}

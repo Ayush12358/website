@@ -14,6 +14,12 @@ import ProfilePage from './pages/ProfilePage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import AdminChatPage from './pages/AdminChatPage';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
+import BlogAdminPage from './pages/BlogAdminPage';
+import BlogEditorPage from './pages/BlogEditorPage';
+import SitemapPage from './pages/SitemapPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -39,6 +45,32 @@ function App() {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route 
+              path="/blog/admin" 
+              element={
+                <ProtectedRoute>
+                  <BlogAdminPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/blog/new" 
+              element={
+                <ProtectedRoute>
+                  <BlogEditorPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/blog/edit/:id" 
+              element={
+                <ProtectedRoute>
+                  <BlogEditorPage />
+                </ProtectedRoute>
+              } 
+            />
             <Route 
               path="/dashboard" 
               element={
@@ -63,6 +95,9 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+            <Route path="/sitemap" element={<SitemapPage />} />
+            {/* Catch-all route for 404 errors */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Router>
       </AuthProvider>

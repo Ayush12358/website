@@ -146,6 +146,16 @@
   cursor: not-allowed;
 }
 
+.char-count {
+  font-size: 0.75rem;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+.char-count.warning {
+  color: var(--color-error);
+}
+
 /* Scrollbar styling */
 .chat-messages::-webkit-scrollbar {
   width: 6px;
@@ -158,4 +168,117 @@
 .chat-messages::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 3px;
+}
+
+/* Admin Chat Specific Styles */
+.admin-chat-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+  height: 500px;
+}
+
+.admin-conversations {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-conversations h4 {
+  margin: 0 0 1rem 0;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.admin-conversations-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.admin-conversation-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  background: var(--color-background-secondary);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.admin-conversation-item:hover {
+  background: var(--color-background);
+}
+
+.admin-conversation-item.selected {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.admin-conversation-info {
+  flex: 1;
+}
+
+.admin-conversation-name {
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.admin-conversation-email {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.admin-conversation-time {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.admin-unread-badge {
+  background: var(--color-error);
+  color: var(--color-surface);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.admin-chat-panel {
+  background: var(--color-surface);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-chat-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+}
+
+/* Mobile responsiveness for admin chat */
+@media (max-width: 768px) {
+  .admin-chat-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  
+  .admin-conversations {
+    max-height: 200px;
+  }
 }

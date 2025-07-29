@@ -102,6 +102,7 @@ const contentRoutes = require('./routes/contentRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const databaseRoutes = require('./routes/databaseRoutes');
 const backupRoutes = require('./routes/backupRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 // API routes
 app.use('/api/users', userRoutes);
@@ -111,12 +112,24 @@ app.use('/api/content', contentRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/database', databaseRoutes);
 app.use('/api/backup', backupRoutes);
+app.use('/api/blog', blogRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api', (req, res) => {
   res.send('API is running');
+});
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    port: PORT,
+    uptime: process.uptime()
+  });
 });
 
 // Serve static files from frontend build (in production)

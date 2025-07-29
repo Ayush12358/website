@@ -137,12 +137,7 @@ const Chat = () => {
             {sending ? 'Sending...' : 'Send'}
           </button>
         </div>
-        <div className="char-count" style={{
-          fontSize: '0.75rem', 
-          color: newMessage.length > 900 ? '#ef4444' : '#6b7280',
-          textAlign: 'right',
-          marginTop: '0.25rem'
-        }}>
+        <div className={`char-count ${newMessage.length > 900 ? 'warning' : ''}`}>
           {newMessage.length}/1000
         </div>
       </form>
