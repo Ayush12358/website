@@ -14,6 +14,8 @@ const AdminChatComponent = () => {
   const [error, setError] = useState('');
   const { user } = useAuth();
   const messagesEndRef = useRef(null);
+  const conversationsInterval = useRef(null);
+  const messagesInterval = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,24 +27,48 @@ const AdminChatComponent = () => {
     if (user && user.profile && user.profile.email === 'ayushmaurya2003@gmail.com') {
       console.log('User is developer, fetching conversations...');
       fetchConversations();
+      // Poll for new conversations every 2 seconds
+      conversationsInterval.current = setInterval(() => fetchConversations(true), 2000);
     } else {
       console.log('User is not developer or no user:', user);
       setError('Access denied. Developer access required.');
       setLoading(false);
     }
+
+    return () => {
+      if (conversationsInterval.current) {
+        clearInterval(conversationsInterval.current);
+      }
+    };
   }, [user]);
 
   useEffect(() => {
     if (selectedUserId) {
       fetchMessages(selectedUserId);
+      // Poll for new messages every 2 seconds for the selected conversation
+      messagesInterval.current = setInterval(() => {
+        fetchMessages(selectedUserId, true);
+      }, 2000);
+    } else {
+      // Clear messages polling when no conversation is selected
+      if (messagesInterval.current) {
+        clearInterval(messagesInterval.current);
+        messagesInterval.current = null;
+      }
     }
+
+    return () => {
+      if (messagesInterval.current) {
+        clearInterval(messagesInterval.current);
+      }
+    };
   }, [selectedUserId]);
 
-  const fetchConversations = async () => {
+  const fetchConversations = async (silent = false) => {
     try {
-      console.log('Fetching admin conversations...');
+      if (!silent) console.log('Fetching admin conversations...');
       const response = await api.get('/chat/admin/conversations');
-      console.log('Admin conversations response:', response.data);
+      if (!silent) console.log('Admin conversations response:', response.data);
       setConversations(response.data);
     } catch (err) {
       console.error('Conversations fetch error:', err);
@@ -53,14 +79,16 @@ const AdminChatComponent = () => {
     }
   };
 
-  const fetchMessages = async (userId) => {
+  const fetchMessages = async (userId, silent = false) => {
     try {
       const response = await api.get(`/chat/admin/${userId}`);
       setMessages(response.data);
       setTimeout(scrollToBottom, 100);
     } catch (err) {
-      setError('Failed to load messages');
-      console.error('Messages fetch error:', err);
+      if (!silent) {
+        setError('Failed to load messages');
+        console.error('Messages fetch error:', err);
+      }
     }
   };
 
@@ -84,8 +112,8 @@ const AdminChatComponent = () => {
       setMessages(prev => [...prev, response.data]);
       setNewMessage('');
       setTimeout(scrollToBottom, 100);
-      // Refresh conversations to update unread counts
-      fetchConversations();
+      // Refresh conversations to update unread counts (silent refresh)
+      fetchConversations(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send message');
     } finally {
