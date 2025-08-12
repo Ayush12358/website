@@ -34,6 +34,15 @@ const SitemapPage = () => {
       ]
     },
     {
+      title: 'Developer Tools',
+      links: [
+        { path: '/port/3000', label: 'React Dev Server (Port 3000)' },
+        { path: '/port/5001', label: 'Backend API (Port 5001)' },
+        { path: '/port/8000', label: 'Frontend App (Port 8000)' },
+        { path: '/admin/chat', label: 'Admin Chat (Developer Only)' },
+      ]
+    },
+    {
       title: 'Other',
       links: [
         { path: '/sitemap', label: 'Sitemap (Current Page)' },

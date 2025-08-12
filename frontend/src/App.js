@@ -19,7 +19,11 @@ import BlogPostPage from './pages/BlogPostPage';
 import BlogAdminPage from './pages/BlogAdminPage';
 import BlogEditorPage from './pages/BlogEditorPage';
 import SitemapPage from './pages/SitemapPage';
+import ReleaseNotesPage from './pages/ReleaseNotesPage';
+import RoadmapPage from './pages/RoadmapPage';
+import LinktreePage from './pages/LinktreePage';
 import NotFoundPage from './pages/NotFoundPage';
+import PortViewPage from './pages/PortViewPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -95,7 +99,25 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+            <Route 
+              path="/port/:port" 
+              element={
+                <ProtectedRoute>
+                  <PortViewPage />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/sitemap" element={<SitemapPage />} />
+            <Route path="/release-notes" element={<ReleaseNotesPage />} />
+            <Route path="/roadmap" element={<RoadmapPage />} />
+            <Route 
+              path="/linktree" 
+              element={
+                <ProtectedRoute>
+                  <LinktreePage />
+                </ProtectedRoute>
+              } 
+            />
             {/* Catch-all route for 404 errors */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

@@ -103,6 +103,9 @@ const settingsRoutes = require('./routes/settingsRoutes');
 const databaseRoutes = require('./routes/databaseRoutes');
 const backupRoutes = require('./routes/backupRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const portRoutes = require('./routes/portRoutes');
+const linktreeRoutes = require('./routes/linktreeRoutes');
+const publicLinksRoutes = require('./routes/publicLinksRoutes');
 
 // API routes
 app.use('/api/users', userRoutes);
@@ -113,6 +116,9 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/database', databaseRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/blog', blogRoutes);
+app.use('/api/ports', portRoutes);
+app.use('/api/linktree', linktreeRoutes);
+app.use('/api/public-links', publicLinksRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

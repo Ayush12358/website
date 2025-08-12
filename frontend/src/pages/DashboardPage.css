@@ -567,28 +567,50 @@
   text-align: center;
   width: 100%;
   color: var(--color-text);
+  text-decoration: none;
 }
 
 .port-button:hover {
   border-color: var(--color-primary);
-  background-color: var(--color-background);
+  background-color: var(--color-primary-light);
+  color: var(--color-text);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.port-button.active {
-  border-color: var(--color-primary);
-  background-color: var(--color-primary);
-  color: var(--color-surface);
+.port-button:visited {
+  color: var(--color-text);
 }
 
 .port-button strong {
   font-size: 16px;
   margin-bottom: 4px;
   display: block;
+  color: var(--color-primary);
 }
 
 .port-button span {
   font-size: 12px;
   opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.port-owner {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-left: 4px;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.public-badge {
+  font-size: 10px;
+  opacity: 0.9;
+  margin-left: 2px;
 }
 
 .port-actions {
@@ -636,6 +658,49 @@
   padding: 20px;
   box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.port-viewer.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  border-radius: 0;
+  padding: 0;
+  background: var(--color-surface);
+  box-shadow: none;
+  border: none;
+}
+
+
+
+.port-viewer.fullscreen .port-info {
+  padding: 20px;
+  margin: 0;
+}
+
+.port-viewer.fullscreen .port-info-btn {
+  margin-bottom: 10px;
+}
+
+.port-viewer.fullscreen .iframe-container {
+  height: 100vh;
+}
+
+.port-viewer.fullscreen .iframe-container iframe {
+  height: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.port-viewer.fullscreen .port-info-btn-overlay {
+  top: 20px;
+  right: 20px;
+  font-size: 16px;
+  padding: 10px 14px;
 }
 
 .port-info h4 {
@@ -645,7 +710,7 @@
 }
 
 .port-info p {
-  margin: 0 0 20px 0;
+  margin: 0;
 }
 
 .iframe-container {
@@ -660,6 +725,68 @@
 
 .iframe-container iframe[src=""] {
   opacity: 0.5;
+}
+
+.port-info-btn-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.port-info-btn-overlay:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.port-info-btn-overlay:active {
+  transform: translateY(0);
+}
+
+.port-info-btn-overlay .port-info-label {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.port-info-btn-overlay .port-name {
+  font-weight: 400;
+  opacity: 0.9;
+  margin-left: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.port-info-btn-overlay .fullscreen-icon {
+  font-size: 16px;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.port-info-btn-overlay:hover .fullscreen-icon {
+  opacity: 1;
 }
 
 /* Web Shell Styles */

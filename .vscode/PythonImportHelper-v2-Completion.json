@@ -818,6 +818,14 @@
         "documentation": {}
     },
     {
+        "label": "render_template_string",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "CORS",
         "importPath": "flask_cors",
         "description": "flask_cors",
@@ -6544,7 +6552,16 @@
         "kind": 2,
         "importPath": "TTS_app.app",
         "description": "TTS_app.app",
-        "peekOfCode": "def get_speakers():\n    if tts is None:\n        return jsonify({\"error\": \"TTS model not loaded.\"}), 500\n    if hasattr(tts, 'speakers') and tts.speakers:\n        return jsonify({\"speakers\": tts.speakers})\n    else:\n        return jsonify({\"speakers\": []})\n# route the fronted to the index.html file\n@app.route('/')\ndef index():",
+        "peekOfCode": "def get_speakers():\n    if tts is None:\n        return jsonify({\"error\": \"TTS model not loaded.\"}), 500\n    if hasattr(tts, 'speakers') and tts.speakers:\n        return jsonify({\"speakers\": tts.speakers})\n    else:\n        return jsonify({\"speakers\": []})\n# New route to generate full document audio with chunked processing\n@app.route('/full-document-tts', methods=['POST'])\ndef full_document_tts():",
+        "detail": "TTS_app.app",
+        "documentation": {}
+    },
+    {
+        "label": "full_document_tts",
+        "kind": 2,
+        "importPath": "TTS_app.app",
+        "description": "TTS_app.app",
+        "peekOfCode": "def full_document_tts():\n    if tts is None:\n        return jsonify({\"error\": \"TTS model not loaded.\"}), 500\n    data = request.json\n    text = data.get('text')\n    speaker = data.get('speaker', 'p225')\n    chunk_index = data.get('chunk_index', None)\n    total_chunks = data.get('total_chunks', None)\n    if not text:\n        return jsonify({\"error\": \"No text provided\"}), 400",
         "detail": "TTS_app.app",
         "documentation": {}
     },
@@ -6553,7 +6570,7 @@
         "kind": 2,
         "importPath": "TTS_app.app",
         "description": "TTS_app.app",
-        "peekOfCode": "def index():\n    return send_file('index.html')\nif __name__ == '__main__':\n    app.run(host='127.0.0.1', port=port, debug=True)",
+        "peekOfCode": "def index():\n    status = \"TTS Model Loaded\" if tts is not None else \"TTS Model Failed to Load\"\n    return render_template_string(HTML_TEMPLATE, \n                                status=status, \n                                device=device, \n                                model_name=model_name,\n                                port=port)\nif __name__ == '__main__':\n    app.run(host='127.0.0.1', port=port, debug=True)",
         "detail": "TTS_app.app",
         "documentation": {}
     },
@@ -6562,7 +6579,7 @@
         "kind": 5,
         "importPath": "TTS_app.app",
         "description": "TTS_app.app",
-        "peekOfCode": "app = Flask(__name__)\nCORS(app) # Enable CORS for all routes\n# model_name = \"tts_models/en/ljspeech/vits\"\n# model_name = \"tts_models/en/ljspeech/glow-tts\"\nmodel_name = \"tts_models/en/vctk/vits\" \nport = 5075\n# Initialize TTS model globally to avoid re-loading on each request\n# You can choose a different model if you prefer.\n# This model will be downloaded the first time it's used.\nprint(\"Loading Coqui TTS model... This may take a while.\")",
+        "peekOfCode": "app = Flask(__name__)\nCORS(app) # Enable CORS for all routes\n# model_name = \"tts_models/en/ljspeech/vits\"\n# model_name = \"tts_models/en/ljspeech/glow-tts\"\nmodel_name = \"tts_models/en/vctk/vits\" \ndefault_port = 5080\n# Get port from command line argument or use default\nif len(sys.argv) > 1:\n    try:\n        port = int(sys.argv[1])",
         "detail": "TTS_app.app",
         "documentation": {}
     },
@@ -6571,16 +6588,16 @@
         "kind": 5,
         "importPath": "TTS_app.app",
         "description": "TTS_app.app",
-        "peekOfCode": "model_name = \"tts_models/en/vctk/vits\" \nport = 5075\n# Initialize TTS model globally to avoid re-loading on each request\n# You can choose a different model if you prefer.\n# This model will be downloaded the first time it's used.\nprint(\"Loading Coqui TTS model... This may take a while.\")\n# check if gpu is available and load the model accordingly\ndevice = 'cuda' if torch.cuda.is_available() else 'cpu'\nprint (f\"Using device: {device}\")\ntry:",
+        "peekOfCode": "model_name = \"tts_models/en/vctk/vits\" \ndefault_port = 5080\n# Get port from command line argument or use default\nif len(sys.argv) > 1:\n    try:\n        port = int(sys.argv[1])\n        print(f\"Using port from command line: {port}\")\n    except ValueError:\n        print(f\"Invalid port argument '{sys.argv[1]}'. Using default port 5080.\")\n        port = default_port",
         "detail": "TTS_app.app",
         "documentation": {}
     },
     {
-        "label": "port",
+        "label": "default_port",
         "kind": 5,
         "importPath": "TTS_app.app",
         "description": "TTS_app.app",
-        "peekOfCode": "port = 5075\n# Initialize TTS model globally to avoid re-loading on each request\n# You can choose a different model if you prefer.\n# This model will be downloaded the first time it's used.\nprint(\"Loading Coqui TTS model... This may take a while.\")\n# check if gpu is available and load the model accordingly\ndevice = 'cuda' if torch.cuda.is_available() else 'cpu'\nprint (f\"Using device: {device}\")\ntry:\n    # Using a common English VITS model",
+        "peekOfCode": "default_port = 5080\n# Get port from command line argument or use default\nif len(sys.argv) > 1:\n    try:\n        port = int(sys.argv[1])\n        print(f\"Using port from command line: {port}\")\n    except ValueError:\n        print(f\"Invalid port argument '{sys.argv[1]}'. Using default port 5080.\")\n        port = default_port\nelse:",
         "detail": "TTS_app.app",
         "documentation": {}
     },
@@ -6590,6 +6607,15 @@
         "importPath": "TTS_app.app",
         "description": "TTS_app.app",
         "peekOfCode": "device = 'cuda' if torch.cuda.is_available() else 'cpu'\nprint (f\"Using device: {device}\")\ntry:\n    # Using a common English VITS model\n    tts = TTS(model_name=model_name, progress_bar=True)\n    tts.to(device)  # Move model to the appropriate device\n    print(\"Coqui TTS model loaded successfully.\")\n    # Print available speakers if multi-speaker model\n    if hasattr(tts, 'speakers') and tts.speakers:\n        print(f\"Available speakers: {len(tts.speakers)}\")",
+        "detail": "TTS_app.app",
+        "documentation": {}
+    },
+    {
+        "label": "HTML_TEMPLATE",
+        "kind": 5,
+        "importPath": "TTS_app.app",
+        "description": "TTS_app.app",
+        "peekOfCode": "HTML_TEMPLATE = \"\"\"\n    <!DOCTYPE html>\n    <html lang=\"en\" class=\"dark\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <title>TTS Reader (Coqui AI Backend)</title>\n        <!-- Favicon -->\n        <link rel=\"icon\" type=\"image/x-icon\" href=\"icon.ico\">\n        <!-- Font Awesome CDN for icons -->",
         "detail": "TTS_app.app",
         "documentation": {}
     }

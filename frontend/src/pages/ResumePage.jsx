@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PublicLinks from '../components/PublicLinks';
 import './ResumePage.css';
 
 const ResumePage = ({ isAuthenticated = false }) => {
@@ -24,6 +25,12 @@ const ResumePage = ({ isAuthenticated = false }) => {
           </Link>
           <Link to="/sitemap" className="btn btn-secondary">
             Site Map
+          </Link>
+          <Link to="/release-notes" className="btn btn-secondary">
+            Release Notes
+          </Link>
+          <Link to="/roadmap" className="btn btn-secondary">
+            Roadmap
           </Link>
           {isAuthenticated ? (
             <Link to="/dashboard" className="btn btn-secondary">
@@ -287,6 +294,20 @@ const ResumePage = ({ isAuthenticated = false }) => {
             GitHub
           </a>
         </div>
+      </div>
+
+      {/* Public Links Section */}
+      <div className="public-links-section" style={{
+        marginTop: '50px',
+        padding: '40px 30px',
+        background: 'var(--color-background-secondary)',
+        borderRadius: '12px',
+        border: '1px solid var(--color-border)',
+        maxWidth: '1200px',
+        margin: '50px auto 0 auto'
+      }}>
+        <h2 style={{marginBottom: '25px', color: 'var(--color-text)', textAlign: 'center'}}>Useful Links</h2>
+        <PublicLinks />
       </div>
     </div>
   );
