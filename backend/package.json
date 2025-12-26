@@ -10,7 +10,7 @@
     "backup:list": "node -e \"const BackupService = require('./services/backupService'); const bs = new BackupService(); bs.listBackups().then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); });\"",
     "backup:restore": "node -e \"const BackupService = require('./services/backupService'); const filename = process.argv[2]; if (!filename) { console.error('Usage: npm run backup:restore <filename>'); process.exit(1); } const bs = new BackupService(); bs.restoreBackup(filename).then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); });\"",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "node smoke_test.js"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +36,9 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "axios": "^1.13.2",
     "concurrently": "^9.2.0",
+    "eslint": "^9.39.2",
     "nodemon": "^3.1.10"
   }
 }
