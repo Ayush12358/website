@@ -4,8 +4,9 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 
 ## 🚀 Quick Links
 
-- [Detailed Documentation](docs/README.md)
-- [Backend Server](backend/README.md)
+- [Installation & Setup](file:///c:/masti/website/docs/README.md)
+- [OCI Hosting Guide](file:///c:/masti/website/docs/deployment/OCI_SETUP.md)
+- [Backup System](file:///c:/masti/website/docs/README.md#backup-system)
 - [Frontend Application](frontend/README.md)
 - [TODO List](docs/todo.md)
 

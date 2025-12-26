@@ -333,11 +333,12 @@ npm test           # Run test suite
 - [ ] HTTPS enforced
 - [ ] CORS configured for production domains
 
-### Recommended Hosting
-
-- **Frontend**: Vercel, Netlify
-- **Backend**: Render, Heroku, Railway
 - **Database**: File-based SQLite (included in deployment)
+
+### ☁️ Cloud Hosting Guides
+
+- [Oracle Cloud Infrastructure (OCI) Setup](file:///c:/masti/website/docs/deployment/OCI_SETUP.md)
+- [Cloudflare Tunnel Configuration](file:///c:/masti/website/config.yml)
 
 ### Environment Configuration
 
