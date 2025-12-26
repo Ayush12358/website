@@ -435,7 +435,7 @@ This is a portfolio project demonstrating full-stack development capabilities. T
 
 ## 📄 License
 
-This project is part of a personal portfolio and is intended for demonstration purposes. All code follows industry best practices and can be used as a reference for similar projects.
+This project is part of a personal portfolio and is intended for demonstration purposes. All code is licensed under the Apache License 2.0.
 
 ---
 
