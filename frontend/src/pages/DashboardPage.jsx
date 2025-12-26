@@ -237,23 +237,8 @@ const DashboardPage = () => {
     navigate('/login');
   };
 
-  const defaultPorts = [
-    { port: '3000', name: 'React Dev Server', description: 'Default React development server', isCustom: false, isPublic: false },
-    { port: '5001', name: 'Backend API', description: 'Node.js/Express backend server', isCustom: false, isPublic: false },
-    { port: '8000', name: 'Frontend App', description: 'Current frontend application', isCustom: false, isPublic: true },
-    { port: '3001', name: 'Alternative React', description: 'Secondary React development port', isCustom: false, isPublic: false },
-    { port: '4000', name: 'GraphQL Server', description: 'GraphQL API server', isCustom: false, isPublic: false },
-    { port: '8080', name: 'HTTP Server', description: 'Common HTTP server port', isCustom: false, isPublic: false },
-    { port: '9000', name: 'Development Server', description: 'General development server', isCustom: false, isPublic: false }
-  ];
-
-  // Combine default ports with server ports, avoiding duplicates
-  const allPorts = [
-    ...defaultPorts,
-    ...allServerPorts.filter(serverPort => 
-      !defaultPorts.some(defaultPort => defaultPort.port === serverPort.port)
-    )
-  ];
+  // Use only server ports (no default ports)
+  const allPorts = [...allServerPorts];
   
   // Filter ports based on user access
   const accessiblePorts = allPorts.filter(portInfo => {
