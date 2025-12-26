@@ -18,7 +18,7 @@ keys/
 *.sqlite-shm
 *.sqlite-wal
 *.db
-database.*
+database.sqlite*
 
 # Backup files
 backups/
