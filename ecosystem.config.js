@@ -15,14 +15,6 @@ module.exports = {
             env: {
                 NODE_ENV: 'production'
             }
-        },
-        {
-            name: 'website-tts',
-            script: 'TTS_app/app.py',
-            interpreter: 'TTS_app/venv/bin/python3',
-            env: {
-                FLASK_ENV: 'production'
-            }
         }
     ]
 };

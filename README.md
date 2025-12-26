@@ -10,11 +10,7 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 - [Frontend Application](frontend/README.md)
 - [TODO List](docs/todo.md)
 
-## 🏗️ Architecture
-
-- **Backend**: Node.js & Express with SQLite (SQLCipher) and Sequelize ORM.
-- **Frontend**: React 19 with Tailwind CSS, Phaser, and PixiJS.
-- **AI Services**: Specialized Coqui AI TTS engine with OCR capabilities.
+- **Architecture**: A full-stack solution featuring a secure Node.js backend and a dynamic React frontend.
 - **Infrastructure**: Cloudflare Tunnels for secure local-to-web exposure.
 
 ## 🛠️ Getting Started

@@ -18,14 +18,24 @@ Go to **Virtual Cloud Network** -> **Security Lists** -> **Default Security List
 *   Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=22 (SSH).
 *   Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=80, 443 (HTTP/S) - *Optional if using Tunnels*.
 
-## 3. Server Preparation
+## 3. Server Setup (Choose ONE)
 
-Connect to your server:
+### Option A: Automated Setup (Fastest)
+
+Connect to your server and run this one-liner:
+
+```bash
+git clone https://github.com/Ayush12358/website.git && cd website && chmod +x scripts/remote_setup.sh && ./scripts/remote_setup.sh
+```
+
+### Option B: Manual Setup
+
+1.  **Connect to your server**:
 ```bash
 ssh -i <your-key>.key ubuntu@<public-ip>
 ```
 
-### Update and Install Dependencies
+2.  **Update and Install Dependencies**:
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y git python3-pip python3-venv
@@ -61,16 +71,6 @@ cd ..
 cd frontend
 npm install
 npm run build
-cd ..
-```
-
-### Setup TTS App
-```bash
-cd TTS_app
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-deactivate
 cd ..
 ```
 
