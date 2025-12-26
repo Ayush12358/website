@@ -10,7 +10,7 @@ module.exports = {
         },
         {
             name: 'website-frontend',
-            script: 'node_modules/.bin/serve',
+            script: 'frontend/node_modules/.bin/serve',
             args: '-s frontend/build -l 8000',
             env: {
                 NODE_ENV: 'production'

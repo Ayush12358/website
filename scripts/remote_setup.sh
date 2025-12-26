@@ -25,10 +25,10 @@ else
     echo "✅ Node.js is already installed ($(node -v))"
 fi
 
-# 4. Install PM2
+# 4. Install PM2 and Serve
 if ! command -v pm2 &> /dev/null; then
-    echo "📦 Installing PM2..."
-    sudo npm install -g pm2
+    echo "📦 Installing PM2 and Serve..."
+    sudo npm install -g pm2 serve
 else
     echo "✅ PM2 is already installed"
 fi
