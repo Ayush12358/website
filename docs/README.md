@@ -419,17 +419,6 @@ npm test           # Run test suite
 
 ---
 
-## 🤝 Contributing
-
-This is a portfolio project demonstrating full-stack development capabilities. The codebase follows industry best practices for:
-
-- **Security**: Enterprise-grade authentication and data protection
-- **Architecture**: Clean separation of concerns and modular design
-- **Documentation**: Comprehensive guides and API documentation
-- **Testing**: Manual testing procedures and validation scripts
-
----
-
 ## 📞 Contact Information
 
 - **Developer**: Ayush Maurya

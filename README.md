@@ -7,7 +7,6 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 - [Detailed Documentation](docs/README.md)
 - [Backend Server](backend/README.md)
 - [Frontend Application](frontend/README.md)
-- [Contributing Guide](CONTRIBUTING.md)
 - [TODO List](docs/todo.md)
 
 ## 🏗️ Architecture
@@ -19,16 +18,10 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 
 ## 🛠️ Getting Started
 
-For full setup instructions, environment variable configuration, and deployment guides, please refer to the [Consolidated Documentation](docs/README.md).
-
 ### Basic Prerequisites
 - Node.js (v14+)
 - npm or yarn
 - Docker (for optional AI runtimes)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) to get started.
 
 ## 📄 License
 
