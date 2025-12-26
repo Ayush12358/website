@@ -8,6 +8,7 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 - [Backend Server](backend/README.md)
 - [Frontend Application](frontend/README.md)
 - [Contributing Guide](CONTRIBUTING.md)
+- [TODO List](docs/todo.md)
 
 ## 🏗️ Architecture
 

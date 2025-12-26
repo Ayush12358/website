@@ -33,7 +33,7 @@ A full-stack authentication application built with React frontend and Node.js/Ex
 
    ```batch
    # Double-click or run:
-   setup-env-vars.bat
+   scripts\setup-env-vars.bat
    ```
 
    Or manually configure (see Environment Variables section below).
@@ -193,9 +193,15 @@ website/
 │   │   └── App.js               # Main routing setup
 │   ├── public/
 │   └── package.json
-├── docs/                       # This consolidated documentation
+├── docs/                       # Consolidated documentation
+│   ├── README.md
+│   └── todo.md                 # Project wishlist/TODO
+├── scripts/                    # Automation and setup scripts
+│   ├── launch_static.vbs       # Main launch script
+│   ├── setup-env-vars.bat      # Environment configuration
+│   └── ...
 ├── config.yml                  # Cloudflare tunnel configuration
-└── launch.vbs                  # Windows launch script
+└── .github/                    # CI/CD workflows
 ```
 
 ---
