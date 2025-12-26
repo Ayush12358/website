@@ -52,14 +52,14 @@ const initDatabase = async () => {
   try {
     await sequelize.authenticate();
     console.log('SQLite database connected successfully');
-    
+
     // Sync all models (don't force reset in development)
     await sequelize.sync({ force: false });
     console.log('Database synchronized');
-    
+
     // Start backup service
     backupService.startScheduledBackups();
-    
+
     // Create daily backup if none exists for today (runs on dev start)
     if (process.env.NODE_ENV !== 'production') {
       console.log('🔍 Checking for today\'s backup...');
@@ -69,7 +69,7 @@ const initDatabase = async () => {
         console.warn('Could not create daily backup:', error.message);
       }
     }
-    
+
     // Check developer account status
     await checkDevAccountStatus();
   } catch (error) {
@@ -81,7 +81,7 @@ const checkDevAccountStatus = async () => {
   try {
     const { User } = require('./models');
     const devEmail = 'ayushmaurya2003@gmail.com';
-    
+
     const existingDev = await User.findOne({ where: { email: devEmail } });
     if (!existingDev) {
       console.log(`Developer account with email ${devEmail} not found in database.`);
@@ -142,9 +142,9 @@ app.get('/api/health', (req, res) => {
 const frontendPath = path.join(__dirname, '../frontend/build');
 if (fs.existsSync(frontendPath)) {
   app.use(express.static(frontendPath));
-  
+
   // Handle React Router - send all non-API requests to index.html
-  app.get('*', (req, res) => {
+  app.get('(.*)', (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(frontendPath, 'index.html'));
     }
