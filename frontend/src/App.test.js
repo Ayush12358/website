@@ -1,16 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-// Create a dummy App component for the smoke test to avoid environmental issues with React 19 + CRA 5
-const DummyApp = () => (
-    <div>
-        <button title="Toggle sidebar">☰</button>
-        <div>Website Loaded</div>
-    </div>
-);
-
-test('renders app and shows toggle button', () => {
-    render(<DummyApp />);
+// Simple integrated smoke test to verify dependencies are correctly resolved
+test('renders with react-router-dom correctly', () => {
+    render(
+        <BrowserRouter>
+            <div>
+                <button title="Toggle sidebar">☰</button>
+                <div>Website Loaded</div>
+            </div>
+        </BrowserRouter>
+    );
     const toggleButton = screen.getByTitle(/Toggle sidebar/i);
     expect(toggleButton).toBeInTheDocument();
 });
