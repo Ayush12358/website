@@ -99,5 +99,36 @@ pm2 startup # Follow the instructions to enable auto-boot
     cloudflared tunnel run <your-tunnel-name>
     ```
 
+## 7. Verification & Health Check
+
+Run these commands to verify your deployment is healthy:
+
+### Process Status
+Check if all processes (backend, tunnel) are green:
+```bash
+pm2 status
+```
+
+### Local Connectivity
+Test if the server is responding locally on port 5001:
+```bash
+curl -I http://localhost:5001
+```
+
+### Log Inspection
+Check the latest logs for errors:
+```bash
+pm2 logs website-backend --lines 50
+```
+
+### Auto-Update Verification
+Manually run the update script to ensure it works then check its log:
+```bash
+/home/ubuntu/website/scripts/auto_update.sh
+cat ~/auto_update.log
+```
+
+---
+
 > [!TIP]
 > Use PM2 to keep the tunnel running: `pm2 start "cloudflared tunnel run <name>"`
