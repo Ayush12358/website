@@ -2,6 +2,8 @@
 # OCI Remote Setup Script for Personal Website
 # This script automates Node.js, Git, PM2, cloudflared installation, and guided .env setup.
 
+# ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
+
 set -e # Exit on error
 
 echo "------------------------------------------------"
