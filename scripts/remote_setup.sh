@@ -49,8 +49,8 @@ fi
 
 # 6. Repository Logic
 if [ ! -d "backend" ]; then
-    echo "📂 Cloning repository..."
-    git clone https://github.com/Ayush12358/website.git . || echo "⚠️ Already in directory or cloning skipped"
+    echo "📂 Cloning repository (Shallow)..."
+    git clone --depth 1 https://github.com/Ayush12358/website.git . || echo "⚠️ Already in directory or cloning skipped"
 fi
 
 # 7. Guided .env Setup
@@ -68,19 +68,31 @@ else
     echo "✅ backend/.env already exists"
 fi
 
-# 8. Build Processes
-echo "🏗️ Setting up Backend..."
+# 8. Build Processes (Optimized)
+echo "🏗️ Setting up Backend (Producton Dependencies Only)..."
 cd backend
-npm install
+npm install --omit=dev
+npm cache clean --force
 cd ..
 
 echo "🏗️ Building Frontend..."
 cd frontend
 npm install
 npm run build
+echo "🧹 Cleaning up Frontend build artifacts..."
+# We keep the 'build' folder but remove 'src' and 'node_modules' to save space
+# Note: Keep this optional/commented or do it carefully
+# rm -rf node_modules src public
+npm cache clean --force
 cd ..
 
-# 9. PM2 Configuration
+# 9. Install PM2 Logrotate (Essential for small disks)
+echo "📦 Installing PM2 Logrotate..."
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 5
+
+# 10. PM2 Configuration
 if [ -f "ecosystem.config.js" ]; then
     echo "⚙️ Launching services with PM2..."
     pm2 stop all || true
