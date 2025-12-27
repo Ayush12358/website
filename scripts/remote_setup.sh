@@ -1,6 +1,7 @@
 #!/bin/bash
 # OCI Remote Setup Script for Personal Website
 # This script automates Node.js, Git, PM2, cloudflared installation, and guided .env setup.
+# Includes automatic swap management for low-RAM instances.
 
 set -e # Exit on error
 
@@ -10,6 +11,23 @@ export DEBIAN_FRONTEND=noninteractive
 echo "------------------------------------------------"
 echo "Starting COMPLETE OCI Server Setup"
 echo "------------------------------------------------"
+
+# 0. Check and Create Swap (Crucial for 1GB RAM instances)
+TOTAL_RAM=$(free -m | awk '/^Mem:/{print $2}')
+if [ "$TOTAL_RAM" -lt 2000 ]; then
+    echo "Low memory detected (${TOTAL_RAM}MB). Setting up a 2GB swap file..."
+    if [ ! -f /swapfile ]; then
+        sudo fallocate -l 2G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        echo "Swap file created and enabled."
+    else
+        echo "Swap file already exists."
+    fi
+else
+    echo "Sufficient memory detected (${TOTAL_RAM}MB). Skipping swap creation."
+fi
 
 # 1. Update System
 echo "Updating system packages (this may take a few minutes)..."
@@ -47,7 +65,7 @@ else
     echo "Cloudflared is already installed"
 fi
 
-# 6. Repository Logic (Fixed for non-empty directories)
+# 6. Repository Logic
 if [ ! -d "backend" ]; then
     echo "Checking directory for code..."
     if [ -f "remote_setup.sh" ] && [ ! -d ".git" ]; then
@@ -62,7 +80,7 @@ if [ ! -d "backend" ]; then
     fi
 fi
 
-# 7. Guided .env Setup (Using nano for reliability)
+# 7. Guided .env Setup
 mkdir -p backend
 if [ ! -f "backend/.env" ]; then
     echo "------------------------------------------------"
@@ -75,7 +93,6 @@ if [ ! -f "backend/.env" ]; then
     echo "------------------------------------------------"
     read -p "Press Enter to open the editor..." 
     
-    # Force open nano (or vi as fallback)
     nano backend/.env || vi backend/.env
     
     echo "backend/.env saved!"
@@ -83,17 +100,17 @@ else
     echo "backend/.env already exists"
 fi
 
-# 8. Build Processes (Optimized for low RAM)
+# 8. Build Processes
 echo "Setting up Backend (Production Dependencies Only)..."
 cd backend
 npm install --omit=dev --no-audit --no-fund
 npm cache clean --force
 cd ..
 
-echo "Building Frontend (this can be slow on small instances)..."
+echo "Building Frontend (this CAN take up to 10 minutes on small instances)..."
 cd frontend
-# Using --max-old-space-size to prevent OOM on 1GB RAM instances
-export NODE_OPTIONS="--max-old-space-size=512"
+# Increase memory limit for Node.js if needed
+export NODE_OPTIONS="--max-old-space-size=2048"
 npm install --no-audit --no-fund
 npm run build
 # Cleanup to save space
