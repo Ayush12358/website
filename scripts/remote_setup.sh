@@ -5,26 +5,29 @@
 # ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
 # mkdir -p website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
 
-
 set -e # Exit on error
+
+# Ensure non-interactive mode for apt to avoid hangs on prompts
+export DEBIAN_FRONTEND=noninteractive
 
 echo "------------------------------------------------"
 echo "Starting COMPLETE OCI Server Setup"
 echo "------------------------------------------------"
 
 # 1. Update System
-echo "Updating system packages..."
-sudo apt update && sudo apt upgrade -y
+echo "Updating system packages (this may take a few minutes)..."
+sudo apt-get update
+sudo apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 
 # 2. Install Dependencies
 echo "Installing Git and Python 3..."
-sudo apt install -y git python3 python3-pip curl wget
+sudo apt-get install -y git python3 python3-pip curl wget
 
 # 3. Install Node.js v22
 if ! command -v node &> /dev/null; then
     echo "Installing Node.js v22..."
     curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-    sudo apt install -y nodejs
+    sudo apt-get install -y nodejs
 else
     echo "Node.js is already installed ($(node -v))"
 fi
@@ -56,11 +59,11 @@ fi
 # 7. Guided .env Setup
 if [ ! -f "backend/.env" ]; then
     echo "------------------------------------------------"
-    echo "GUIDED .ENV SETUP"
+    echo "ATTENTION: GUIDED .ENV SETUP"
     echo "------------------------------------------------"
     echo "I will now create your backend/.env file."
-    echo "Please paste the contents of your .env file below."
-    echo "Press Ctrl+D when finished."
+    echo "PLEASE PASTE THE CONTENTS OF YOUR .ENV FILE BELOW."
+    echo "THEN PRESS Ctrl+D TO CONTINUE."
     echo "------------------------------------------------"
     cat > backend/.env
     echo "backend/.env created!"
@@ -68,26 +71,25 @@ else
     echo "backend/.env already exists"
 fi
 
-# 8. Build Processes (Optimized)
-echo "Setting up Backend (Producton Dependencies Only)..."
+# 8. Build Processes (Optimized for low RAM)
+echo "Setting up Backend (Production Dependencies Only)..."
 cd backend
-npm install --omit=dev
+npm install --omit=dev --no-audit --no-fund
 npm cache clean --force
 cd ..
 
-echo "Building Frontend..."
+echo "Building Frontend (this can be slow on small instances)..."
 cd frontend
-npm install
+# Using --max-old-space-size to prevent OOM on 1GB RAM instances
+export NODE_OPTIONS="--max-old-space-size=512"
+npm install --no-audit --no-fund
 npm run build
 echo "Cleaning up Frontend build artifacts..."
-# We keep the 'build' folder but remove 'src' and 'node_modules' to save space
-# Note: Keep this optional/commented or do it carefully
-# rm -rf node_modules src public
 npm cache clean --force
 cd ..
 
-# 9. Install PM2 Logrotate (Essential for small disks)
-echo "Installing PM2 Logrotate..."
+# 9. Install PM2 Logrotate
+echo "Installing PM2 Logrotate to manage disk space..."
 pm2 install pm2-logrotate
 pm2 set pm2-logrotate:max_size 10M
 pm2 set pm2-logrotate:retain 5
