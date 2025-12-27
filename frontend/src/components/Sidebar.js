@@ -15,7 +15,7 @@ const Sidebar = ({ isOpen, onToggle }) => {
     const envInfo = getEnvironmentInfo();
     setEnvironmentInfo(envInfo);
     setUseProduction(envInfo.useProduction);
-    
+
     // Test connection status
     checkConnection();
   }, []);
@@ -28,65 +28,6 @@ const Sidebar = ({ isOpen, onToggle }) => {
     setConnectionInfo(result);
   };
 
-  const toggleEnvironment = () => {
-    const newValue = !useProduction;
-    const currentHostname = window.location.hostname;
-    const isOnProductionDomain = currentHostname === 'ayushmaurya.xyz' || currentHostname.includes('ayushmaurya.xyz');
-    
-    // Show different warnings based on context
-    let confirmMessage = '';
-    
-    if (newValue) {
-      // Switching TO production
-      if (!isOnProductionDomain) {
-        confirmMessage = 
-          'Are you sure you want to switch to PRODUCTION backend?\n\n' +
-          'This will:\n' +
-          '• Connect to ayushmaurya.xyz instead of localhost\n' +
-          '• Use production database and data\n' +
-          '• Note: You\'re currently on a local/development domain\n\n' +
-          'Click OK to continue or Cancel to stay on local.';
-      } else {
-        confirmMessage = 
-          'Switch to PRODUCTION backend?\n\n' +
-          'This will connect to the production server.';
-      }
-    } else {
-      // Switching TO local
-      if (isOnProductionDomain) {
-        confirmMessage = 
-          'Are you sure you want to switch to LOCAL backend?\n\n' +
-          'This will:\n' +
-          '• Connect to localhost:5001 instead of production\n' +
-          '• Use local database and data\n' +
-          '• Require local backend server to be running\n' +
-          '• Note: You\'re currently on the production domain\n\n' +
-          'Click OK to continue or Cancel to stay on production.';
-      } else {
-        confirmMessage = 
-          'Switch to LOCAL backend?\n\n' +
-          'This will connect to your local development server.';
-      }
-    }
-    
-    const confirmed = window.confirm(confirmMessage);
-    if (!confirmed) {
-      return; // User cancelled, don't switch
-    }
-    
-    setUseProduction(newValue);
-    localStorage.setItem('useProductionAPI', JSON.stringify(newValue));
-    
-    // Check connection to new environment before reloading
-    setTimeout(() => {
-      checkConnection();
-    }, 100);
-    
-    // Reload page to apply new API settings
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  };
 
   return (
     <>
@@ -122,34 +63,21 @@ const Sidebar = ({ isOpen, onToggle }) => {
             </div>
           </div>
 
-          {/* Environment Section */}
+          {/* Connection Status Section */}
           <div className="sidebar-section">
-            <h4>Development Environment</h4>
+            <h4>Connection Status</h4>
             <div className="sidebar-item">
               <div className="sidebar-item-info">
-                <span>API Environment</span>
-                <p>Currently using: <strong>{useProduction ? 'Production' : 'Local'}</strong></p>
-                <small>{useProduction ? 'ayushmaurya.xyz' : 'localhost:5001'}</small>
-                {environmentInfo && (
-                  <small style={{ 
-                    display: 'block', 
-                    marginTop: '0.25rem', 
-                    color: 'var(--color-text-secondary)',
-                    fontSize: '0.7rem',
-                    opacity: 0.8
-                  }}>
-                    Auto-detected: {environmentInfo.autoDetected === 'production' ? 'Production' : 'Local'} 
-                    (on {environmentInfo.currentHostname})
-                  </small>
-                )}
+                <span>API Status</span>
+                <p>Environment: <strong>{useProduction ? 'Production' : 'Local'}</strong></p>
                 <div style={{
                   marginTop: '0.5rem',
                   fontSize: '0.75rem',
-                  color: connectionStatus === 'connected' ? 'var(--color-success)' : 
-                         connectionStatus === 'error' ? 'var(--color-error)' : 'var(--color-text-secondary)'
+                  color: connectionStatus === 'connected' ? 'var(--color-success)' :
+                    connectionStatus === 'error' ? 'var(--color-error)' : 'var(--color-text-secondary)'
                 }}>
-                  Status: {connectionStatus === 'checking' ? 'Checking...' : 
-                          connectionStatus === 'connected' ? '✓ Connected' : '✗ Connection Error'}
+                  Status: {connectionStatus === 'checking' ? 'Checking...' :
+                    connectionStatus === 'connected' ? '✓ Connected' : '✗ Connection Error'}
                   {connectionInfo && connectionInfo.ping && (
                     <span style={{ marginLeft: '0.5rem', opacity: 0.8 }}>
                       ({connectionInfo.ping}ms)
@@ -157,19 +85,12 @@ const Sidebar = ({ isOpen, onToggle }) => {
                   )}
                 </div>
               </div>
-              <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
-                <button 
-                  className="env-toggle-btn"
-                  onClick={toggleEnvironment}
-                  title={`Switch to ${useProduction ? 'Local' : 'Production'} environment`}
-                >
-                  {useProduction ? 'Production' : 'Local'}
-                </button>
-                <button 
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <button
                   className="server-btn"
                   onClick={checkConnection}
                   title="Test connection to current environment"
-                  style={{fontSize: '0.75rem', padding: '0.4rem 0.8rem'}}
+                  style={{ fontSize: '0.75rem', padding: '0.4rem 0.8rem' }}
                 >
                   Test Connection
                 </button>

@@ -23,7 +23,6 @@ import ReleaseNotesPage from './pages/ReleaseNotesPage';
 import RoadmapPage from './pages/RoadmapPage';
 import LinktreePage from './pages/LinktreePage';
 import NotFoundPage from './pages/NotFoundPage';
-import PortViewPage from './pages/PortViewPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,16 +32,16 @@ function App() {
       <AuthProvider>
         <Router>
           {/* Website-wide sidebar */}
-          <button 
+          <button
             className={`sidebar-toggle ${sidebarOpen ? 'sidebar-open' : ''}`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
             title="Toggle sidebar"
           >
             {sidebarOpen ? '×' : '☰'}
           </button>
-          
+
           <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
-          
+
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -51,72 +50,64 @@ function App() {
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
-            <Route 
-              path="/blog/admin" 
+            <Route
+              path="/blog/admin"
               element={
                 <ProtectedRoute>
                   <BlogAdminPage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/blog/new" 
+            <Route
+              path="/blog/new"
               element={
                 <ProtectedRoute>
                   <BlogEditorPage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/blog/edit/:id" 
+            <Route
+              path="/blog/edit/:id"
               element={
                 <ProtectedRoute>
                   <BlogEditorPage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/dashboard" 
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <DashboardPage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/profile" 
+            <Route
+              path="/profile"
               element={
                 <ProtectedRoute>
                   <ProfilePage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/admin/chat" 
+            <Route
+              path="/admin/chat"
               element={
                 <ProtectedRoute>
                   <AdminChatPage />
                 </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/port/:port" 
-              element={
-                <ProtectedRoute>
-                  <PortViewPage />
-                </ProtectedRoute>
-              } 
+              }
             />
             <Route path="/sitemap" element={<SitemapPage />} />
             <Route path="/release-notes" element={<ReleaseNotesPage />} />
             <Route path="/roadmap" element={<RoadmapPage />} />
-            <Route 
-              path="/linktree" 
+            <Route
+              path="/linktree"
               element={
                 <ProtectedRoute>
                   <LinktreePage />
                 </ProtectedRoute>
-              } 
+              }
             />
             {/* Catch-all route for 404 errors */}
             <Route path="*" element={<NotFoundPage />} />
