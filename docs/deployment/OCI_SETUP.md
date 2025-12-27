@@ -25,7 +25,7 @@ Go to **Virtual Cloud Network** -> **Security Lists** -> **Default Security List
 Connect to your server and run this one-liner:
 
 ```bash
-git clone https://github.com/Ayush12358/website.git && cd website && chmod +x scripts/remote_setup.sh && ./scripts/remote_setup.sh
+mkdir -p website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
 ```
 
 ### Option B: Manual Setup
