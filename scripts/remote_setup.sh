@@ -18,7 +18,7 @@ sudo apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force
 
 # 2. Install Dependencies
 echo "Installing Git and Python 3..."
-sudo apt-get install -y git python3 python3-pip curl wget
+sudo apt-get install -y git python3 python3-pip curl wget nano
 
 # 3. Install Node.js v22
 if ! command -v node &> /dev/null; then
@@ -62,18 +62,23 @@ if [ ! -d "backend" ]; then
     fi
 fi
 
-# 7. Guided .env Setup
+# 7. Guided .env Setup (Using nano for reliability)
 mkdir -p backend
 if [ ! -f "backend/.env" ]; then
     echo "------------------------------------------------"
-    echo "ATTENTION: GUIDED .ENV SETUP"
+    echo "ACTION REQUIRED: SETUP SECRETS"
     echo "------------------------------------------------"
-    echo "I will now create your backend/.env file."
-    echo "PLEASE PASTE THE CONTENTS OF YOUR .ENV FILE BELOW."
-    echo "THEN PRESS Ctrl+D TO CONTINUE."
+    echo "I will now open an editor for 'backend/.env'."
+    echo "1. Paste your .env contents into the editor."
+    echo "2. Press Ctrl+O then Enter to Save."
+    echo "3. Press Ctrl+X to Exit and continue the setup."
     echo "------------------------------------------------"
-    cat > backend/.env
-    echo "backend/.env created!"
+    read -p "Press Enter to open the editor..." 
+    
+    # Force open nano (or vi as fallback)
+    nano backend/.env || vi backend/.env
+    
+    echo "backend/.env saved!"
 else
     echo "backend/.env already exists"
 fi
@@ -91,12 +96,12 @@ cd frontend
 export NODE_OPTIONS="--max-old-space-size=512"
 npm install --no-audit --no-fund
 npm run build
-echo "Cleaning up Frontend build artifacts..."
+# Cleanup to save space
 npm cache clean --force
 cd ..
 
 # 9. Install PM2 Logrotate
-echo "Installing PM2 Logrotate to manage disk space..."
+echo "Installing PM2 Logrotate..."
 pm2 install pm2-logrotate
 pm2 set pm2-logrotate:max_size 10M
 pm2 set pm2-logrotate:retain 5
