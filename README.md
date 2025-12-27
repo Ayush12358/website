@@ -2,7 +2,7 @@
 
 A sophisticated, full-stack personal ecosystem featuring a portfolio website, management dashboard, and AI-powered services.
 
-## 🚀 Quick Links
+## Quick Links
 
 - [Installation & Setup](file:///c:/masti/website/docs/README.md)
 - [OCI Hosting Guide](file:///c:/masti/website/docs/deployment/OCI_SETUP.md)
@@ -13,7 +13,7 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 - **Architecture**: A full-stack solution featuring a secure Node.js backend and a dynamic React frontend.
 - **Infrastructure**: Cloudflare Tunnels for secure local-to-web exposure.
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Basic Prerequisites
 - Node.js (v14+)
