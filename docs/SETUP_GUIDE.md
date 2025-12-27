@@ -11,7 +11,9 @@ The project is a full-stack application consisting of:
 
 ---
 
-## 💻 1. Local Development (Windows)
+## 💻 Local Development
+
+For local development on a Linux or macOS machine:
 
 ### Prerequisites
 - [Node.js v22+](https://nodejs.org/)
@@ -24,10 +26,7 @@ The project is a full-stack application consisting of:
     cd website
     ```
 2.  **Environment Variables**:
-    - Run the helper script to set up your `.env`:
-      ```powershell
-      .\scripts\setup-env-vars.bat
-      ```
+    - Create a `.env` file in the `backend/` directory based on your requirements.
 3.  **Install Dependencies**:
     - **Backend**:
       ```bash
@@ -40,11 +39,7 @@ The project is a full-stack application consisting of:
       npm install
       ```
 4.  **Run the App**:
-    - **Option A (Manual)**: Open two terminals and run `npm start` in both `backend/` and `frontend/`.
-    - **Option B (One-Click)**: Use the launch script:
-      ```powershell
-      .\scripts\launch_static.vbs
-      ```
+    - Open two terminals and run `npm start` in both `backend/` and `frontend/`.
 
 ---
 

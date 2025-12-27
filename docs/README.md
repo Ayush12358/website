@@ -197,10 +197,9 @@ website/
 │   ├── README.md
 │   └── todo.md                 # Project wishlist/TODO
 ├── scripts/                    # Automation and setup scripts
-│   ├── launch_static.vbs       # Main launch script
-│   ├── setup-env-vars.bat      # Environment configuration
-│   └── ...
-├── config.yml                  # Cloudflare tunnel configuration
+│   ├── remote_setup.sh         # Linux / OCI automated setup
+│   └── auto_update.sh          # Self-updating mechanism
+├── ecosystem.config.js         # PM2 process management
 └── .github/                    # CI/CD workflows
 ```
 
