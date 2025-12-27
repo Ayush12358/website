@@ -2,9 +2,6 @@
 # OCI Remote Setup Script for Personal Website
 # This script automates Node.js, Git, PM2, cloudflared installation, and guided .env setup.
 
-# ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
-# mkdir -p website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
-
 set -e # Exit on error
 
 # Ensure non-interactive mode for apt to avoid hangs on prompts
@@ -50,13 +47,23 @@ else
     echo "Cloudflared is already installed"
 fi
 
-# 6. Repository Logic
+# 6. Repository Logic (Fixed for non-empty directories)
 if [ ! -d "backend" ]; then
-    echo "Cloning repository (Shallow)..."
-    git clone --depth 1 https://github.com/Ayush12358/website.git . || echo "Already in directory or cloning skipped"
+    echo "Checking directory for code..."
+    if [ -f "remote_setup.sh" ] && [ ! -d ".git" ]; then
+        echo "Directory not empty, bootstrapping repository..."
+        git init
+        git remote add origin https://github.com/Ayush12358/website.git
+        git fetch --depth 1 origin main
+        git reset --hard origin/main
+    else
+        echo "Cloning repository..."
+        git clone --depth 1 https://github.com/Ayush12358/website.git . || echo "Skipping clone"
+    fi
 fi
 
 # 7. Guided .env Setup
+mkdir -p backend
 if [ ! -f "backend/.env" ]; then
     echo "------------------------------------------------"
     echo "ATTENTION: GUIDED .ENV SETUP"
