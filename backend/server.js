@@ -1,10 +1,7 @@
 // Entry point for backend server
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+const express = require('express');
 const fs = require('fs');
 const sequelize = require('./config/database');
 const BackupService = require('./services/backupService');
@@ -144,7 +141,7 @@ if (fs.existsSync(frontendPath)) {
   app.use(express.static(frontendPath));
 
   // Handle React Router - send all non-API requests to index.html
-  app.get('(.*)', (req, res) => {
+  app.get(/.*/, (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(frontendPath, 'index.html'));
     }
