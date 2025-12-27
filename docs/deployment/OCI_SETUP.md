@@ -4,19 +4,20 @@ This guide describes how to host this website on an OCI "Always Free" instance.
 
 ## 1. Instance Creation
 
-1.  **OCI Console**: Go to **Compute** -> **Instances** -> **Create Instance**.
-2.  **OS**: Choose **Ubuntu 22.04 LTS** (Canonical).
-3.  **Shape**:
-    *   **Ampere (Arm-based)**: `VM.Standard.A1.Flex` (Up to 4 OCPUs and 24GB RAM for free). **Recommended.**
-    *   **AMD**: `VM.Standard.E2.1.Micro`.
-4.  **SSH Key**: Dowload the Private Key or paste your public key. **Crucial for access.**
-5.  **Static IP**: (Optional if using Cloudflare Tunnel) Create a Reserved Public IP for the instance.
+1. **OCI Console**: Go to **Compute** -> **Instances** -> **Create Instance**.
+2. **OS**: Choose **Ubuntu 22.04 LTS** (Canonical).
+3. **Shape**:
+   * **Ampere (Arm-based)**: `VM.Standard.A1.Flex` (Up to 4 OCPUs and 24GB RAM for free). **Recommended.**
+   * **AMD**: `VM.Standard.E2.1.Micro`.
+4. **SSH Key**: Dowload the Private Key or paste your public key. **Crucial for access.**
+5. **Static IP**: (Optional if using Cloudflare Tunnel) Create a Reserved Public IP for the instance.
 
 ## 2. Ingress Rules (Networking)
 
 Go to **Virtual Cloud Network** -> **Security Lists** -> **Default Security List**:
-*   Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=22 (SSH).
-*   Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=80, 443 (HTTP/S) - *Optional if using Tunnels*.
+
+* Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=22 (SSH).
+* Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=80, 443 (HTTP/S) - *Optional if using Tunnels*.
 
 ## 3. Server Setup (Choose ONE)
 
@@ -30,12 +31,14 @@ mkdir -p website && cd website && curl -fsSL https://raw.githubusercontent.com/A
 
 ### Option B: Manual Setup
 
-1.  **Connect to your server**:
+1. **Connect to your server**:
+
 ```bash
-ssh -i <your-key>.key ubuntu@<public-ip>
+ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
 ```
 
-2.  **Update and Install Dependencies**:
+2. **Update and Install Dependencies**:
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y git python3-pip python3-venv
@@ -60,6 +63,7 @@ nano backend/.env # Paste your variables here
 ```
 
 ### Install Backend Dependencies
+
 ```bash
 cd backend
 npm install
@@ -67,6 +71,7 @@ cd ..
 ```
 
 ### Build Frontend
+
 ```bash
 cd frontend
 npm install
@@ -77,6 +82,7 @@ cd ..
 ## 5. Process Management (PM2)
 
 Start all services using the provided ecosystem config:
+
 ```bash
 pm2 start ecosystem.config.js
 pm2 save
@@ -85,44 +91,52 @@ pm2 startup # Follow the instructions to enable auto-boot
 
 ## 6. Cloudflare Tunnel Setup
 
-1.  **Install cloudflared**:
-    ```bash
-    curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-    sudo dpkg -i cloudflared.deb
-    ```
-2.  **Authenticate**:
-    ```bash
-    cloudflared tunnel login
-    ```
-3.  **Run your tunnel**:
-    ```bash
-    cloudflared tunnel run <your-tunnel-name>
-    ```
+1. **Install cloudflared**:
+   ```bash
+   curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+   sudo dpkg -i cloudflared.deb
+   ```
+2. **Authenticate**:
+   ```bash
+   cloudflared tunnel login
+   ```
+3. **Run your tunnel**:
+   ```bash
+   cloudflared tunnel run <your-tunnel-name>
+   ```
 
 ## 7. Verification & Health Check
 
 Run these commands to verify your deployment is healthy:
 
 ### Process Status
+
 Check if all processes (backend, tunnel) are green:
+
 ```bash
 pm2 status
 ```
 
 ### Local Connectivity
+
 Test if the server is responding locally on port 5001:
+
 ```bash
 curl -I http://localhost:5001
 ```
 
 ### Log Inspection
+
 Check the latest logs for errors:
+
 ```bash
 pm2 logs website-backend --lines 50
 ```
 
 ### Auto-Update Verification
+
 Manually run the update script to ensure it works then check its log:
+
 ```bash
 /home/ubuntu/website/scripts/auto_update.sh
 cat ~/auto_update.log
