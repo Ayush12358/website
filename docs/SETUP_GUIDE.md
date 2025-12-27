@@ -5,8 +5,8 @@ This guide covers everything you need to get the **Personal Website** project up
 ## 🗂️ Project Overview
 
 The project is a full-stack application consisting of:
-- **Backend**: Node.js / Express (Port 5001)
-- **Frontend**: React (Port 8000)
+- **Backend & Frontend**: Node.js / Express (Port 5001)
+- **Standalone Frontend (Dev)**: React (Port 8000)
 - **Database**: SQLite (built-in)
 
 ---

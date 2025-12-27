@@ -26,8 +26,11 @@ Go to **Virtual Cloud Network** -> **Security Lists** -> **Default Security List
 Connect to your server and run this one-liner:
 
 ```bash
-mkdir -p website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
+cd ~ && rm -rf website && mkdir website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
 ```
+
+> [!IMPORTANT]
+> In production, the backend on **port 5001** serves the frontend static files automatically. This is the entry point you should expose via Cloudflare or open in your firewall.
 
 ### Option B: Manual Setup
 

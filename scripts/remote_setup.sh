@@ -140,8 +140,18 @@ else
 fi
 
 echo ""
+echo "Verifying deployment..."
+sleep 5 # Give it a few seconds to boot
+if curl -s http://localhost:5001/api/health | grep -q "healthy"; then
+    echo "✅ Health check passed: Backend & Frontend are online on port 5001."
+else
+    echo "⚠️ Warning: Health check failed. Check 'pm2 logs' for details."
+fi
+
+echo ""
 echo "Setup Complete!"
 echo "Next Steps:"
 echo "1. Run the 'pm2 startup' command shown above."
 echo "2. Setup your Cloudflare Tunnel (cloudflared tunnel login / run)."
+echo "3. Access your site locally at: http://localhost:5001"
 echo "------------------------------------------------"
