@@ -35,8 +35,8 @@ sudo apt-get update
 sudo apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 
 # 2. Install Dependencies
-echo "Installing Git and Python 3..."
-sudo apt-get install -y git python3 python3-pip curl wget nano
+echo "Installing Git, Python 3, and Cron..."
+sudo apt-get install -y git python3 python3-pip curl wget nano cron
 
 # 3. Install Node.js v22
 if ! command -v node &> /dev/null; then
