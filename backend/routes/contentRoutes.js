@@ -64,7 +64,7 @@ Content.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Content, { foreignKey: 'userId' });
 
 // Sync the model
-Content.sync({ alter: true });
+// Content.sync({ alter: true });
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
