@@ -3,6 +3,8 @@
 # This script automates Node.js, Git, PM2, cloudflared installation, and guided .env setup.
 
 # ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
+# mkdir -p website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
+
 
 set -e # Exit on error
 
