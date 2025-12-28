@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import DOMPurify from 'dompurify';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
@@ -20,6 +20,21 @@ const AdminChatComponent = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const fetchConversations = useCallback(async (silent = false) => {
+    try {
+      if (!silent) console.log('Fetching admin conversations...');
+      const response = await api.get('/chat/admin/conversations');
+      if (!silent) console.log('Admin conversations response:', response.data);
+      setConversations(response.data);
+    } catch (err) {
+      console.error('Conversations fetch error:', err);
+      console.error('Error response:', err.response?.data);
+      setError('Failed to load conversations');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -44,7 +59,7 @@ const AdminChatComponent = () => {
         clearInterval(conversationsInterval.current);
       }
     };
-  }, [user]);
+  }, [user, fetchConversations]);
 
   const fetchMessages = useCallback(async (userId, silent = false) => {
     try {

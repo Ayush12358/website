@@ -12,7 +12,6 @@ const Sidebar = ({ isOpen, onToggle }) => {
   useEffect(() => {
     // Get environment info (this will auto-detect and set based on URL)
     const envInfo = getEnvironmentInfo();
-    setEnvironmentInfo(envInfo);
     setUseProduction(envInfo.useProduction);
 
     // Test connection status

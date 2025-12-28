@@ -1,0 +1,213 @@
+﻿deploy	Set up job	´╗┐2025-12-28T11:56:27.1280250Z Current runner version: '2.330.0'
+deploy	Set up job	2025-12-28T11:56:27.1307906Z ##[group]Runner Image Provisioner
+deploy	Set up job	2025-12-28T11:56:27.1309069Z Hosted Compute Agent
+deploy	Set up job	2025-12-28T11:56:27.1309980Z Version: 20251211.462
+deploy	Set up job	2025-12-28T11:56:27.1310917Z Commit: 6cbad8c2bb55d58165063d031ccabf57e2d2db61
+deploy	Set up job	2025-12-28T11:56:27.1312357Z Build Date: 2025-12-11T16:28:49Z
+deploy	Set up job	2025-12-28T11:56:27.1313357Z Worker ID: {c977d423-60c4-4995-ac46-b805b2d7332d}
+deploy	Set up job	2025-12-28T11:56:27.1314417Z ##[endgroup]
+deploy	Set up job	2025-12-28T11:56:27.1315290Z ##[group]Operating System
+deploy	Set up job	2025-12-28T11:56:27.1316107Z Ubuntu
+deploy	Set up job	2025-12-28T11:56:27.1316881Z 24.04.3
+deploy	Set up job	2025-12-28T11:56:27.1317701Z LTS
+deploy	Set up job	2025-12-28T11:56:27.1318474Z ##[endgroup]
+deploy	Set up job	2025-12-28T11:56:27.1319332Z ##[group]Runner Image
+deploy	Set up job	2025-12-28T11:56:27.1320267Z Image: ***-24.04
+deploy	Set up job	2025-12-28T11:56:27.1321518Z Version: 20251215.174.1
+deploy	Set up job	2025-12-28T11:56:27.1323044Z Included Software: https://github.com/actions/runner-images/blob/***24/20251215.174/images/***/Ubuntu2404-Readme.md
+deploy	Set up job	2025-12-28T11:56:27.1324792Z Image Release: https://github.com/actions/runner-images/releases/tag/***24%2F20251215.174
+deploy	Set up job	2025-12-28T11:56:27.1326331Z ##[endgroup]
+deploy	Set up job	2025-12-28T11:56:27.1328169Z ##[group]GITHUB_TOKEN Permissions
+deploy	Set up job	2025-12-28T11:56:27.1330627Z Contents: read
+deploy	Set up job	2025-12-28T11:56:27.1331689Z Metadata: read
+deploy	Set up job	2025-12-28T11:56:27.1332576Z Packages: read
+deploy	Set up job	2025-12-28T11:56:27.1333430Z ##[endgroup]
+deploy	Set up job	2025-12-28T11:56:27.1335777Z Secret source: Actions
+deploy	Set up job	2025-12-28T11:56:27.1337114Z Prepare workflow directory
+deploy	Set up job	2025-12-28T11:56:27.1676327Z Prepare all required actions
+deploy	Set up job	2025-12-28T11:56:27.1715430Z Getting action download info
+deploy	Set up job	2025-12-28T11:56:27.5192336Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+deploy	Set up job	2025-12-28T11:56:27.6460029Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+deploy	Set up job	2025-12-28T11:56:27.7456694Z Download action repository 'appleboy/scp-action@master' (SHA:7179e72a3fa4d4c33870a471708fda724fae7596)
+deploy	Set up job	2025-12-28T11:56:28.0014460Z Download action repository 'appleboy/ssh-action@master' (SHA:23bd972bfcf52bf00cbb7f7f62b2bb06c2efa5b4)
+deploy	Set up job	2025-12-28T11:56:28.6275194Z Complete job name: deploy
+deploy	Checkout Code	´╗┐2025-12-28T11:56:28.7098860Z ##[group]Run actions/checkout@v4
+deploy	Checkout Code	2025-12-28T11:56:28.7100067Z with:
+deploy	Checkout Code	2025-12-28T11:56:28.7100772Z   repository: Ayush12358/website
+deploy	Checkout Code	2025-12-28T11:56:28.7101933Z   token: ***
+deploy	Checkout Code	2025-12-28T11:56:28.7102616Z   ssh-strict: true
+deploy	Checkout Code	2025-12-28T11:56:28.7103304Z   ssh-user: git
+deploy	Checkout Code	2025-12-28T11:56:28.7103996Z   persist-credentials: true
+deploy	Checkout Code	2025-12-28T11:56:28.7104725Z   clean: true
+deploy	Checkout Code	2025-12-28T11:56:28.7105420Z   sparse-checkout-cone-mode: true
+deploy	Checkout Code	2025-12-28T11:56:28.7106202Z   fetch-depth: 1
+deploy	Checkout Code	2025-12-28T11:56:28.7106878Z   fetch-tags: false
+deploy	Checkout Code	2025-12-28T11:56:28.7107556Z   show-progress: true
+deploy	Checkout Code	2025-12-28T11:56:28.7108258Z   lfs: false
+deploy	Checkout Code	2025-12-28T11:56:28.7108924Z   submodules: false
+deploy	Checkout Code	2025-12-28T11:56:28.7109632Z   set-safe-directory: true
+deploy	Checkout Code	2025-12-28T11:56:28.7110615Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:28.8196644Z Syncing repository: Ayush12358/website
+deploy	Checkout Code	2025-12-28T11:56:28.8199222Z ##[group]Getting Git version info
+deploy	Checkout Code	2025-12-28T11:56:28.8200296Z Working directory is '/home/runner/work/website/website'
+deploy	Checkout Code	2025-12-28T11:56:28.8202032Z [command]/usr/bin/git version
+deploy	Checkout Code	2025-12-28T11:56:28.8258899Z git version 2.52.0
+deploy	Checkout Code	2025-12-28T11:56:28.8285822Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:28.8307508Z Temporarily overriding HOME='/home/runner/work/_temp/aa37dc87-4565-4e46-9084-168c8c046dc0' before making global git config changes
+deploy	Checkout Code	2025-12-28T11:56:28.8309360Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Checkout Code	2025-12-28T11:56:28.8313016Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/website/website
+deploy	Checkout Code	2025-12-28T11:56:28.8352865Z Deleting the contents of '/home/runner/work/website/website'
+deploy	Checkout Code	2025-12-28T11:56:28.8356662Z ##[group]Initializing the repository
+deploy	Checkout Code	2025-12-28T11:56:28.8360359Z [command]/usr/bin/git init /home/runner/work/website/website
+deploy	Checkout Code	2025-12-28T11:56:28.8458474Z hint: Using 'master' as the name for the initial branch. This default branch name
+deploy	Checkout Code	2025-12-28T11:56:28.8461003Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+deploy	Checkout Code	2025-12-28T11:56:28.8464307Z hint: to use in all of your new repositories, which will suppress this warning,
+deploy	Checkout Code	2025-12-28T11:56:28.8465591Z hint: call:
+deploy	Checkout Code	2025-12-28T11:56:28.8466481Z hint:
+deploy	Checkout Code	2025-12-28T11:56:28.8467329Z hint: 	git config --global init.defaultBranch <name>
+deploy	Checkout Code	2025-12-28T11:56:28.8468427Z hint:
+deploy	Checkout Code	2025-12-28T11:56:28.8469728Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+deploy	Checkout Code	2025-12-28T11:56:28.8470953Z hint: 'development'. The just-created branch can be renamed via this command:
+deploy	Checkout Code	2025-12-28T11:56:28.8472364Z hint:
+deploy	Checkout Code	2025-12-28T11:56:28.8473033Z hint: 	git branch -m <name>
+deploy	Checkout Code	2025-12-28T11:56:28.8473927Z hint:
+deploy	Checkout Code	2025-12-28T11:56:28.8474970Z hint: Disable this message with "git config set advice.defaultBranchName false"
+deploy	Checkout Code	2025-12-28T11:56:28.8476209Z Initialized empty Git repository in /home/runner/work/website/website/.git/
+deploy	Checkout Code	2025-12-28T11:56:28.8478411Z [command]/usr/bin/git remote add origin https://github.com/Ayush12358/website
+deploy	Checkout Code	2025-12-28T11:56:28.8511604Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:28.8512784Z ##[group]Disabling automatic garbage collection
+deploy	Checkout Code	2025-12-28T11:56:28.8515289Z [command]/usr/bin/git config --local gc.auto 0
+deploy	Checkout Code	2025-12-28T11:56:28.8544024Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:28.8545109Z ##[group]Setting up auth
+deploy	Checkout Code	2025-12-28T11:56:28.8550044Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+deploy	Checkout Code	2025-12-28T11:56:28.8580223Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+deploy	Checkout Code	2025-12-28T11:56:28.8903689Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Checkout Code	2025-12-28T11:56:28.8933854Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+deploy	Checkout Code	2025-12-28T11:56:28.9149781Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+deploy	Checkout Code	2025-12-28T11:56:28.9188218Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+deploy	Checkout Code	2025-12-28T11:56:28.9412238Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+deploy	Checkout Code	2025-12-28T11:56:28.9445836Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:28.9446977Z ##[group]Fetching the repository
+deploy	Checkout Code	2025-12-28T11:56:28.9453990Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d8c8ebd6fa16f430626b614c4f0150794a9274d0:refs/remotes/origin/main
+deploy	Checkout Code	2025-12-28T11:56:29.2812997Z From https://github.com/Ayush12358/website
+deploy	Checkout Code	2025-12-28T11:56:29.2814930Z  * [new ref]         d8c8ebd6fa16f430626b614c4f0150794a9274d0 -> origin/main
+deploy	Checkout Code	2025-12-28T11:56:29.2845917Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:29.2847139Z ##[group]Determining the checkout info
+deploy	Checkout Code	2025-12-28T11:56:29.2848677Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:29.2852889Z [command]/usr/bin/git sparse-checkout disable
+deploy	Checkout Code	2025-12-28T11:56:29.2892802Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+deploy	Checkout Code	2025-12-28T11:56:29.2927174Z ##[group]Checking out the ref
+deploy	Checkout Code	2025-12-28T11:56:29.2928991Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+deploy	Checkout Code	2025-12-28T11:56:29.3100745Z Switched to a new branch 'main'
+deploy	Checkout Code	2025-12-28T11:56:29.3103264Z branch 'main' set up to track 'origin/main'.
+deploy	Checkout Code	2025-12-28T11:56:29.3111705Z ##[endgroup]
+deploy	Checkout Code	2025-12-28T11:56:29.3146963Z [command]/usr/bin/git log -1 --format=%H
+deploy	Checkout Code	2025-12-28T11:56:29.3169878Z d8c8ebd6fa16f430626b614c4f0150794a9274d0
+deploy	Setup Node.js	´╗┐2025-12-28T11:56:29.3429300Z ##[group]Run actions/setup-node@v4
+deploy	Setup Node.js	2025-12-28T11:56:29.3430238Z with:
+deploy	Setup Node.js	2025-12-28T11:56:29.3430977Z   node-version: 18
+deploy	Setup Node.js	2025-12-28T11:56:29.3431921Z   cache: npm
+deploy	Setup Node.js	2025-12-28T11:56:29.3432726Z   cache-dependency-path: frontend/package-lock.json
+deploy	Setup Node.js	2025-12-28T11:56:29.3433633Z   always-auth: false
+deploy	Setup Node.js	2025-12-28T11:56:29.3434361Z   check-latest: false
+deploy	Setup Node.js	2025-12-28T11:56:29.3435506Z   token: ***
+deploy	Setup Node.js	2025-12-28T11:56:29.3436245Z ##[endgroup]
+deploy	Setup Node.js	2025-12-28T11:56:29.5212982Z Attempting to download 18...
+deploy	Setup Node.js	2025-12-28T11:56:29.9684378Z Acquiring 18.20.8 - x64 from https://github.com/actions/node-versions/releases/download/18.20.8-14110393767/node-18.20.8-linux-x64.tar.gz
+deploy	Setup Node.js	2025-12-28T11:56:30.3678135Z Extracting ...
+deploy	Setup Node.js	2025-12-28T11:56:30.3814486Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/353daf19-67db-45de-b5b2-444f347f9e6e -f /home/runner/work/_temp/0546bf63-f0f0-4a6a-b2c2-206caa7f16e8
+deploy	Setup Node.js	2025-12-28T11:56:31.3649462Z Adding to the cache ...
+deploy	Setup Node.js	2025-12-28T11:56:33.0609147Z ##[group]Environment details
+deploy	Setup Node.js	2025-12-28T11:56:33.3042293Z node: v18.20.8
+deploy	Setup Node.js	2025-12-28T11:56:33.3043172Z npm: 10.8.2
+deploy	Setup Node.js	2025-12-28T11:56:33.3043827Z yarn: 1.22.22
+deploy	Setup Node.js	2025-12-28T11:56:33.3045224Z ##[endgroup]
+deploy	Setup Node.js	2025-12-28T11:56:33.3070113Z [command]/opt/hostedtoolcache/node/18.20.8/x64/bin/npm config get cache
+deploy	Setup Node.js	2025-12-28T11:56:33.4318750Z /home/runner/.npm
+deploy	Setup Node.js	2025-12-28T11:56:33.6209118Z Cache hit for: node-cache-Linux-x64-npm-229ec0180edf91a178e572fb96a0b1e427dc2e8f748f182478982e57f6275496
+deploy	Setup Node.js	2025-12-28T11:56:34.4356710Z Received 92138082 of 92138082 (100.0%), 122.6 MBs/sec
+deploy	Setup Node.js	2025-12-28T11:56:34.4359101Z Cache Size: ~88 MB (92138082 B)
+deploy	Setup Node.js	2025-12-28T11:56:34.4490142Z [command]/usr/bin/tar -xf /home/runner/work/_temp/e0990087-74bf-4326-b9ad-3a96684bae93/cache.tzst -P -C /home/runner/work/website/website --use-compress-program unzstd
+deploy	Setup Node.js	2025-12-28T11:56:35.1445648Z Cache restored successfully
+deploy	Setup Node.js	2025-12-28T11:56:35.1632329Z Cache restored from key: node-cache-Linux-x64-npm-229ec0180edf91a178e572fb96a0b1e427dc2e8f748f182478982e57f6275496
+deploy	Build Frontend	´╗┐2025-12-28T11:56:35.1829505Z ##[group]Run npm install --no-audit --no-fund
+deploy	Build Frontend	2025-12-28T11:56:35.1830086Z [36;1mnpm install --no-audit --no-fund[0m
+deploy	Build Frontend	2025-12-28T11:56:35.1830465Z [36;1mnpm run build[0m
+deploy	Build Frontend	2025-12-28T11:56:35.1869837Z shell: /usr/bin/bash -e {0}
+deploy	Build Frontend	2025-12-28T11:56:35.1870213Z ##[endgroup]
+deploy	Build Frontend	2025-12-28T11:56:36.4539484Z npm warn EBADENGINE Unsupported engine {
+deploy	Build Frontend	2025-12-28T11:56:36.4540641Z npm warn EBADENGINE   package: 'marked@16.1.1',
+deploy	Build Frontend	2025-12-28T11:56:36.4541795Z npm warn EBADENGINE   required: { node: '>= 20' },
+deploy	Build Frontend	2025-12-28T11:56:36.4542856Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+deploy	Build Frontend	2025-12-28T11:56:36.4543727Z npm warn EBADENGINE }
+deploy	Build Frontend	2025-12-28T11:56:40.2435581Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+deploy	Build Frontend	2025-12-28T11:56:40.3010357Z npm warn deprecated stable@0.1.8: Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility
+deploy	Build Frontend	2025-12-28T11:56:40.3582499Z npm warn deprecated @babel/plugin-proposal-private-methods@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
+deploy	Build Frontend	2025-12-28T11:56:40.3586329Z npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+deploy	Build Frontend	2025-12-28T11:56:40.3590013Z npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+deploy	Build Frontend	2025-12-28T11:56:40.3593175Z npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+deploy	Build Frontend	2025-12-28T11:56:40.4601924Z npm warn deprecated rollup-plugin-terser@7.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
+deploy	Build Frontend	2025-12-28T11:56:40.4998164Z npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+deploy	Build Frontend	2025-12-28T11:56:40.5232769Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+deploy	Build Frontend	2025-12-28T11:56:40.5547811Z npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+deploy	Build Frontend	2025-12-28T11:56:40.5631351Z npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+deploy	Build Frontend	2025-12-28T11:56:40.5723273Z npm warn deprecated @babel/plugin-proposal-private-property-in-object@7.21.11: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
+deploy	Build Frontend	2025-12-28T11:56:40.7041571Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+deploy	Build Frontend	2025-12-28T11:56:40.7178552Z npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+deploy	Build Frontend	2025-12-28T11:56:40.7505749Z npm warn deprecated domexception@2.0.1: Use your platform's native DOMException instead
+deploy	Build Frontend	2025-12-28T11:56:40.7734874Z npm warn deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.
+deploy	Build Frontend	2025-12-28T11:56:40.8213299Z npm warn deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+deploy	Build Frontend	2025-12-28T11:56:40.8216282Z npm warn deprecated
+deploy	Build Frontend	2025-12-28T11:56:40.8217390Z npm warn deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+deploy	Build Frontend	2025-12-28T11:56:40.8554523Z npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+deploy	Build Frontend	2025-12-28T11:56:41.2521056Z npm warn deprecated workbox-cacheable-response@6.6.0: workbox-background-sync@6.6.0
+deploy	Build Frontend	2025-12-28T11:56:41.3297980Z npm warn deprecated workbox-google-analytics@6.6.0: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
+deploy	Build Frontend	2025-12-28T11:56:42.0033047Z npm warn deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.
+deploy	Build Frontend	2025-12-28T11:56:43.5254656Z npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+deploy	Build Frontend	2025-12-28T11:56:47.4227165Z 
+deploy	Build Frontend	2025-12-28T11:56:47.4228863Z added 1430 packages in 12s
+deploy	Build Frontend	2025-12-28T11:56:47.6251766Z 
+deploy	Build Frontend	2025-12-28T11:56:47.6253187Z > frontend@0.1.0 build
+deploy	Build Frontend	2025-12-28T11:56:47.6254996Z > react-scripts build
+deploy	Build Frontend	2025-12-28T11:56:47.6255385Z 
+deploy	Build Frontend	2025-12-28T11:56:48.6702365Z Creating an optimized production build...
+deploy	Build Frontend	2025-12-28T11:56:48.7896499Z Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+deploy	Build Frontend	2025-12-28T11:56:48.7897799Z   npx update-browserslist-db@latest
+deploy	Build Frontend	2025-12-28T11:56:48.7898810Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+deploy	Build Frontend	2025-12-28T11:57:00.1257967Z Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+deploy	Build Frontend	2025-12-28T11:57:00.1259079Z   npx update-browserslist-db@latest
+deploy	Build Frontend	2025-12-28T11:57:00.1260163Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+deploy	Build Frontend	2025-12-28T11:57:01.2226092Z Failed to compile.
+deploy	Build Frontend	2025-12-28T11:57:01.2226496Z 
+deploy	Build Frontend	2025-12-28T11:57:01.2231786Z [eslint] 
+deploy	Build Frontend	2025-12-28T11:57:01.2232471Z src/components/AdminChatComponent.js
+deploy	Build Frontend	2025-12-28T11:57:01.2233325Z   Line 33:7:   'fetchConversations' is not defined  no-undef
+deploy	Build Frontend	2025-12-28T11:57:01.2234202Z   Line 35:57:  'fetchConversations' is not defined  no-undef
+deploy	Build Frontend	2025-12-28T11:57:01.2235118Z   Line 49:25:  'useCallback' is not defined         no-undef
+deploy	Build Frontend	2025-12-28T11:57:01.2236403Z   Line 105:7:  'fetchConversations' is not defined  no-undef
+deploy	Build Frontend	2025-12-28T11:57:01.2236869Z 
+deploy	Build Frontend	2025-12-28T11:57:01.2237143Z src/components/Sidebar.js
+deploy	Build Frontend	2025-12-28T11:57:01.2237764Z   Line 15:5:  'setEnvironmentInfo' is not defined  no-undef
+deploy	Build Frontend	2025-12-28T11:57:01.2238055Z 
+deploy	Build Frontend	2025-12-28T11:57:01.2238232Z src/context/ThemeContext.js
+deploy	Build Frontend	2025-12-28T11:57:01.2238629Z   Line 125:22:  'useCallback' is not defined  no-undef
+deploy	Build Frontend	2025-12-28T11:57:01.2238885Z 
+deploy	Build Frontend	2025-12-28T11:57:01.2239128Z Search for the keywords to learn more about each error.
+deploy	Build Frontend	2025-12-28T11:57:01.2239402Z 
+deploy	Build Frontend	2025-12-28T11:57:01.2239416Z 
+deploy	Build Frontend	2025-12-28T11:57:01.2785596Z ##[error]Process completed with exit code 1.
+deploy	Post Checkout Code	´╗┐2025-12-28T11:57:01.2913005Z Post job cleanup.
+deploy	Post Checkout Code	2025-12-28T11:57:01.3866388Z [command]/usr/bin/git version
+deploy	Post Checkout Code	2025-12-28T11:57:01.3902167Z git version 2.52.0
+deploy	Post Checkout Code	2025-12-28T11:57:01.3945300Z Temporarily overriding HOME='/home/runner/work/_temp/94f4fbca-dacd-4842-9e04-c79064c5b3ac' before making global git config changes
+deploy	Post Checkout Code	2025-12-28T11:57:01.3946413Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Post Checkout Code	2025-12-28T11:57:01.3950548Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/website/website
+deploy	Post Checkout Code	2025-12-28T11:57:01.3986091Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+deploy	Post Checkout Code	2025-12-28T11:57:01.4019117Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+deploy	Post Checkout Code	2025-12-28T11:57:01.4245180Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Post Checkout Code	2025-12-28T11:57:01.4267185Z http.https://github.com/.extraheader
+deploy	Post Checkout Code	2025-12-28T11:57:01.4280834Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+deploy	Post Checkout Code	2025-12-28T11:57:01.4312387Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+deploy	Post Checkout Code	2025-12-28T11:57:01.4530869Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+deploy	Post Checkout Code	2025-12-28T11:57:01.4562066Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+deploy	Complete job	´╗┐2025-12-28T11:57:01.4886513Z Cleaning up orphan processes
