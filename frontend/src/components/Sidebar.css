@@ -24,25 +24,21 @@
 
 .sidebar {
   position: fixed;
-  top: 15px;
+  top: 0;
   right: -420px;
   width: 400px;
-  height: calc(100vh - 30px);
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--glass-shadow);
+  height: 100vh;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
   z-index: 1000;
-  transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: right 0.4s ease;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
 .sidebar-open {
-  right: 15px;
+  right: 0;
 }
 
 .sidebar-header {
@@ -100,18 +96,16 @@
 }
 
 .sidebar-item {
-  background: var(--color-surface);
+  background: var(--color-background-secondary);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: var(--space-md);
-  transition: all 0.3s ease;
-  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+  margin-bottom: var(--space-sm);
 }
 
 .sidebar-item:hover {
-  border-color: var(--color-primary-light);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
 }
 
 .sidebar-item-info span {
@@ -153,25 +147,22 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.3);
   z-index: 998;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 
 .sidebar-toggle:hover {
-  transform: translateY(-2px) rotate(90deg);
-  background: var(--color-primary-hover);
-  box-shadow: 0 6px 16px hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.4);
+  background: var(--color-primary-dark);
 }
 
 @media (max-width: 768px) {
