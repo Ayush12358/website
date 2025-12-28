@@ -240,8 +240,4 @@ const ResumePage = ({ isAuthenticated = false }) => {
   );
 };
 
-    </div >
-  );
-};
-
 export default ResumePage;
