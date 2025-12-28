@@ -63,10 +63,16 @@
 
 .dashboard-tabs {
   display: flex;
-  background: hsla(225, 25%, 5%, 0.03);
+  background: hsla(225, 25%, var(--tab-bg-l, 5%), var(--tab-bg-a, 0.03));
   padding: 0.75rem;
   gap: 0.5rem;
   border-bottom: 1px solid var(--color-border);
+}
+
+[data-theme='dark'] .dashboard-tabs {
+  --tab-bg-l: 100%;
+  --tab-bg-a: 0.05;
+  background: hsla(225, 25%, 100%, 0.03);
 }
 
 .tab-button {
