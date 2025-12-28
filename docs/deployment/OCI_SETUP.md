@@ -35,7 +35,7 @@ cd ~ && rm -rf website && mkdir website && cd website && curl -fsSL https://raw.
 ### Option B: Manual Setup
 
 1. **Connect to your server**:
-
+ 
 ```bash
 ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
 ```
