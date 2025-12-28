@@ -16,6 +16,10 @@ const Chat = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const fetchMessages = React.useCallback(async () => {
     try {
       const response = await api.get('/chat');
@@ -34,7 +38,7 @@ const Chat = () => {
     fetchMessages();
     // Poll for new messages every 3 seconds
     pollInterval.current = setInterval(fetchMessages, 3000);
-    
+
     return () => {
       if (pollInterval.current) {
         clearInterval(pollInterval.current);
@@ -88,7 +92,7 @@ const Chat = () => {
       <div className="chat-header">
         <h3>Ayush Maurya</h3>
       </div>
-      
+
       <div className="chat-messages">
         {messages.length === 0 ? (
           <div className="chat-empty">

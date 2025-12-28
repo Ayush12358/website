@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Chat from '../components/Chat';
 import AdminChatComponent from '../components/AdminChatComponent';
-import ThemeButton from '../components/ThemeButton';
 import LinkTree from '../components/LinkTree';
 import PublicLinks from '../components/PublicLinks';
 import './DashboardPage.css';

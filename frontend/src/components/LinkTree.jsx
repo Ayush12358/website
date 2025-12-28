@@ -110,14 +110,14 @@ function TreeNode({ node, onNodeUpdate, onNodeDelete, onAddChild, path = [] }) {
     <div className="linktree-node" style={{ marginLeft: path.length > 0 ? 20 : 0 }}>
       <div className="node-content">
         {hasChildren && (
-          <button 
+          <button
             className="collapse-button"
             onClick={() => setCollapsed(!collapsed)}
           >
             {collapsed ? '▶' : '▼'}
           </button>
         )}
-        
+
         {isEditing ? (
           <div className="edit-controls">
             <input
@@ -164,8 +164,8 @@ function TreeNode({ node, onNodeUpdate, onNodeDelete, onAddChild, path = [] }) {
               </button>
               {!node.link && (
                 <div className="add-menu" ref={addMenuRef}>
-                  <button 
-                    className="add-button" 
+                  <button
+                    className="add-button"
                     onClick={() => setShowAddMenu(!showAddMenu)}
                     title="Add item"
                   >
@@ -183,13 +183,13 @@ function TreeNode({ node, onNodeUpdate, onNodeDelete, onAddChild, path = [] }) {
           </div>
         )}
       </div>
-      
+
       {hasChildren && !collapsed && (
         <div className="node-children">
           {node.children.map((child, idx) => (
-            <TreeNode 
-              key={idx} 
-              node={child} 
+            <TreeNode
+              key={idx}
+              node={child}
               onNodeUpdate={onNodeUpdate}
               onNodeDelete={onNodeDelete}
               onAddChild={onAddChild}
@@ -198,7 +198,7 @@ function TreeNode({ node, onNodeUpdate, onNodeDelete, onAddChild, path = [] }) {
           ))}
         </div>
       )}
-      
+
       {addingFolder && (
         <div className="add-form">
           <div className="add-form-header">Add Folder</div>
@@ -216,7 +216,7 @@ function TreeNode({ node, onNodeUpdate, onNodeDelete, onAddChild, path = [] }) {
           </div>
         </div>
       )}
-      
+
       {addingLink && (
         <div className="add-form">
           <div className="add-form-header">Add Link</div>
@@ -245,7 +245,7 @@ function TreeNode({ node, onNodeUpdate, onNodeDelete, onAddChild, path = [] }) {
 }
 
 const LinkTree = () => {
-  const { isDarkMode, currentTheme } = useTheme();
+  const { currentTheme } = useTheme();
   const [treeData, setTreeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -286,29 +286,29 @@ const LinkTree = () => {
   const updateNode = (path, updatedNode) => {
     const newTreeData = JSON.parse(JSON.stringify(treeData));
     let current = newTreeData;
-    
+
     // Navigate to the parent of the node to update
     for (let i = 0; i < path.length - 1; i++) {
       current = current[path[i]];
     }
-    
+
     // Update the node
     if (path.length > 0) {
       current[path[path.length - 1]] = updatedNode;
     }
-    
+
     saveLinktree(newTreeData);
   };
 
   const deleteNode = (path) => {
     const newTreeData = JSON.parse(JSON.stringify(treeData));
     let current = newTreeData;
-    
+
     // Navigate to the parent of the node to delete
     for (let i = 0; i < path.length - 1; i++) {
       current = current[path[i]];
     }
-    
+
     // Delete the node
     if (path.length === 1) {
       // Deleting from root level
@@ -317,27 +317,27 @@ const LinkTree = () => {
       // Deleting from nested level
       current.splice(path[path.length - 1], 1);
     }
-    
+
     saveLinktree(newTreeData);
   };
 
   const addChild = (path, newChild) => {
     const newTreeData = JSON.parse(JSON.stringify(treeData));
     let current = newTreeData;
-    
+
     // Navigate to the node to add child to
     for (let i = 0; i < path.length; i++) {
       current = current[path[i]];
     }
-    
+
     // Ensure the node has a children array
     if (!current.children) {
       current.children = [];
     }
-    
+
     // Add the new child
     current.children.push(newChild);
-    
+
     saveLinktree(newTreeData);
   };
 
@@ -404,13 +404,13 @@ const LinkTree = () => {
           </div>
         </div>
       </div>
-      
+
       {treeData.length > 0 ? (
         <div className="linktree-nodes">
           {treeData.map((node, idx) => (
-            <TreeNode 
-              key={idx} 
-              node={node} 
+            <TreeNode
+              key={idx}
+              node={node}
               onNodeUpdate={updateNode}
               onNodeDelete={deleteNode}
               onAddChild={addChild}
@@ -423,7 +423,7 @@ const LinkTree = () => {
           <p>No links yet. Add your first folder or link above!</p>
         </div>
       )}
-      
+
       {addingRootFolder && (
         <div className="root-add-form">
           <div className="add-form-header">Add Folder</div>
@@ -441,7 +441,7 @@ const LinkTree = () => {
           </div>
         </div>
       )}
-      
+
       {addingRootLink && (
         <div className="root-add-form">
           <div className="add-form-header">Add Link</div>

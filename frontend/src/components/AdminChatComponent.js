@@ -22,6 +22,10 @@ const AdminChatComponent = () => {
   };
 
   useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
     console.log('AdminChatComponent mounted, user:', user);
     // Check if user is developer
     if (user && user.profile && user.profile.email === 'ayushmaurya2003@gmail.com') {
@@ -41,6 +45,19 @@ const AdminChatComponent = () => {
       }
     };
   }, [user]);
+
+  const fetchMessages = useCallback(async (userId, silent = false) => {
+    try {
+      const response = await api.get(`/chat/admin/${userId}`);
+      setMessages(response.data);
+      setTimeout(scrollToBottom, 100);
+    } catch (err) {
+      if (!silent) {
+        setError('Failed to load messages');
+        console.error('Messages fetch error:', err);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedUserId) {
@@ -62,35 +79,7 @@ const AdminChatComponent = () => {
         clearInterval(messagesInterval.current);
       }
     };
-  }, [selectedUserId]);
-
-  const fetchConversations = async (silent = false) => {
-    try {
-      if (!silent) console.log('Fetching admin conversations...');
-      const response = await api.get('/chat/admin/conversations');
-      if (!silent) console.log('Admin conversations response:', response.data);
-      setConversations(response.data);
-    } catch (err) {
-      console.error('Conversations fetch error:', err);
-      console.error('Error response:', err.response?.data);
-      setError('Failed to load conversations');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchMessages = async (userId, silent = false) => {
-    try {
-      const response = await api.get(`/chat/admin/${userId}`);
-      setMessages(response.data);
-      setTimeout(scrollToBottom, 100);
-    } catch (err) {
-      if (!silent) {
-        setError('Failed to load messages');
-        console.error('Messages fetch error:', err);
-      }
-    }
-  };
+  }, [selectedUserId, fetchMessages]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -106,8 +95,8 @@ const AdminChatComponent = () => {
     setError('');
 
     try {
-      const response = await api.post(`/chat/admin/${selectedUserId}`, { 
-        message: newMessage 
+      const response = await api.post(`/chat/admin/${selectedUserId}`, {
+        message: newMessage
       });
       setMessages(prev => [...prev, response.data]);
       setNewMessage('');
@@ -141,7 +130,7 @@ const AdminChatComponent = () => {
   if (error && !user) {
     return (
       <div className="chat-container">
-        <div className="chat-error" style={{padding: '2rem'}}>
+        <div className="chat-error" style={{ padding: '2rem' }}>
           {error}
         </div>
       </div>
@@ -192,7 +181,7 @@ const AdminChatComponent = () => {
                 Chat with {conversations.find(c => c.userId === selectedUserId)?.User.name}
               </h3>
             </div>
-            
+
             <div className="chat-messages">
               {messages.map((message) => (
                 <div

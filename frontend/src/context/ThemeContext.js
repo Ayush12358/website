@@ -122,35 +122,35 @@ export const ThemeProvider = ({ children }) => {
   });
 
   // Apply theme and accent immediately on component mount and when they change
+  const applyTheme = useCallback((themeName, accentName) => {
+    const theme = themes[themeName];
+    const accent = accentColors[accentName];
+    if (!theme || !accent) return;
+
+    const root = document.documentElement;
+
+    // Apply theme attribute for CSS selection
+    root.setAttribute('data-theme', themeName);
+
+    // Apply accent colors (these override the CSS defaults)
+    Object.entries(accent).forEach(([key, value]) => {
+      if (key !== 'name') {
+        root.style.setProperty(`--color-${key}`, value);
+      }
+    });
+
+    // Apply body class for legacy support
+    document.body.className = `theme-${themeName} accent-${accentName}`;
+
+    // Save to localStorage
+    localStorage.setItem('selectedTheme', themeName);
+    localStorage.setItem('selectedAccent', accentName);
+  }, []);
+
   useEffect(() => {
-    const applyTheme = (themeName, accentName) => {
-      const theme = themes[themeName];
-      const accent = accentColors[accentName];
-      if (!theme || !accent) return;
-
-      const root = document.documentElement;
-
-      // Apply theme attribute for CSS selection
-      root.setAttribute('data-theme', themeName);
-
-      // Apply accent colors (these override the CSS defaults)
-      Object.entries(accent).forEach(([key, value]) => {
-        if (key !== 'name') {
-          root.style.setProperty(`--color-${key}`, value);
-        }
-      });
-
-      // Apply body class for legacy support
-      document.body.className = `theme-${themeName} accent-${accentName}`;
-
-      // Save to localStorage
-      localStorage.setItem('selectedTheme', themeName);
-      localStorage.setItem('selectedAccent', accentName);
-    };
-
     // Apply the current theme and accent
     applyTheme(currentTheme, currentAccent);
-  }, [currentTheme, currentAccent]);
+  }, [currentTheme, currentAccent, applyTheme]);
 
   // Also apply theme on initial load to handle any timing issues
   useEffect(() => {
@@ -163,7 +163,7 @@ export const ThemeProvider = ({ children }) => {
     if (savedAccent && accentColors[savedAccent] && savedAccent !== currentAccent) {
       setCurrentAccent(savedAccent);
     }
-  }, []);
+  }, [currentTheme, currentAccent]);
 
   const switchTheme = (themeName) => {
     if (themes[themeName]) {

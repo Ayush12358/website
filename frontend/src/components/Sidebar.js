@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ThemeButton from './ThemeButton';
 import AccentSelector from './AccentSelector';
-import { getCurrentEnvironment, getCurrentBaseURL, testConnection, getEnvironmentInfo } from '../utils/api';
+import { testConnection, getEnvironmentInfo } from '../utils/api';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onToggle }) => {
   const [useProduction, setUseProduction] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState('checking');
   const [connectionInfo, setConnectionInfo] = useState(null);
-  const [environmentInfo, setEnvironmentInfo] = useState(null);
 
   useEffect(() => {
     // Get environment info (this will auto-detect and set based on URL)

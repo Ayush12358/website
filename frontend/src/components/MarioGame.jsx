@@ -5,7 +5,7 @@ const MarioGame = ({ onGameOver, onScoreUpdate }) => {
   const [running, setRunning] = useState(false);
   const [score, setScore] = useState(0);
   const [gameSpeed, setGameSpeed] = useState(2);
-  const [playerPosition, setPlayerPosition] = useState({ x: 100, y: 60 });
+  const [playerPosition] = useState({ x: 100, y: 60 });
   const [isJumping, setIsJumping] = useState(false);
   const [obstacles, setObstacles] = useState([]);
   const gameLoopRef = useRef(null);
@@ -147,7 +147,7 @@ const MarioGame = ({ onGameOver, onScoreUpdate }) => {
         )}
       </div>
 
-      <div 
+      <div
         ref={gameAreaRef}
         className="game-area"
         onClick={jump}
@@ -157,7 +157,7 @@ const MarioGame = ({ onGameOver, onScoreUpdate }) => {
         <div className="mario-background">
           <div className="clouds">
             {[1, 2, 3, 4].map(i => (
-              <div 
+              <div
                 key={i}
                 className="cloud"
                 style={{
@@ -174,7 +174,7 @@ const MarioGame = ({ onGameOver, onScoreUpdate }) => {
         </div>
 
         {/* Player (Mario) */}
-        <div 
+        <div
           className={`mario-player ${isJumping ? 'jumping' : ''}`}
           style={{
             left: playerPosition.x,

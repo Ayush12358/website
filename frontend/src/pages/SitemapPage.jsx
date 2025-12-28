@@ -4,8 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import './SitemapPage.css';
 
 const SitemapPage = () => {
-  const { isDarkMode } = useTheme();
-  
+
   const siteStructure = [
     {
       title: 'Main Pages',
@@ -88,7 +87,7 @@ const SitemapPage = () => {
       <div className="sitemap-footer">
         <p>Last updated: {new Date().toLocaleDateString()}</p>
         <p>
-          This sitemap provides an overview of all available pages and sections 
+          This sitemap provides an overview of all available pages and sections
           on the website for easy navigation.
         </p>
       </div>
