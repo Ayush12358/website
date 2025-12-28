@@ -1,7 +1,7 @@
 .dashboard-container {
   min-height: 100vh;
   background: var(--color-background);
-  padding: 2rem;
+  padding: var(--space-md);
   background-image:
     radial-gradient(at 0% 0%, hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.1) 0px, transparent 50%),
     radial-gradient(at 100% 0%, hsla(280, 80%, 70%, 0.08) 0px, transparent 50%);
@@ -11,10 +11,10 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
-  padding: 2rem;
+  padding: var(--space-md) var(--space-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--glass-shadow);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,7 +99,7 @@
 }
 
 .tab-content {
-  padding: 2.5rem;
+  padding: var(--space-lg);
   min-height: 500px;
 }
 
@@ -129,8 +129,8 @@
 
 .stat-card {
   background: var(--color-background);
-  padding: 20px;
-  border-radius: 8px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
   text-align: center;
   border-left: 4px solid var(--color-primary);
 }
@@ -155,8 +155,8 @@
 
 .action-card {
   background: var(--color-background);
-  padding: 20px;
-  border-radius: 8px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
   text-align: center;
   transition: transform 0.3s ease;
   cursor: pointer;
@@ -205,8 +205,8 @@
 
 .analytics-card {
   background: var(--color-background);
-  padding: 20px;
-  border-radius: 8px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
 }
 
@@ -229,8 +229,8 @@
 
 .dev-tool-card {
   background: var(--color-background);
-  padding: 20px;
-  border-radius: 8px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
   border-left: 4px solid var(--color-error);
   border: 1px solid var(--color-border);
 }
@@ -449,10 +449,10 @@
 
 .add-port-form {
   background: var(--color-surface);
-  padding: 20px;
-  border-radius: 8px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
-  margin-top: 15px;
+  margin-top: var(--space-md);
 }
 
 .add-port-form h5 {
@@ -501,9 +501,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 15px;
+  padding: 0.75rem var(--space-sm);
   border: 2px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -597,8 +597,8 @@
 
 .port-viewer {
   background: var(--color-surface);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
   box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border);
   transition: all 0.3s ease;
@@ -737,9 +737,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: var(--space-sm);
   background: var(--color-background);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
 }
 
@@ -858,7 +858,7 @@
 
 .shell-output {
   flex: 1;
-  padding: 15px;
+  padding: var(--space-md);
   color: var(--color-surface);
   overflow-y: auto;
   font-size: 13px;
@@ -948,11 +948,11 @@
 }
 
 .shell-input-container {
-  padding: 15px;
+  padding: var(--space-sm) var(--space-md);
   background: var(--color-background-secondary);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--space-xs);
   border-top: 1px solid var(--color-border);
 }
 
@@ -984,7 +984,7 @@
 
 .shell-footer {
   background: var(--color-background-secondary);
-  padding: 8px 15px;
+  padding: var(--space-xs) var(--space-md);
   border-top: 1px solid var(--color-border);
 }
 

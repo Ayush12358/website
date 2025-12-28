@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 4rem 2rem;
+  padding: var(--space-xl) var(--space-md);
   background: var(--color-background-hero);
   color: white;
   overflow: hidden;
@@ -53,7 +53,7 @@
 
 .resume-actions {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-sm);
   flex-wrap: wrap;
   justify-content: center;
   animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
@@ -79,10 +79,10 @@
 .resume-content {
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 3rem;
+  gap: var(--space-lg);
   max-width: 1280px;
-  margin: -5rem auto 0;
-  padding: 0 2rem 5rem;
+  margin: calc(var(--space-xl) * -1) auto 0;
+  padding: 0 var(--space-md) var(--space-xl);
   position: relative;
   z-index: 10;
 }
@@ -90,7 +90,7 @@
 .resume-main {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: var(--space-lg);
 }
 
 /* Glass Cards */
@@ -101,7 +101,7 @@
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  padding: 2.5rem;
+  padding: var(--space-lg);
   box-shadow: var(--glass-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -127,7 +127,7 @@
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-xs);
 }
 
 .resume-section h2::after {
@@ -141,11 +141,11 @@
 .resume-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-md);
 }
 
 .sidebar-section {
-  padding: 2rem;
+  padding: var(--space-md);
 }
 
 .sidebar-section h2 {
@@ -192,14 +192,14 @@
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  gap: var(--space-sm);
 }
 
 .project-item {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: var(--space-md);
   transition: all 0.3s ease;
 }
 

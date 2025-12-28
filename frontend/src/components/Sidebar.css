@@ -46,7 +46,7 @@
 }
 
 .sidebar-header {
-  padding: 1.5rem;
+  padding: var(--space-md);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
@@ -84,14 +84,14 @@
 
 .sidebar-content {
   flex: 1;
-  padding: 1.5rem;
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-md);
 }
 
 .sidebar-section h4 {
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-sm);
   color: var(--color-primary);
   font-size: 0.75rem;
   font-weight: 700;
@@ -103,7 +103,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: var(--space-md);
   transition: all 0.3s ease;
   margin-bottom: 1rem;
 }
@@ -131,7 +131,7 @@
 
 .server-btn {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: var(--space-sm);
   padding: 0.75rem;
   font-size: 0.875rem;
   font-weight: 600;
