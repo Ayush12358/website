@@ -95,7 +95,7 @@ To point your domain (e.g., `ayushmaurya.xyz`) to your OCI server:
     ```bash
     cloudflared tunnel login
     cloudflared tunnel create website
-    cloudflared tunnel route dns website <YOUR_DOMAIN>
+    cloudflared tunnel route dns website ayushmaurya.xyz
     ```
 2.  **Keep it Alive with PM2**:
     ```bash
