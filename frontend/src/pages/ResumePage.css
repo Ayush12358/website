@@ -15,7 +15,7 @@
   justify-content: center;
   text-align: center;
   padding: 4rem 2rem;
-  background: var(--color-background-gradient);
+  background: var(--color-background-hero);
   color: white;
   overflow: hidden;
 }

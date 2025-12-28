@@ -126,20 +126,20 @@ const RoadmapPage = () => {
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'high': return '#e74c3c';
-      case 'medium': return '#f39c12';
-      case 'low': return '#27ae60';
-      default: return '#95a5a6';
+      case 'high': return 'var(--color-error)';
+      case 'medium': return 'var(--color-warning)';
+      case 'low': return 'var(--color-success)';
+      default: return 'var(--color-text-secondary)';
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'completed': return '#27ae60';
-      case 'in-progress': return '#3498db';
-      case 'planned': return '#f39c12';
-      case 'research': return '#9b59b6';
-      default: return '#95a5a6';
+      case 'completed': return 'var(--color-success)';
+      case 'in-progress': return 'var(--color-primary)';
+      case 'planned': return 'var(--color-warning)';
+      case 'research': return 'var(--color-secondary)';
+      default: return 'var(--color-text-secondary)';
     }
   };
 
@@ -162,27 +162,27 @@ const RoadmapPage = () => {
         <div className="sitemap-intro">
           <h2>What's Coming Next</h2>
           <p>
-            This roadmap outlines the planned features and improvements for the website. 
+            This roadmap outlines the planned features and improvements for the website.
             Priorities and timelines may change based on user feedback and development progress.
           </p>
-          
+
           <div className="roadmap-legend">
             <h4>Status Legend:</h4>
             <div className="legend-items">
               <span className="legend-item">
-                <span className="status-indicator" style={{backgroundColor: getStatusColor('completed')}}></span>
+                <span className="status-indicator" style={{ backgroundColor: getStatusColor('completed') }}></span>
                 Completed
               </span>
               <span className="legend-item">
-                <span className="status-indicator" style={{backgroundColor: getStatusColor('in-progress')}}></span>
+                <span className="status-indicator" style={{ backgroundColor: getStatusColor('in-progress') }}></span>
                 In Progress
               </span>
               <span className="legend-item">
-                <span className="status-indicator" style={{backgroundColor: getStatusColor('planned')}}></span>
+                <span className="status-indicator" style={{ backgroundColor: getStatusColor('planned') }}></span>
                 Planned
               </span>
               <span className="legend-item">
-                <span className="status-indicator" style={{backgroundColor: getStatusColor('research')}}></span>
+                <span className="status-indicator" style={{ backgroundColor: getStatusColor('research') }}></span>
                 Research Phase
               </span>
             </div>
@@ -201,22 +201,22 @@ const RoadmapPage = () => {
                   </span>
                 </div>
               </div>
-              
+
               <div className="roadmap-items">
                 {phase.items.map((item, itemIndex) => (
                   <div key={itemIndex} className="roadmap-item">
                     <div className="item-header">
                       <h4 className="item-title">{item.title}</h4>
                       <div className="item-badges">
-                        <span 
-                          className="priority-badge" 
-                          style={{backgroundColor: getPriorityColor(item.priority)}}
+                        <span
+                          className="priority-badge"
+                          style={{ backgroundColor: getPriorityColor(item.priority) }}
                         >
                           {item.priority} priority
                         </span>
-                        <span 
-                          className="status-badge" 
-                          style={{backgroundColor: getStatusColor(item.status)}}
+                        <span
+                          className="status-badge"
+                          style={{ backgroundColor: getStatusColor(item.status) }}
                         >
                           {item.status.replace('-', ' ')}
                         </span>
@@ -233,13 +233,13 @@ const RoadmapPage = () => {
         <div className="sitemap-footer">
           <h3>Have Ideas?</h3>
           <p>
-            Got suggestions for new features or improvements? Feel free to reach out through the 
-            contact information on the <Link to="/" className="inline-link">homepage</Link> or 
-            use the chat feature in the <Link to="/dashboard" className="inline-link">dashboard</Link> 
+            Got suggestions for new features or improvements? Feel free to reach out through the
+            contact information on the <Link to="/" className="inline-link">homepage</Link> or
+            use the chat feature in the <Link to="/dashboard" className="inline-link">dashboard</Link>
             if you're a registered user.
           </p>
           <p>
-            <strong>Note:</strong> This roadmap is subject to change based on user feedback, 
+            <strong>Note:</strong> This roadmap is subject to change based on user feedback,
             technical constraints, and development priorities. Check back regularly for updates!
           </p>
         </div>

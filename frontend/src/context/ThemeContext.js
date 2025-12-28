@@ -127,24 +127,22 @@ export const ThemeProvider = ({ children }) => {
       const theme = themes[themeName];
       const accent = accentColors[accentName];
       if (!theme || !accent) return;
-      
-      const root = document.documentElement;
-      
-      // Apply base theme colors
-      Object.entries(theme.colors).forEach(([key, value]) => {
-        root.style.setProperty(`--color-${key}`, value);
-      });
 
-      // Apply accent colors (these will override the theme's primary colors)
+      const root = document.documentElement;
+
+      // Apply theme attribute for CSS selection
+      root.setAttribute('data-theme', themeName);
+
+      // Apply accent colors (these override the CSS defaults)
       Object.entries(accent).forEach(([key, value]) => {
         if (key !== 'name') {
           root.style.setProperty(`--color-${key}`, value);
         }
       });
-      
-      // Apply body class for theme-specific styles
+
+      // Apply body class for legacy support
       document.body.className = `theme-${themeName} accent-${accentName}`;
-      
+
       // Save to localStorage
       localStorage.setItem('selectedTheme', themeName);
       localStorage.setItem('selectedAccent', accentName);
@@ -158,7 +156,7 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const savedTheme = localStorage.getItem('selectedTheme');
     const savedAccent = localStorage.getItem('selectedAccent');
-    
+
     if (savedTheme && themes[savedTheme] && savedTheme !== currentTheme) {
       setCurrentTheme(savedTheme);
     }
