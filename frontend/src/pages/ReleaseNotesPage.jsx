@@ -119,23 +119,13 @@ const ReleaseNotesPage = () => {
     <div className="sitemap-container">
       <div className="sitemap-header">
         <h1>Release Notes</h1>
-        <p className="sitemap-subtitle">Track the evolution and improvements of this website</p>
-        <div className="sitemap-actions">
-          <Link to="/" className="btn btn-primary">
-            ← Back to Home
-          </Link>
-          <Link to="/roadmap" className="btn btn-secondary">
-            View Roadmap
-          </Link>
-        </div>
+        <p className="sitemap-subtitle">Track the evolution and improvements</p>
       </div>
 
       <div className="sitemap-content">
         <div className="sitemap-intro">
-          <h2>What's New</h2>
           <p>
-            This page documents all major releases, features, and improvements made to the website. 
-            Each release includes new features, improvements, and bug fixes to enhance your experience.
+            Documentation of all major releases, features, and improvements made to the website.
           </p>
         </div>
 
@@ -151,7 +141,7 @@ const ReleaseNotesPage = () => {
                   </span>
                 </div>
               </div>
-              
+
               {release.changes.map((category, categoryIndex) => (
                 <div key={categoryIndex} className="release-category">
                   <h3 className="category-title">{category.category}</h3>
@@ -172,7 +162,7 @@ const ReleaseNotesPage = () => {
           <h3>Stay Updated</h3>
           <p>
             Follow the development progress and upcoming features on the{' '}
-            <Link to="/roadmap" className="inline-link">roadmap page</Link>. 
+            <Link to="/roadmap" className="inline-link">roadmap page</Link>.
             For questions or feedback, feel free to reach out through the contact information on the{' '}
             <Link to="/" className="inline-link">homepage</Link>.
           </p>

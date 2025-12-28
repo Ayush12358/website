@@ -147,23 +147,13 @@ const RoadmapPage = () => {
     <div className="sitemap-container">
       <div className="sitemap-header">
         <h1>Development Roadmap</h1>
-        <p className="sitemap-subtitle">Planned features and improvements for the website</p>
-        <div className="sitemap-actions">
-          <Link to="/" className="btn btn-primary">
-            ← Back to Home
-          </Link>
-          <Link to="/release-notes" className="btn btn-secondary">
-            View Release Notes
-          </Link>
-        </div>
+        <p className="sitemap-subtitle">Planned features and improvements</p>
       </div>
 
       <div className="sitemap-content">
         <div className="sitemap-intro">
-          <h2>What's Coming Next</h2>
           <p>
-            This roadmap outlines the planned features and improvements for the website.
-            Priorities and timelines may change based on user feedback and development progress.
+            Upcoming features and improvements. Priorities may change based on progress and feedback.
           </p>
 
           <div className="roadmap-legend">
