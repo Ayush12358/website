@@ -67,7 +67,7 @@ There are two ways to keep your server updated:
 ### Option A: GitHub Actions (Recommended for "Push to Deploy")
 Whenever you push code to the `main` branch, GitHub will automatically log into your OCI instance and run the update script.
 
-1.  **Configure Secrets**: In GitHub, go to **Settings > Environments > production** (create it if needed) and add:
+1.  **Configure Secrets**: In GitHub, go to **Settings > Secrets and variables > Actions** and add:
     - `OCI_HOST`: Your server IP
     - `OCI_USERNAME`: `ubuntu`
     - `OCI_SSH_KEY`: Your private SSH key
