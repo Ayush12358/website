@@ -44,17 +44,17 @@
   --radius-lg: 12px;
   --radius-full: 9999px;
 
-  /* Spacing Tokens */
-  --space-xs: 0.5rem;
-  /* 8px */
-  --space-sm: 1rem;
-  /* 16px */
-  --space-md: 1.5rem;
-  /* 24px */
-  --space-lg: 2.5rem;
-  /* 40px */
-  --space-xl: 4rem;
-  /* 64px */
+  /* Spacing Tokens - Tightened for Compactness */
+  --space-xs: 0.375rem;
+  /* 6px */
+  --space-sm: 0.75rem;
+  /* 12px */
+  --space-md: 1.125rem;
+  /* 18px */
+  --space-lg: 1.75rem;
+  /* 28px */
+  --space-xl: 3rem;
+  /* 48px */
 }
 
 [data-theme='dark'] {
