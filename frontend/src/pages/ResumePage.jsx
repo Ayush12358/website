@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PublicLinks from '../components/PublicLinks';
 import './ResumePage.css';
 
 const ResumePage = ({ isAuthenticated = false }) => {
@@ -14,31 +13,33 @@ const ResumePage = ({ isAuthenticated = false }) => {
   return (
     <div className="resume-container">
       <div className="resume-header">
-        <h1>Ayush Maurya</h1>
-        <p className="resume-subtitle">Computer Science Engineering Student • IIIT Hyderabad</p>
-        <div className="resume-actions">
+        <h1 className="animate-fade-in">Ayush Maurya</h1>
+        <p className="resume-subtitle animate-fade-in">
+          Computer Science Engineering Student • IIIT Hyderabad
+        </p>
+        <div className="resume-actions animate-fade-in">
           <button onClick={handleDownload} className="btn btn-primary">
             Download PDF
           </button>
-          <Link to="/blog" className="btn btn-secondary">
+          <Link to="/blog" className="btn btn-glass">
             Blog
           </Link>
-          <Link to="/sitemap" className="btn btn-secondary">
+          <Link to="/sitemap" className="btn btn-glass">
             Site Map
           </Link>
-          <Link to="/release-notes" className="btn btn-secondary">
-            Release Notes
+          <Link to="/release-notes" className="btn btn-glass">
+            Updates
           </Link>
-          <Link to="/roadmap" className="btn btn-secondary">
+          <Link to="/roadmap" className="btn btn-glass">
             Roadmap
           </Link>
           {isAuthenticated ? (
-            <Link to="/dashboard" className="btn btn-secondary">
+            <Link to="/dashboard" className="btn btn-glass">
               Dashboard
             </Link>
           ) : (
-            <Link to="/login" className="btn btn-secondary">
-              User Login
+            <Link to="/login" className="btn btn-glass">
+              Login
             </Link>
           )}
         </div>
@@ -47,19 +48,20 @@ const ResumePage = ({ isAuthenticated = false }) => {
       <div className="resume-content">
         <div className="resume-main">
           {/* About Me */}
-          <section className="resume-section">
-            <h2>About Me</h2>
+          <section className="resume-section animate-fade-in">
+            <h2><span>👤</span> About Me</h2>
             <p>
-              Proficiently trained in both human sciences and computer science, I possess a unique perspective 
+              Proficiently trained in both human sciences and computer science, I possess a unique perspective
               that enables me to comprehend the far-reaching implications and outcomes of technological advancements.
+              My work focuses on the intersection of technical excellence and human-centric design.
             </p>
           </section>
 
           {/* Education */}
-          <section className="resume-section">
-            <h2>Education</h2>
+          <section className="resume-section animate-fade-in">
+            <h2><span>🎓</span> Education</h2>
             <div className="education-item">
-              <div className="education-header">
+              <div className="header-flex">
                 <h3>IIIT Hyderabad</h3>
                 <span className="date">2021 – Present</span>
               </div>
@@ -67,249 +69,178 @@ const ResumePage = ({ isAuthenticated = false }) => {
               <p className="degree">M.S. by Research in Computing and Human Sciences</p>
             </div>
             <div className="education-item">
-              <div className="education-header">
+              <div className="header-flex">
                 <h3>Mary Gardiner's Convent School</h3>
                 <span className="date">2021</span>
               </div>
               <p className="degree">Class XII - 90.1%</p>
             </div>
             <div className="education-item">
-              <div className="education-header">
-                <h3>City Montessori School, RDSO</h3>
+              <div className="header-flex">
+                <h3>City Montessori School</h3>
                 <span className="date">2019</span>
               </div>
               <p className="degree">Class X - 94.2%</p>
             </div>
           </section>
 
-          {/* Work Experience */}
-          <section className="resume-section">
-            <h2>Work Experience</h2>
+          {/* Experience */}
+          <section className="resume-section animate-fade-in">
+            <h2><span>💼</span> Experience</h2>
             <div className="experience-item">
-              <h3>SERC Digital Twin</h3>
+              <div className="header-flex">
+                <h3>SERC Digital Twin</h3>
+                <span className="date">Real-time IoT</span>
+              </div>
               <p className="experience-desc">
-                Led development of a real-time environmental monitoring digital twin using MERN stack and 
+                Led development of a real-time environmental monitoring digital twin using MERN stack and
                 on-campus sensors (temp, humidity, water, air quality). Followed full SDLC over 8 sprints.
               </p>
               <div className="skills-tags">
                 <span className="skill-tag">System Design</span>
                 <span className="skill-tag">JavaScript</span>
-                <span className="skill-tag">CSS</span>
-                <span className="skill-tag">HTML</span>
-                <span className="skill-tag">SQL</span>
+                <span className="skill-tag">IoT</span>
+                <span className="skill-tag">MERN</span>
               </div>
             </div>
             <div className="experience-item">
-              <h3>tafea - System Design</h3>
+              <div className="header-flex">
+                <h3>tafea - System Design</h3>
+                <span className="date">Product Lead</span>
+              </div>
               <p className="experience-desc">
-                Designed an end-to-end client software system following SDLC. Leveraged LLM to create 
+                Designed an end-to-end client software system following SDLC. Leveraged LLM to create
                 student-catered features.
               </p>
               <div className="skills-tags">
-                <span className="skill-tag">System Design</span>
-                <span className="skill-tag">UI Design</span>
-                <span className="skill-tag">User Research</span>
+                <span className="skill-tag">UX Research</span>
+                <span className="skill-tag">Product Design</span>
+                <span className="skill-tag">LLM Integration</span>
               </div>
             </div>
           </section>
 
           {/* Projects */}
-          <section className="resume-section">
-            <h2>Key Projects</h2>
+          <section className="resume-section animate-fade-in">
+            <h2><span>🚀</span> Key Projects</h2>
             <div className="projects-grid">
               <div className="project-item">
                 <h3>Age Prediction Model</h3>
-                <p>Developed a model to predict age from images using transfer learning and ensemble methods.</p>
+                <p>Predicting age from images using transfer learning and ensemble methods with high accuracy.</p>
                 <div className="skills-tags">
-                  <span className="skill-tag">Machine Learning</span>
-                  <span className="skill-tag">Image Processing</span>
+                  <span className="skill-tag">ML</span>
+                  <span className="skill-tag">PyTorch</span>
                 </div>
               </div>
               <div className="project-item">
                 <h3>ML for Local Geoguesser</h3>
-                <p>Created a model to predict location details from images using ResNet50 with attention. Achieved 92% region accuracy.</p>
+                <p>Predicted location details from images using ResNet50 with attention. Achieved 92% region accuracy.</p>
                 <div className="skills-tags">
-                  <span className="skill-tag">Python</span>
-                  <span className="skill-tag">PyTorch</span>
+                  <span className="skill-tag">ResNet50</span>
+                  <span className="skill-tag">Vision AI</span>
                 </div>
               </div>
               <div className="project-item">
                 <h3>Katha Marketplace</h3>
                 <p>Designed a UI/UX solution for local artisans using digital storytelling to enhance engagement.</p>
                 <div className="skills-tags">
-                  <span className="skill-tag">UI/UX Design</span>
-                  <span className="skill-tag">Prototyping</span>
-                </div>
-              </div>
-              <div className="project-item">
-                <h3>Campus Mart</h3>
-                <p>UI/UX design of a buy-sell-rent app with unique NFC features for exchange and tracking.</p>
-                <div className="skills-tags">
-                  <span className="skill-tag">UI/UX</span>
-                  <span className="skill-tag">Interaction Design</span>
+                  <span className="skill-tag">Design Thinking</span>
+                  <span className="skill-tag">Marketplace</span>
                 </div>
               </div>
               <div className="project-item">
                 <h3>Hoi Shell</h3>
-                <p>Built a custom shell in C supporting preliminary Linux commands (ls, clr, piping etc.).</p>
+                <p>Built a custom shell in C supporting Linux commands, piping, and redirection.</p>
                 <div className="skills-tags">
+                  <span className="skill-tag">Systems</span>
                   <span className="skill-tag">C/C++</span>
-                  <span className="skill-tag">Linux</span>
-                  <span className="skill-tag">Teamwork</span>
-                </div>
-              </div>
-              <div className="project-item">
-                <h3>Highland History Project</h3>
-                <p>Digitized historical reports using OCR and LLMs to fix missing elements, part of a larger project mapping Himalayan trade networks.</p>
-                <div className="skills-tags">
-                  <span className="skill-tag">Machine Learning</span>
-                  <span className="skill-tag">Teamwork</span>
-                  <span className="skill-tag">Image Processing</span>
-                </div>
-              </div>
-              <div className="project-item">
-                <h3>HSRC Summer Bootcamp</h3>
-                <p>Trained in computational tools for Human Science. Co-authored The Hindu article, analyzed/visualized cricket data using Python.</p>
-                <div className="skills-tags">
-                  <span className="skill-tag">Machine Learning</span>
-                  <span className="skill-tag">Teamwork</span>
-                  <span className="skill-tag">Research and Analysis</span>
                 </div>
               </div>
             </div>
-          </section>
-
-          {/* Achievements */}
-          <section className="resume-section">
-            <h2>Achievements</h2>
-            <ul className="achievements-list">
-              {/* <li> JEE Main Percentile: 96.9</li> */}
-              <li> UGEE Rank: 111 / 40,000+ expected students</li>
-              <li> Base Guitarist (2nd place, inter-house cultural competition band)</li>
-              <li> Lawn Tennis Enthusiast</li>
-            </ul>
           </section>
         </div>
 
         <div className="resume-sidebar">
           {/* Contact */}
-          <section className="sidebar-section">
-            <h2>Contact</h2>
+          <section className="sidebar-section animate-fade-in">
+            <h2><span>✉️</span> Connectivity</h2>
             <div className="contact-item">
-              <span className="contact-icon">✉</span>
-              <a href="mailto:ayushmaurya2003@gmail.com">ayushmaurya2003@gmail.com</a>
+              <div className="contact-icon">📧</div>
+              <a href="mailto:ayushmaurya2003@gmail.com">Email (Personal)</a>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">✉</span>
-              <a href="mailto:ayush.maurya@research.iiit.ac.in">ayush.maurya@research.iiit.ac.in</a>
+              <div className="contact-icon">🏢</div>
+              <a href="mailto:ayush.maurya@research.iiit.ac.in">Email (IIIT-H)</a>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">📱</span>
+              <div className="contact-icon">📱</div>
               <span>+91-7985149173</span>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">💼</span>
+              <div className="contact-icon">🔗</div>
               <a href="https://linkedin.com/in/ayush-maurya-a41a9721a" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">🔗</span>
-              <a href="https://github.com/Ayush12358" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <div className="contact-icon">👨‍💻</div>
+              <a href="https://github.com/Ayush12358" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
             </div>
           </section>
 
           {/* Skills */}
-          <section className="sidebar-section">
-            <h2>Skills</h2>
+          <section className="sidebar-section animate-fade-in">
+            <h2><span>⚡</span> Expertise</h2>
             <div className="skills-category">
-              <h4>Programming</h4>
+              <h4>Languages</h4>
               <div className="skills-tags">
                 <span className="skill-tag">Python</span>
-                <span className="skill-tag">C/C++</span>
-                <span className="skill-tag">JavaScript</span>
-                <span className="skill-tag">SQL</span>
+                <span className="skill-tag">C++</span>
+                <span className="skill-tag">JS</span>
               </div>
             </div>
             <div className="skills-category">
-              <h4>Web Development</h4>
+              <h4>Frameworks</h4>
               <div className="skills-tags">
-                <span className="skill-tag">HTML</span>
-                <span className="skill-tag">CSS</span>
                 <span className="skill-tag">React</span>
-              </div>
-            </div>
-            <div className="skills-category">
-              <h4>Machine Learning</h4>
-              <div className="skills-tags">
+                <span className="skill-tag">Node</span>
                 <span className="skill-tag">PyTorch</span>
-                <span className="skill-tag">Image Processing</span>
               </div>
             </div>
             <div className="skills-category">
-              <h4>Design</h4>
+              <h4>Design Tools</h4>
               <div className="skills-tags">
-                <span className="skill-tag">UI/UX</span>
-                <span className="skill-tag">Wireframing</span>
-                <span className="skill-tag">Prototyping</span>
+                <span className="skill-tag">Figma</span>
+                <span className="skill-tag">Adobe XD</span>
               </div>
             </div>
           </section>
 
-          {/* Relevant Courses */}
-          <section className="sidebar-section">
-            <h2>Relevant Courses</h2>
+          {/* Achievements */}
+          <section className="sidebar-section animate-fade-in">
+            <h2><span>🏆</span> Honours</h2>
             <div className="course-item">
-              <h4>Design and Analysis of Software Systems</h4>
-              <p>SDLC Training by Microsoft, Qualcomm experts</p>
-              <span className="date">Dec 2024</span>
+              <h4>UGEE Rank: 111</h4>
+              <p>Top 0.3% out of 40,000+ candidates</p>
             </div>
             <div className="course-item">
-              <h4>Human Science Lab (HSRC)</h4>
-              <p>Trained in foundational NLP techniques</p>
-              <span className="date">Dec 2022</span>
-            </div>
-          </section>
-
-          {/* Publication */}
-          <section className="sidebar-section">
-            <h2>Publication</h2>
-            <div className="publication-item">
-              <h4>The Hindu: Data</h4>
-              <p>The indirect impact of T20s on Test cricket</p>
-              <p className="publication-desc">Co-authored article analyzing data trends in cricket formats</p>
+              <h4>Cultural Merit</h4>
+              <p>Base Guitarist, 2nd Place Inter-house</p>
             </div>
           </section>
         </div>
       </div>
 
       <div className="resume-footer">
-        <p>Interested in my work? Let's connect!</p>
-        <div className="contact-links">
-          <a href="mailto:ayushmaurya2003@gmail.com" className="contact-link">
-            Email
-          </a>
-          <a href="https://linkedin.com/in/ayush-maurya-a41a9721a/" target="_blank" rel="noopener noreferrer" className="contact-link">
-            LinkedIn
-          </a>
-          <a href="https://github.com/Ayush12358" target="_blank" rel="noopener noreferrer" className="contact-link">
-            GitHub
-          </a>
+        <p className="animate-fade-in">Interested in building something great together?</p>
+        <div className="contact-links animate-fade-in">
+          <a href="mailto:ayushmaurya2003@gmail.com" className="btn btn-primary">Let's Connect</a>
+          <a href="https://github.com/Ayush12358" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">GitHub</a>
         </div>
       </div>
-
-      {/* Public Links Section */}
-      <div className="public-links-section" style={{
-        marginTop: '50px',
-        padding: '40px 30px',
-        background: 'var(--color-background-secondary)',
-        borderRadius: '12px',
-        border: '1px solid var(--color-border)',
-        maxWidth: '1200px',
-        margin: '50px auto 0 auto'
-      }}>
-        <h2 style={{marginBottom: '25px', color: 'var(--color-text)', textAlign: 'center'}}>Useful Links</h2>
-        <PublicLinks />
-      </div>
     </div>
+  );
+};
+
+    </div >
   );
 };
 

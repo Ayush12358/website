@@ -58,9 +58,23 @@ For detailed manual instructions, server hardening, and performance optimization
 
 ---
 
-## 🔄 3. Auto-Updates
+---
 
-The server can update itself whenever you push new code to GitHub.
+## 🔄 3. Auto-Updates & CI/CD
+
+There are two ways to keep your server updated:
+
+### Option A: GitHub Actions (Recommended for "Push to Deploy")
+Whenever you push code to the `main` branch, GitHub will automatically log into your OCI instance and run the update script.
+
+1.  **Configure Secrets**: In GitHub, go to **Settings > Environments > production** (create it if needed) and add:
+    - `OCI_HOST`: Your server IP
+    - `OCI_USERNAME`: `ubuntu`
+    - `OCI_SSH_KEY`: Your private SSH key
+2.  **Push Code**: The workflow in `.github/workflows/deploy.yml` will handle the rest.
+
+### Option B: Scheduled Check (Cron)
+If you prefer not to use GitHub Actions, you can set the server to check for updates every hour.
 
 1.  **Grant Permissions**:
     ```bash

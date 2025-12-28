@@ -32,69 +32,78 @@ const Sidebar = ({ isOpen, onToggle }) => {
   return (
     <>
       {/* Overlay for mobile */}
-      {isOpen && <div className={`sidebar-overlay ${isOpen ? 'visible' : ''}`} onClick={onToggle}></div>}
+      {isOpen && (
+        <div
+          className={`sidebar-overlay ${isOpen ? 'visible' : ''}`}
+          onClick={onToggle}
+        ></div>
+      )}
 
       {/* Sidebar */}
       <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <h3>Settings</h3>
-          <button className="sidebar-close" onClick={onToggle}>
-            ×
+          <button className="sidebar-close" onClick={onToggle} aria-label="Close sidebar">
+            &times;
           </button>
         </div>
 
         <div className="sidebar-content">
           {/* Theme Section */}
           <div className="sidebar-section">
-            <h4>Theme Settings</h4>
+            <h4>Appearance</h4>
             <div className="sidebar-item">
               <div className="sidebar-item-info">
-                <span>Dark Mode Toggle</span>
-                <p>Switch between light and dark themes</p>
+                <span>Dark Mode</span>
+                <p>Toggle between light and dark themes</p>
               </div>
               <ThemeButton position="inline" size="small" />
             </div>
-            <div className="sidebar-item sidebar-item-vertical">
+            <div className="sidebar-item">
               <div className="sidebar-item-info">
                 <span>Accent Color</span>
-                <p>Choose your preferred color scheme</p>
+                <p>Personalize your experience</p>
               </div>
-              <AccentSelector />
+              <div style={{ marginTop: '1rem' }}>
+                <AccentSelector />
+              </div>
             </div>
           </div>
 
           {/* Connection Status Section */}
           <div className="sidebar-section">
-            <h4>Connection Status</h4>
+            <h4>Connectivity</h4>
             <div className="sidebar-item">
               <div className="sidebar-item-info">
                 <span>API Status</span>
-                <p>Environment: <strong>{useProduction ? 'Production' : 'Local'}</strong></p>
-                <div style={{
-                  marginTop: '0.5rem',
-                  fontSize: '0.75rem',
-                  color: connectionStatus === 'connected' ? 'var(--color-success)' :
-                    connectionStatus === 'error' ? 'var(--color-error)' : 'var(--color-text-secondary)'
-                }}>
-                  Status: {connectionStatus === 'checking' ? 'Checking...' :
-                    connectionStatus === 'connected' ? '✓ Connected' : '✗ Connection Error'}
-                  {connectionInfo && connectionInfo.ping && (
-                    <span style={{ marginLeft: '0.5rem', opacity: 0.8 }}>
-                      ({connectionInfo.ping}ms)
-                    </span>
-                  )}
+                <div className="info-row" style={{ marginTop: '0.5rem' }}>
+                  <span>Environment</span>
+                  <strong>{useProduction ? 'Production' : 'Local'}</strong>
                 </div>
+                <div className="info-row">
+                  <span>Connection</span>
+                  <strong style={{
+                    color: connectionStatus === 'connected' ? 'var(--color-success)' :
+                      connectionStatus === 'error' ? 'var(--color-error)' : 'var(--color-text-secondary)'
+                  }}>
+                    {connectionStatus === 'checking' ? 'Checking...' :
+                      connectionStatus === 'connected' ? 'Connected' : 'Error'}
+                  </strong>
+                </div>
+                {connectionInfo && connectionInfo.ping && (
+                  <div className="info-row">
+                    <span>Latency</span>
+                    <strong>{connectionInfo.ping}ms</strong>
+                  </div>
+                )}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <button
-                  className="server-btn"
-                  onClick={checkConnection}
-                  title="Test connection to current environment"
-                  style={{ fontSize: '0.75rem', padding: '0.4rem 0.8rem' }}
-                >
-                  Test Connection
-                </button>
-              </div>
+              <button
+                className={`server-btn ${connectionStatus === 'connected' ? 'connected' : ''}`}
+                onClick={checkConnection}
+                disabled={connectionStatus === 'checking'}
+              >
+                {connectionStatus === 'checking' ? 'Testing...' : 'Test Connection'}
+              </button>
             </div>
           </div>
         </div>

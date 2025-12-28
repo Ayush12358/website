@@ -1,181 +1,116 @@
 .dashboard-container {
   min-height: 100vh;
-  background: var(--color-background-gradient);
-  padding: 20px;
-  transition: all 0.3s ease;
-  position: relative;
+  background: var(--color-background);
+  padding: 2rem;
+  background-image:
+    radial-gradient(at 0% 0%, hsla(var(--h-primary), 80%, 70%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(280, 80%, 70%, 0.1) 0px, transparent 50%);
 }
 
 .dashboard-header {
-  background: var(--color-surface);
-  padding: 20px;
-  padding-right: 80px; /* Space for sidebar toggle */
-  border-radius: 10px 10px 0 0;
-  box-shadow: 0 2px 4px var(--color-shadow);
-  margin-bottom: 0;
-  border: 1px solid var(--color-border);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .dashboard-header h1 {
-  margin: 0 0 10px 0;
+  font-size: 1.75rem;
+  font-weight: 800;
   color: var(--color-text);
-  font-size: 24px;
+  letter-spacing: -0.04em;
+  margin: 0;
 }
 
 .dashboard-header .user-info {
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
-  font-size: 14px;
-  margin-bottom: 15px;
 }
 
-.dashboard-header .dev-badge {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-  display: inline-block;
-  margin-left: 10px;
+.dashboard-header .user-info strong {
+  color: var(--color-primary);
 }
 
 .dashboard-actions {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
+  gap: 0.75rem;
 }
 
 .dashboard-actions .btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  min-width: auto;
-  max-width: 120px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-surface);
-  color: var(--color-text);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dashboard-actions .btn:hover {
-  background: var(--color-background-secondary);
-  border-color: var(--color-primary);
-  transform: translateY(-1px);
-  box-shadow: var(--color-shadow-hover);
-}
-
-/* Global button styles for consistency */
-.btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-surface);
-  color: var(--color-text);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  font-weight: 500;
-  font-family: inherit;
-  min-width: auto;
-  max-width: 200px;
-  white-space: nowrap;
-  margin: 0;
-}
-
-.btn:hover {
-  background: var(--color-background-secondary);
-  border-color: var(--color-primary);
-  box-shadow: var(--color-shadow-hover);
-}
-
-.btn-sm {
-  padding: 6px 12px;
-  font-size: 12px;
-  min-width: auto;
-  max-width: 150px;
-}
-
-/* Button spacing within containers */
-.dev-tool-card .btn,
-.action-card .btn,
-.analytics-card .btn {
-  margin-top: 10px;
-}
-
-.dev-tool-card .btn + .btn,
-.action-card .btn + .btn,
-.analytics-card .btn + .btn {
-  margin-left: 10px;
-}
-
-/* Special button container spacing */
-.dev-tool-card .btn-container,
-.action-card .btn-container,
-.analytics-card .btn-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-  margin-top: 10px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
 }
 
 .dashboard-main {
-  background: var(--color-surface);
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 4px 12px var(--color-shadow-large);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
   overflow: hidden;
-  border: 1px solid var(--color-border);
-  border-top: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-tabs {
   display: flex;
-  background: var(--color-background-secondary);
+  background: hsla(225, 25%, 5%, 0.03);
+  padding: 0.75rem;
+  gap: 0.5rem;
   border-bottom: 1px solid var(--color-border);
-  overflow-x: auto;
 }
 
 .tab-button {
-  background: none;
+  background: transparent;
   border: none;
-  padding: 15px 20px;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 600;
   color: var(--color-text-secondary);
-  white-space: nowrap;
-  transition: all 0.3s ease;
-  border-bottom: 3px solid transparent;
+  border-radius: var(--radius-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-button:hover {
-  background: var(--color-background);
+  background: hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.08);
   color: var(--color-primary);
 }
 
 .tab-button.active {
-  background: var(--color-surface);
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.3);
 }
 
 .tab-content {
-  padding: 30px;
-  min-height: 400px;
+  padding: 2.5rem;
+  min-height: 500px;
+}
+
+/* Base Buttons in Dashboard */
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+}
+
+.btn-error {
+  background: var(--color-error);
+  color: white;
+}
+
+.btn-error:hover {
+  background: hsl(0, 85%, 50%);
+  transform: translateY(-1px);
 }
 
 /* Tab specific styles */
@@ -315,76 +250,77 @@
   .dashboard-container {
     padding: 10px;
   }
-  
+
   .dashboard-header {
     padding: 15px;
-    padding-right: 60px; /* Adjust for smaller toggle button */
+    padding-right: 60px;
+    /* Adjust for smaller toggle button */
   }
-  
+
   .dashboard-tabs {
     flex-wrap: nowrap;
     overflow-x: scroll;
   }
-  
+
   .tab-content {
     padding: 20px 15px;
   }
-  
+
   .overview-stats,
   .quick-actions,
   .analytics-grid,
   .dev-tools-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .port-buttons {
     grid-template-columns: 1fr;
   }
-  
+
   .form-row {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .form-row input {
     margin-bottom: 10px;
     margin-right: 0 !important;
   }
-  
+
   .port-management-header {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
   }
-  
+
   .custom-port {
     flex-direction: column;
     align-items: stretch;
     text-align: center;
   }
-  
+
   .shell-header {
     flex-direction: column;
     gap: 10px;
     text-align: center;
   }
-  
+
   .shell-controls {
     justify-content: center;
   }
-  
+
   .shell-shortcuts {
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
   }
-  
+
   .shell-input-container {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
   }
-  
+
   .shell-prompt-input {
     justify-content: center;
   }
@@ -473,6 +409,7 @@
   font-size: 16px;
   font-weight: 600;
 }
+
 .port-management {
   margin-bottom: 30px;
   padding: 20px;
@@ -995,8 +932,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .shell-input-container {
@@ -1066,4 +1008,3 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3) !important;
 }
-

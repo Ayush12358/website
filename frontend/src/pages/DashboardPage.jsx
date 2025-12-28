@@ -94,27 +94,27 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1>
-          Dashboard
-        </h1>
-        <div className="user-info">
-          Welcome back, <strong>{userProfile?.name || 'User'}</strong> ({userProfile?.email})
+      <div className="dashboard-header animate-fade-in">
+        <div className="header-title">
+          <h1>Dashboard</h1>
+          <div className="user-info">
+            Welcome back, <strong>{userProfile?.name || 'User'}</strong>
+          </div>
         </div>
         <div className="dashboard-actions">
           <Link to="/profile" className="btn btn-sm">
-            Profile
+            Profile Settings
           </Link>
-          <a href="/" className="btn btn-sm" style={{ backgroundColor: 'var(--color-background-secondary)', color: 'var(--color-text)' }}>
-            Public Site
-          </a>
-          <button className="btn btn-sm" onClick={handleLogout} style={{ backgroundColor: 'var(--color-error)', color: 'var(--color-surface)' }}>
+          <Link to="/" className="btn btn-sm btn-glass">
+            View Public Site
+          </Link>
+          <button className="btn btn-sm btn-error" onClick={handleLogout}>
             Logout
           </button>
         </div>
       </div>
 
-      <div className="dashboard-main">
+      <div className="dashboard-main animate-fade-in">
         <div className="dashboard-tabs">
           {tabs.map(tab => (
             <button

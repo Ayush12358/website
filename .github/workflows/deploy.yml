@@ -1,0 +1,24 @@
+name: Deploy to OCI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production  # Use the environment where you added the secrets
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.OCI_HOST }}
+          username: ${{ secrets.OCI_USERNAME }}
+          key: ${{ secrets.OCI_SSH_KEY }}
+          port: 22
+          script: |
+            # Execute the auto-update script already on the server
+            # This script handles git pull, npm install, build, and pm2 restart
+            chmod +x /home/ubuntu/website/scripts/auto_update.sh
+            /home/ubuntu/website/scripts/auto_update.sh

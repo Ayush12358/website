@@ -4,12 +4,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: hsla(225, 25%, 5%, 0.4);
+  backdrop-filter: blur(4px);
   z-index: 999;
   display: block;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-overlay.visible {
@@ -19,340 +20,159 @@
 
 .sidebar {
   position: fixed;
-  top: 0;
-  right: -400px;
+  top: 15px;
+  right: -420px;
   width: 400px;
-  height: 100vh;
-  background: var(--color-surface);
-  border-left: 1px solid var(--color-border);
-  box-shadow: -4px 0 20px var(--color-shadow-large);
+  height: calc(100vh - 30px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
   z-index: 1000;
-  transition: right 0.3s ease-in-out;
+  transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
 .sidebar-open {
-  right: 0;
+  right: 15px;
 }
 
 .sidebar-header {
-  padding: 20px;
+  padding: 1.5rem;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-background-secondary);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1;
 }
 
 .sidebar-header h3 {
   margin: 0;
   color: var(--color-text);
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .sidebar-close {
-  background: none;
-  border: none;
-  font-size: 24px;
+  background: hsla(0, 0%, 100%, 0.1);
+  border: 1px solid var(--color-border);
+  font-size: 1.5rem;
   color: var(--color-text-secondary);
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
   transition: all 0.2s ease;
 }
 
 .sidebar-close:hover {
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--color-error);
+  color: white;
+  border-color: var(--color-error);
 }
 
 .sidebar-content {
   flex: 1;
-  padding: 0;
-}
-
-.sidebar-section {
-  border-bottom: 1px solid var(--color-border);
-  padding: 20px;
-}
-
-.sidebar-section:last-child {
-  border-bottom: none;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .sidebar-section h4 {
-  margin: 0 0 15px 0;
-  color: var(--color-text);
-  font-size: 14px;
-  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  opacity: 0.8;
+  letter-spacing: 0.1em;
 }
 
 .sidebar-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
 }
 
-.sidebar-item:last-child {
-  border-bottom: none;
-}
-
-.sidebar-item-vertical {
-  flex-direction: column;
-  align-items: flex-start !important;
-  gap: 12px;
-}
-
-.sidebar-item-vertical .sidebar-item-info {
-  margin-bottom: 0;
-}
-
-.sidebar-item-info {
-  flex: 1;
-  min-width: 0;
+.sidebar-item:hover {
+  border-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .sidebar-item-info span {
   display: block;
   color: var(--color-text);
-  font-weight: 500;
-  font-size: 14px;
-  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
 }
 
 .sidebar-item-info p {
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: 12px;
-  line-height: 1.3;
-}
-
-.sidebar-item-info small {
-  display: block;
-  color: var(--color-text-secondary);
-  font-size: 11px;
-  margin-top: 2px;
-  opacity: 0.7;
-}
-
-.status-indicator {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.5;
 }
 
 .server-btn {
-  padding: 6px 12px;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: var(--color-background-secondary);
   border: 1px solid var(--color-border);
-  background: var(--color-surface);
   color: var(--color-text);
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
   transition: all 0.2s ease;
-  min-width: 70px;
 }
 
 .server-btn:hover {
-  background: var(--color-background-secondary);
+  background: var(--color-primary);
+  color: white;
   border-color: var(--color-primary);
 }
 
-.server-btn.connected {
-  background: var(--color-success);
-  color: var(--color-surface);
-  border-color: var(--color-success);
-}
-
-.server-btn.connected:hover {
-  background: var(--color-error);
-  border-color: var(--color-error);
-}
-
-.server-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.link-btn {
-  padding: 6px 12px;
-  background: var(--color-primary);
-  color: var(--color-surface);
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  min-width: 50px;
-  text-align: center;
-  display: inline-block;
-}
-
-.link-btn:hover {
-  background: var(--color-primary-hover);
-}
-
-.env-toggle-btn {
-  padding: 6px 12px;
-  border: 1px solid var(--color-border);
-  background: var(--color-warning);
-  color: var(--color-surface);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  min-width: 90px;
-}
-
-.env-toggle-btn:hover {
-  background: var(--color-warning-hover);
-  transform: translateY(-1px);
-}
-
-.system-info {
-  background: var(--color-background-secondary);
-  border-radius: 6px;
-  padding: 12px;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: 12px;
-}
-
-.info-row:last-child {
-  margin-bottom: 0;
-}
-
-.info-row span {
-  color: var(--color-text-secondary);
-}
-
-.info-row strong {
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-/* Sidebar toggle button */
 .sidebar-toggle {
   position: fixed;
   top: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   background: var(--color-primary);
-  color: var(--color-surface);
+  color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--color-shadow-large);
+  box-shadow: 0 4px 12px hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.3);
   z-index: 998;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-toggle:hover {
+  transform: translateY(-2px) rotate(90deg);
   background: var(--color-primary-hover);
-  transform: scale(1.05);
+  box-shadow: 0 6px 16px hsla(var(--h-primary), var(--s-primary), var(--l-primary), 0.4);
 }
 
-.sidebar-toggle.sidebar-open {
-  background: var(--color-error);
-}
-
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
+    width: calc(100% - 30px);
     right: -100%;
-    top: 0;
-    height: 100vh;
-    border-left: none;
-    box-shadow: none;
-    opacity: 1;
   }
-
-  .sidebar-open {
-    right: 0%;
-  }
-
-  .sidebar-overlay {
-    background: rgba(0, 0, 0, 0.5);
-  }
-
-  .sidebar-toggle {
-    top: 15px;
-    right: 15px;
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 480px) {
-  .sidebar-section {
-    padding: 15px;
-  }
-
-  .sidebar-header {
-    padding: 15px;
-  }
-
-  .sidebar-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .server-btn,
-  .link-btn {
-    align-self: flex-end;
-  }
-}
-
-/* Animation for status indicators */
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-.status-indicator {
-  animation: pulse 2s infinite;
-}
-
-/* Smooth scrollbar for sidebar */
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: var(--color-background-secondary);
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-secondary);
 }
