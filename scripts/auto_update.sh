@@ -37,27 +37,9 @@ if ! npm install --omit=dev --no-audit --no-fund; then
 fi
 npm cache clean --force
 
-# 3. Rebuild Frontend (with RAM protection)
-echo "Updating Frontend (this may take a few minutes)..."
-cd $REPO_PATH/frontend
-export NODE_OPTIONS="--max-old-space-size=2048"
-if ! npm install --no-audit --no-fund; then
-    echo "ERROR: Frontend npm install failed!" >&2
-    exit 1
-fi
-
-if ! npm run build; then
-    echo "ERROR: Frontend build failed!" >&2
-    exit 1
-fi
-
-# Verify the build resulted in a valid index.html
-if [ ! -f "$REPO_PATH/frontend/build/index.html" ]; then
-    echo "ERROR: Build completed but index.html is missing!" >&2
-    exit 1
-fi
-
-npm cache clean --force
+# 3. Frontend Update (Handled by GitHub Actions)
+echo "Skipping Frontend build (handled by GitHub Actions)..."
+# The build directory is updated via SCP before this script runs.
 
 # 4. Restart services
 echo "Restarting services..."
