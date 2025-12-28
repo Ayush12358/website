@@ -3,11 +3,7 @@
   z-index: 1000;
 }
 
-.theme-toggle-fixed {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-}
+/* No fixed positioning, handled by component/parent */
 
 .theme-toggle-inline {
   position: relative;
@@ -121,25 +117,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .theme-toggle-fixed {
-    top: 15px;
-    right: 15px;
-  }
-  
-  .theme-toggle {
-    padding: 6px 10px;
-    font-size: 13px;
-  }
-  
-  .toggle-label {
-    display: none;
-  }
+.toggle-label {
+  display: none;
 }
-
-@media (max-width: 480px) {
-  .theme-toggle-fixed {
-    top: 10px;
-    right: 10px;
-  }
 }

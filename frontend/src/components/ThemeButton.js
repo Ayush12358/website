@@ -2,14 +2,13 @@ import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import './ThemeButton.css';
 
-const ThemeButton = ({ position = 'fixed', size = 'medium' }) => {
+const ThemeButton = ({ size = 'medium' }) => {
   const { toggleTheme, isDarkMode } = useTheme();
 
-  const positionClass = position === 'fixed' ? 'theme-toggle-fixed' : 'theme-toggle-inline';
   const sizeClass = `theme-toggle-${size}`;
 
   return (
-    <div className={`theme-toggle-container ${positionClass} ${sizeClass}`}>
+    <div className={`theme-toggle-container theme-toggle-inline ${sizeClass}`}>
       <button
         className={`theme-toggle ${isDarkMode ? 'dark' : 'light'}`}
         onClick={toggleTheme}

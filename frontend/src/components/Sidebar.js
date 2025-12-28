@@ -41,9 +41,6 @@ const Sidebar = ({ isOpen, onToggle }) => {
       <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <h3>Settings</h3>
-          <button className="sidebar-close" onClick={onToggle} aria-label="Close sidebar">
-            &times;
-          </button>
         </div>
 
         <div className="sidebar-content">

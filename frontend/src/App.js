@@ -23,6 +23,7 @@ import ReleaseNotesPage from './pages/ReleaseNotesPage';
 import RoadmapPage from './pages/RoadmapPage';
 import LinktreePage from './pages/LinktreePage';
 import NotFoundPage from './pages/NotFoundPage';
+import Header from './components/Header';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,14 +32,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          {/* Website-wide sidebar */}
-          <button
-            className={`sidebar-toggle ${sidebarOpen ? 'sidebar-open' : ''}`}
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            title="Toggle sidebar"
-          >
-            {sidebarOpen ? '×' : '☰'}
-          </button>
+          <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} isSidebarOpen={sidebarOpen} />
 
           <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
