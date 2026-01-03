@@ -119,6 +119,8 @@ body {
 /* Modern Inputs */
 .input {
   width: 100%;
+  max-width: 400px;
+  /* Prevent excessive width */
   padding: 0.875rem var(--space-md);
   background: var(--color-background-secondary);
   border: 2px solid transparent;
@@ -149,6 +151,8 @@ body {
   transition: all 0.2s ease;
   border: 1px solid transparent;
   gap: var(--space-xs);
+  max-width: fit-content;
+  /* Prevent full width stretching */
 }
 
 .btn-primary {

@@ -1,0 +1,27 @@
+/* Roadmap Page Specific Overrides */
+
+/* Override grid layout from sitemap */
+.roadmap-page .sitemap-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.roadmap-page .sitemap-intro,
+.roadmap-page .sitemap-footer {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.roadmap-page .sitemap-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+}
+
+.roadmap-page .sitemap-section {
+    height: 100%;
+    /* Equal height cards */
+}

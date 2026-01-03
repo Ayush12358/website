@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './SitemapPage.css'; // Reuse sitemap styling
+import './RoadmapPage.css'; // Specific overrides
 
 const RoadmapPage = () => {
   const roadmapItems = [
@@ -144,7 +145,7 @@ const RoadmapPage = () => {
   };
 
   return (
-    <div className="sitemap-container">
+    <div className="sitemap-container roadmap-page">
       <div className="sitemap-header">
         <h1>Development Roadmap</h1>
         <p className="sitemap-subtitle">Planned features and improvements</p>
