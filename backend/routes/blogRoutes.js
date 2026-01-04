@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Blog, User } = require('../models');
 const authMiddleware = require('../middleware/authMiddleware');
+const adminMiddleware = require('../middleware/adminMiddleware');
 const { Op } = require('sequelize');
 
 // Generate slug from title
@@ -122,7 +123,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET /api/blog/admin - Get all blog posts (admin only)
-router.get('/admin', authMiddleware, async (req, res) => {
+router.get('/admin', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const {
       page = 1,
@@ -264,6 +265,7 @@ router.get('/:slug', async (req, res) => {
 // POST /api/blog - Create new blog post (admin only)
 router.post('/', 
   authMiddleware,
+  adminMiddleware,
   async (req, res) => {
     try {
       const { title, content, excerpt, status, category, tags, featuredImage, metaDescription } = req.body;
@@ -322,6 +324,7 @@ router.post('/',
 // PUT /api/blog/:id - Update blog post (admin only)
 router.put('/:id',
   authMiddleware,
+  adminMiddleware,
   async (req, res) => {
     try {
       const { id } = req.params;
@@ -386,7 +389,7 @@ router.put('/:id',
 );
 
 // DELETE /api/blog/:id - Delete blog post (admin only)
-router.delete('/:id', authMiddleware, async (req, res) => {
+router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -404,7 +407,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 });
 
 // GET /api/blog/admin/:id - Get single blog post for editing (admin only)
-router.get('/admin/:id', authMiddleware, async (req, res) => {
+router.get('/admin/:id', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
 
