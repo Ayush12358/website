@@ -1,17 +1,18 @@
-import { render, screen } from '@testing-library/react';
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+// Bun smoke test: verify the main app module loads without runtime import errors.
+test('app module loads', async () => {
+    globalThis.window = {
+        location: {
+            hostname: 'localhost'
+        }
+    };
 
-// Simple integrated smoke test to verify dependencies are correctly resolved
-test('renders with react-router-dom correctly', () => {
-    render(
-        <BrowserRouter>
-            <div>
-                <button title="Toggle sidebar">☰</button>
-                <div>Website Loaded</div>
-            </div>
-        </BrowserRouter>
-    );
-    const toggleButton = screen.getByTitle(/Toggle sidebar/i);
-    expect(toggleButton).toBeInTheDocument();
+    globalThis.localStorage = {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {},
+        clear: () => {}
+    };
+
+    const appModule = await import('./App.jsx');
+    expect(typeof appModule.default).toBe('function');
 });

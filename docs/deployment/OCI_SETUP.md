@@ -16,10 +16,10 @@ This guide describes the production setup for this repository on Vercel:
 1. Import the repository in Vercel.
 2. Set Root Directory to frontend.
 3. Build settings:
-   - Build Command: npm run build
-   - Output Directory: build
+   - Build Command: bun run build
+   - Output Directory: dist
 4. Add environment variable:
-   - REACT_APP_API_BASE_URL=/api
+   - VITE_API_BASE_URL=/api
 5. Deploy.
 
 ## 3. Create Backend Project

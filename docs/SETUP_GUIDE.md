@@ -17,6 +17,7 @@ For local development on a Linux or macOS machine:
 
 ### Prerequisites
 - [Node.js v22+](https://nodejs.org/)
+- [Bun](https://bun.sh/)
 - [Git](https://git-scm.com/)
 
 ### Steps
@@ -31,15 +32,15 @@ For local development on a Linux or macOS machine:
     - **Backend**:
       ```bash
       cd backend
-      npm install
+            bun install
       ```
     - **Frontend**:
       ```bash
       cd ../frontend
-      npm install
+            bun install
       ```
 4.  **Run the App**:
-    - Open two terminals and run `npm start` in both `backend/` and `frontend/`.
+        - Open two terminals and run `bun run dev` in `backend/` and `bun run start` in `frontend/`.
 
 ---
 
@@ -60,21 +61,9 @@ For detailed manual instructions, server hardening, and performance optimization
 
 ---
 
-## 🔄 3. Auto-Updates & CI/CD
+## 🔄 3. Auto-Updates
 
-There are two ways to keep your server updated:
-
-### Option A: GitHub Actions (Recommended for "Push to Deploy")
-Whenever you push code to the `main` branch, GitHub will automatically log into your OCI instance and run the update script.
-
-1.  **Configure Secrets**: In GitHub, go to **Settings > Secrets and variables > Actions** and add:
-    - `OCI_HOST`: Your server IP
-    - `OCI_USERNAME`: `ubuntu`
-    - `OCI_SSH_KEY`: Your private SSH key
-2.  **Push Code**: The workflow in `.github/workflows/deploy.yml` will handle the rest.
-
-### Option B: Scheduled Check (Cron)
-If you prefer not to use GitHub Actions, you can set the server to check for updates every hour.
+Use a scheduled cron check to keep the server updated automatically.
 
 1.  **Grant Permissions**:
     ```bash

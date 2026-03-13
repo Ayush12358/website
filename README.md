@@ -37,7 +37,7 @@ The frontend project rewrites `/api/*` requests to `https://api.ayushmaurya.xyz/
 2. Attach custom domain `ayushmaurya.xyz` to this project.
 3. Keep `frontend/vercel.json` in place (it handles both `/api` proxy and SPA fallback).
 4. Add frontend environment variables:
-	- In Vercel env: `REACT_APP_API_BASE_URL=/api`
+	- In Vercel env: `VITE_API_BASE_URL=/api`
 	- Or use the file `frontend/.env.production`.
 
 ### 2. Backend project (Vercel)

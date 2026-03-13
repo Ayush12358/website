@@ -11,7 +11,7 @@ A full-stack authentication application built with React frontend and Node.js/Ex
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- npm or yarn
+- Bun
 - Windows OS (for environment variable setup)
 
 ### Setup Instructions
@@ -200,7 +200,7 @@ website/
 │   ├── remote_setup.sh         # Linux / OCI automated setup
 │   └── auto_update.sh          # Self-updating mechanism
 ├── ecosystem.config.js         # PM2 process management
-└── .github/                    # CI/CD workflows
+└── README.md                   # Root project overview
 ```
 
 ---
@@ -302,20 +302,20 @@ curl -X POST http://localhost:5001/api/users/login \
 ### Backend Scripts
 
 ```bash
-npm run dev        # Start development server with nodemon
-npm start          # Start production server
-npm run backup     # Create manual backup
-npm run backup:daily    # Create daily backup
-npm run backup:list     # List all backups
-npm run backup:restore  # Restore from backup
+bun run dev             # Start development server with nodemon
+bun run start           # Start production server
+bun run backup          # Create manual backup
+bun run backup:daily    # Create daily backup
+bun run backup:list     # List all backups
+bun run backup:restore  # Restore from backup
 ```
 
 ### Frontend Scripts
 
 ```bash
-npm start          # Start development server
-npm run build      # Create production build
-npm test           # Run test suite
+bun run start      # Start development server
+bun run build      # Create production build
+bun run test       # Run test suite
 ```
 
 ---

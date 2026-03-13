@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CONFIGURED_API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || '').trim();
+const CONFIGURED_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim();
 
 // Automatically detect environment based on current URL
 const getAutoDetectedEnvironment = () => {
