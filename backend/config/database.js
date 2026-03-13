@@ -6,7 +6,8 @@ const sqliteStoragePath = process.env.SQLITE_STORAGE_PATH
   || (isVercelRuntime ? '/tmp/database.sqlite' : path.join(__dirname, '../database.sqlite'));
 
 // Ensure we have the database encryption key
-const DB_ENCRYPTION_KEY = process.env.DB_ENCRYPTION_KEY || 'default-key-change-in-production';
+const DEFAULT_DB_ENCRYPTION_KEY = 'default-key-change-in-production';
+const DB_ENCRYPTION_KEY = process.env.DB_ENCRYPTION_KEY || DEFAULT_DB_ENCRYPTION_KEY;
 
 const resolveSqliteDialectModule = () => {
   try {
@@ -27,8 +28,13 @@ const resolveSqliteDialectModule = () => {
 
 const dialectModule = resolveSqliteDialectModule();
 
-if (DB_ENCRYPTION_KEY === 'default-key-change-in-production') {
-  console.warn('WARNING: Using default database encryption key. Please set DB_ENCRYPTION_KEY in your environment variables for production.');
+if (DB_ENCRYPTION_KEY === DEFAULT_DB_ENCRYPTION_KEY) {
+  if (process.env.NODE_ENV === 'production') {
+    const missingKeyError = new Error('DB_ENCRYPTION_KEY must be set in production. Refusing to start with default key.');
+    missingKeyError.code = 'MISSING_DB_ENCRYPTION_KEY';
+    throw missingKeyError;
+  }
+  console.warn('WARNING: Using default database encryption key outside production. Set DB_ENCRYPTION_KEY for real deployments.');
 }
 
 // Initialize SQLite database with connection pooling and WAL mode for better performance

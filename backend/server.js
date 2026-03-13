@@ -37,7 +37,7 @@ app.use(helmet({
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
+const configuredOrigins = [
   'http://localhost:8000',
   'http://localhost:3000',
   process.env.WEBSITE_FRONTEND_URL,
@@ -45,14 +45,35 @@ const allowedOrigins = [
   ...(process.env.CORS_ORIGINS || '')
     .split(',')
     .map((origin) => origin.trim())
-    .filter(Boolean),
+    .filter(Boolean)
+];
+
+const nonProdRegexOrigins = [
   /\.trycloudflare\.com$/,
   /\.cloudflareaccess\.com$/,
   /\.vercel\.app$/
 ];
 
+const corsOrigin = (origin, callback) => {
+  // Allow server-to-server calls and tools that do not send Origin.
+  if (!origin) {
+    return callback(null, true);
+  }
+
+  const matchesConfigured = configuredOrigins.includes(origin);
+  const allowRegexOrigins = process.env.NODE_ENV !== 'production';
+  const matchesNonProdRegex = allowRegexOrigins
+    && nonProdRegexOrigins.some((pattern) => pattern.test(origin));
+
+  if (matchesConfigured || matchesNonProdRegex) {
+    return callback(null, true);
+  }
+
+  return callback(new Error(`CORS blocked for origin: ${origin}`));
+};
+
 app.use(cors({
-  origin: allowedOrigins,
+  origin: corsOrigin,
   credentials: true // Allow cookies to be sent
 }));
 
@@ -131,6 +152,32 @@ const portRoutes = require('./routes/portRoutes');
 const linktreeRoutes = require('./routes/linktreeRoutes');
 const publicLinksRoutes = require('./routes/publicLinksRoutes');
 
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    port: PORT,
+    uptime: process.uptime()
+  });
+});
+
+app.get('/api/ready', async (req, res) => {
+  try {
+    await ensureDatabaseInitialized();
+    return res.json({
+      status: 'ready',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    return res.status(503).json({
+      status: 'not_ready',
+      message: 'Database is not ready',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Gate all API requests on DB readiness (critical for serverless cold starts).
 app.use('/api', async (req, res, next) => {
   try {
@@ -165,17 +212,6 @@ if (!isVercelRuntime) {
 
 app.get('/api', (req, res) => {
   res.send('API is running');
-});
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-    port: PORT,
-    uptime: process.uptime()
-  });
 });
 
 // Serve static files from Vite output.
