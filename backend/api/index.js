@@ -10,10 +10,15 @@ try {
 
 module.exports = (req, res) => {
 	if (bootError) {
+		const hint = bootError.code === 'SQLITE_NATIVE_BINDING_MISSING'
+			? 'SQLite native bindings are missing in the serverless bundle. Ensure sqlite3/sqlcipher binaries are included.'
+			: undefined;
+
 		return res.status(500).json({
 			message: 'Backend failed to initialize',
 			code: 'BOOTSTRAP_FAILED',
-			detail: process.env.NODE_ENV !== 'production' ? bootError.message : undefined
+			detail: process.env.NODE_ENV !== 'production' ? bootError.message : undefined,
+			hint
 		});
 	}
 
