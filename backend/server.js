@@ -14,6 +14,7 @@ require('./models');
 
 const app = express();
 const backupService = new BackupService();
+const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
 
 // Trust proxy for Cloudflare tunnel
 app.set('trust proxy', true);
@@ -65,11 +66,14 @@ const initDatabase = async () => {
     await sequelize.sync({ force: false });
     console.log('Database synchronized');
 
-    // Start backup service
-    backupService.startScheduledBackups();
+    // Start backup service only when explicitly enabled.
+    const enableScheduledBackups = process.env.ENABLE_SCHEDULED_BACKUPS === 'true';
+    if (enableScheduledBackups) {
+      backupService.startScheduledBackups();
+    }
 
     // Create daily backup if none exists for today (runs on dev start)
-    if (process.env.NODE_ENV !== 'production') {
+    if (!isVercelRuntime && process.env.NODE_ENV !== 'production') {
       console.log('🔍 Checking for today\'s backup...');
       try {
         await backupService.createDailyBackup();
@@ -159,8 +163,26 @@ if (fs.existsSync(frontendPath)) {
   });
 }
 
-initDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+let databaseInitPromise;
+
+const ensureDatabaseInitialized = async () => {
+  if (!databaseInitPromise) {
+    databaseInitPromise = initDatabase();
+  }
+  return databaseInitPromise;
+};
+
+if (isVercelRuntime) {
+  // In serverless mode we export the app and initialize once per warm runtime.
+  ensureDatabaseInitialized().catch((error) => {
+    console.error('Database initialization error in Vercel runtime:', error);
   });
-});
+} else {
+  ensureDatabaseInitialized().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  });
+}
+
+module.exports = app;
