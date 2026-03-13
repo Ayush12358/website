@@ -33,15 +33,23 @@ app.use(helmet({
 
 app.use(express.json());
 app.use(cookieParser());
+
+const allowedOrigins = [
+  'http://localhost:8000',
+  'http://localhost:3000',
+  process.env.WEBSITE_FRONTEND_URL,
+  process.env.FRONTEND_URL,
+  ...(process.env.CORS_ORIGINS || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+  /\.trycloudflare\.com$/,
+  /\.cloudflareaccess\.com$/,
+  /\.vercel\.app$/
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:8000',
-    'http://localhost:3000',
-    process.env.WEBSITE_FRONTEND_URL,
-    process.env.FRONTEND_URL,
-    /\.trycloudflare\.com$/,
-    /\.cloudflareaccess\.com$/
-  ].filter(Boolean),
+  origin: allowedOrigins,
   credentials: true // Allow cookies to be sent
 }));
 

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const CONFIGURED_API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || '').trim();
+
 // Automatically detect environment based on current URL
 const getAutoDetectedEnvironment = () => {
   const currentHostname = window.location.hostname;
@@ -40,6 +42,11 @@ const initializeEnvironmentSetting = () => {
 
 // Determine the base URL based on environment and user preference
 const getBaseURL = () => {
+  // Explicit env var takes precedence in deployed environments (for example Vercel).
+  if (CONFIGURED_API_BASE_URL) {
+    return CONFIGURED_API_BASE_URL.replace(/\/+$/, '');
+  }
+
   // Initialize/update environment setting based on current URL
   const useProduction = initializeEnvironmentSetting();
   
@@ -81,7 +88,7 @@ api.interceptors.response.use(
   },
   (error) => {
     // Add environment context to error for debugging
-    const currentEnv = localStorage.getItem('useProductionAPI') === 'true' ? 'Production' : 'Local';
+    const currentEnv = getCurrentEnvironment();
     const baseURL = getBaseURL();
     
     console.error(`API Error [${currentEnv} - ${baseURL}]:`, error);
@@ -106,6 +113,10 @@ export default api;
 
 // Helper functions for environment management
 export const getCurrentEnvironment = () => {
+  if (CONFIGURED_API_BASE_URL) {
+    return 'Configured';
+  }
+
   // Initialize environment setting based on URL
   const useProduction = initializeEnvironmentSetting();
   return useProduction ? 'Production' : 'Local';
