@@ -2,8 +2,8 @@
 
 This guide describes the production setup for this repository on Vercel:
 
-- Frontend project: https://ayushmaurya.xyz
-- Backend project: https://api.ayushmaurya.xyz
+- Frontend project: <https://ayushmaurya.xyz>
+- Backend project: <https://api.ayushmaurya.xyz>
 
 ## 1. Prerequisites
 
@@ -29,7 +29,7 @@ This guide describes the production setup for this repository on Vercel:
 3. Keep default Node build, this project uses backend/vercel.json and backend/api/index.js.
 4. Create a **Blob store** in Vercel Storage dashboard and link it to this project (this auto-sets `BLOB_READ_WRITE_TOKEN`).
 5. Add remaining environment variables from backend/.env.production.
-5. Deploy.
+6. Deploy.
 
 ## 4. Environment Variables
 
@@ -67,7 +67,7 @@ ENABLE_SCHEDULED_BACKUPS=false
 
 The frontend project handles both SPA routes and API proxying:
 
-1. /api/* on ayushmaurya.xyz is rewritten to https://api.ayushmaurya.xyz/api/*.
+1. `/api/*` on ayushmaurya.xyz is rewritten to <https://api.ayushmaurya.xyz/api/*>.
 2. All other routes are rewritten to /index.html for React Router.
 
 This is configured in frontend/vercel.json.
@@ -76,8 +76,8 @@ This is configured in frontend/vercel.json.
 
 Run these checks after deployment:
 
-1. Open https://ayushmaurya.xyz and refresh deep routes like /dashboard.
-2. Open https://api.ayushmaurya.xyz/api/health and confirm JSON response.
+1. Open <https://ayushmaurya.xyz> and refresh deep routes like `/dashboard`.
+2. Open <https://api.ayushmaurya.xyz/api/health> and confirm JSON response.
 3. Log in from frontend and verify authenticated API requests succeed.
 
 ## 8. Important Runtime Notes

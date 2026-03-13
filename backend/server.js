@@ -178,10 +178,8 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve static files from frontend output (Vite `dist`, fallback to CRA `build`).
-const frontendDistPath = path.join(__dirname, '../frontend/dist');
-const frontendBuildPath = path.join(__dirname, '../frontend/build');
-const frontendPath = fs.existsSync(frontendDistPath) ? frontendDistPath : frontendBuildPath;
+// Serve static files from Vite output.
+const frontendPath = path.join(__dirname, '../frontend/dist');
 
 if (fs.existsSync(frontendPath)) {
   app.use(express.static(frontendPath));
