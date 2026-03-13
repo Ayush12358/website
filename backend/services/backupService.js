@@ -3,10 +3,16 @@ const path = require('path');
 const cron = require('node-cron');
 const crypto = require('crypto');
 
+const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
+const sqliteStoragePath = process.env.SQLITE_STORAGE_PATH
+  || (isVercelRuntime ? '/tmp/database.sqlite' : path.join(__dirname, '../database.sqlite'));
+const backupsPath = process.env.BACKUPS_DIR
+  || (isVercelRuntime ? '/tmp/backups' : path.join(__dirname, '../backups'));
+
 class BackupService {
   constructor() {
-    this.dbPath = path.join(__dirname, '../database.sqlite');
-    this.backupDir = path.join(__dirname, '../backups');
+    this.dbPath = sqliteStoragePath;
+    this.backupDir = backupsPath;
     this.maxBackups = 30; // Keep 30 days of backups
     
     // Ensure backup directory exists
@@ -37,6 +43,11 @@ class BackupService {
   async hasBackupToday() {
     try {
       const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      if (isVercelRuntime) {
+        const { list } = require('@vercel/blob');
+        const { blobs } = await list({ prefix: `backups/database-backup-${today}` });
+        return blobs.length > 0;
+      }
       const files = await fs.readdir(this.backupDir);
       const todayBackups = files.filter(file => 
         file.startsWith(`database-backup-${today}`) && file.endsWith('.sqlite')
@@ -75,7 +86,14 @@ class BackupService {
 
       console.log(`✅ Daily backup created: ${backupFilename}`);
       console.log(`📁 Backup path: ${backupPath}`);
-      
+
+      if (isVercelRuntime) {
+        const { put } = require('@vercel/blob');
+        const fileBuffer = await fs.readFile(backupPath);
+        const blob = await put(`backups/${backupFilename}`, fileBuffer, { access: 'public' });
+        console.log(`☁️  Daily backup uploaded to Blob: ${blob.url}`);
+      }
+
       // Clean up old backups
       await this.cleanupOldBackups();
       
@@ -107,10 +125,17 @@ class BackupService {
 
       console.log(`✅ Database backup created: ${backupFilename}`);
       console.log(`📁 Backup path: ${backupPath}`);
-      
+
+      if (isVercelRuntime) {
+        const { put } = require('@vercel/blob');
+        const fileBuffer = await fs.readFile(backupPath);
+        const blob = await put(`backups/${backupFilename}`, fileBuffer, { access: 'public' });
+        console.log(`☁️  Backup uploaded to Blob: ${blob.url}`);
+      }
+
       // Clean up old backups
       await this.cleanupOldBackups();
-      
+
       return backupPath;
     } catch (error) {
       console.error('❌ Error creating backup:', error);
@@ -184,6 +209,17 @@ class BackupService {
 
   async listBackups() {
     try {
+      if (isVercelRuntime) {
+        const { list } = require('@vercel/blob');
+        const { blobs } = await list({ prefix: 'backups/database-backup-' });
+        const backupNames = blobs.map(b => path.basename(b.pathname));
+        console.log(`📋 Available backups in Blob (${backupNames.length}):`);
+        for (const b of blobs) {
+          const size = (b.size / 1024).toFixed(2);
+          console.log(`  - ${path.basename(b.pathname)} (${size} KB, ${b.uploadedAt})`);
+        }
+        return backupNames;
+      }
       const files = await fs.readdir(this.backupDir);
       const backupFiles = files.filter(file => file.startsWith('database-backup-') && file.endsWith('.sqlite'));
       
@@ -204,6 +240,30 @@ class BackupService {
 
   async restoreBackup(backupFilename) {
     try {
+      if (isVercelRuntime) {
+        const { list, put } = require('@vercel/blob');
+        // Find the blob for this filename
+        const { blobs } = await list({ prefix: `backups/${backupFilename}` });
+        const target = blobs.find(b => path.basename(b.pathname) === backupFilename);
+        if (!target) throw new Error(`Backup not found in Blob storage: ${backupFilename}`);
+
+        // Save current database to Blob before overwriting
+        if (await fs.pathExists(this.dbPath)) {
+          const currentBuf = await fs.readFile(this.dbPath);
+          const preRestoreName = `backups/pre-restore-${Date.now()}.sqlite`;
+          await put(preRestoreName, currentBuf, { access: 'public' });
+          console.log(`📦 Current database backed up to Blob: ${preRestoreName}`);
+        }
+
+        // Download backup from Blob and write to writable path
+        const response = await fetch(target.url);
+        if (!response.ok) throw new Error(`Failed to download backup: ${response.statusText}`);
+        const arrayBuffer = await response.arrayBuffer();
+        await fs.writeFile(this.dbPath, Buffer.from(arrayBuffer));
+        console.log(`✅ Database restored from Blob: ${backupFilename}`);
+        return true;
+      }
+
       const backupPath = path.join(this.backupDir, backupFilename);
       
       if (!await fs.pathExists(backupPath)) {

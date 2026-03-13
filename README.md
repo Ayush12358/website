@@ -4,9 +4,9 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 
 ## Quick Links
 
-- [Installation & Setup](file:///c:/masti/website/docs/README.md)
-- [OCI Hosting Guide](file:///c:/masti/website/docs/deployment/OCI_SETUP.md)
-- [Backup System](file:///c:/masti/website/docs/README.md#backup-system)
+- [Installation & Setup](docs/README.md)
+- [Vercel Hosting Guide](docs/deployment/OCI_SETUP.md)
+- [Backup System](docs/README.md#backup-system)
 - [Frontend Application](frontend/README.md)
 - [TODO List](docs/todo.md)
 
@@ -18,7 +18,7 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 For a complete guide on setting up the project from scratch (both locally and on the cloud), see the **[Ultimate Setup Guide](docs/SETUP_GUIDE.md)**.
 
 ### Quick Start (Server)
-1. Install dependencies: `npm install` in both `backend` and `frontend`.
+1. Install dependencies: `bun install` in both `backend` and `frontend`.
 2. Configure your `.env` in `backend/`.
 3. Start the app: `pm2 start ecosystem.config.js`
 

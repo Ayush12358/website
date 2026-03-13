@@ -6,6 +6,10 @@ const { User } = require('../models');
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
+const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
+const uploadsDir = process.env.UPLOADS_DIR
+  || (isVercelRuntime ? '/tmp/uploads' : path.join(__dirname, '../uploads'));
+
 // Content model for managing website content
 const sequelize = require('../config/database');
 const { DataTypes } = require('sequelize');
@@ -66,32 +70,16 @@ User.hasMany(Content, { foreignKey: 'userId' });
 // Sync the model
 // Content.sync({ alter: true });
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../../uploads');
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
+// Configure multer — always use memory storage so we can route to Blob or local disk
 const upload = multer({
-  storage: storage,
+  storage: multer.memoryStorage(),
   limits: {
     fileSize: 10 * 1024 * 1024 // 10MB limit
   },
   fileFilter: (req, file, cb) => {
-    // Allow only certain file types
     const allowedTypes = /jpeg|jpg|png|gif|pdf|doc|docx/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-
     if (mimetype && extname) {
       return cb(null, true);
     } else {
@@ -173,7 +161,23 @@ router.post('/upload/:type/:key', authMiddleware, upload.single('file'), async (
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const fileUrl = `/uploads/${req.file.filename}`;
+    let fileUrl;
+    if (isVercelRuntime) {
+      const { put } = require('@vercel/blob');
+      const blobName = `uploads/${Date.now()}-${req.file.originalname}`;
+      const blob = await put(blobName, req.file.buffer, {
+        access: 'public',
+        contentType: req.file.mimetype,
+      });
+      fileUrl = blob.url;
+    } else {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const filename = 'file-' + uniqueSuffix + path.extname(req.file.originalname);
+      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+      fs.writeFileSync(path.join(uploadsDir, filename), req.file.buffer);
+      fileUrl = `/uploads/${filename}`;
+    }
+
     const fileMetadata = {
       ...JSON.parse(metadata || '{}'),
       originalName: req.file.originalname,
@@ -195,9 +199,13 @@ router.post('/upload/:type/:key', authMiddleware, upload.single('file'), async (
     if (!created) {
       // Delete old file if it exists
       if (content.fileUrl) {
-        const oldFilePath = path.join(__dirname, '../../', content.fileUrl);
-        if (fs.existsSync(oldFilePath)) {
-          fs.unlinkSync(oldFilePath);
+        if (isVercelRuntime) {
+          const { del } = require('@vercel/blob');
+          await del(content.fileUrl).catch(() => {});
+        } else {
+          const oldFileName = path.basename(content.fileUrl);
+          const oldFilePath = path.join(uploadsDir, oldFileName);
+          if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
         }
       }
       await content.update({ fileUrl, metadata: fileMetadata });

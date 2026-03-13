@@ -21,11 +21,11 @@ A full-stack authentication application built with React frontend and Node.js/Ex
    ```bash
    # Backend
    cd backend
-   npm install
+   bun install
    
    # Frontend
    cd frontend
-   npm install
+   bun install
    ```
 
 2. **Configure Environment Variables**
@@ -49,11 +49,11 @@ A full-stack authentication application built with React frontend and Node.js/Ex
    ```bash
    # Backend (Terminal 1)
    cd backend
-   npm run dev
+   bun dev
    
    # Frontend (Terminal 2)
    cd frontend  
-   npm start
+   bun start
    ```
 
 The backend runs on `http://localhost:5001` and frontend on `http://localhost:8000`.

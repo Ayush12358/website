@@ -1,6 +1,10 @@
 const { Sequelize } = require('sequelize');
 const path = require('path');
 
+const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
+const sqliteStoragePath = process.env.SQLITE_STORAGE_PATH
+  || (isVercelRuntime ? '/tmp/database.sqlite' : path.join(__dirname, '../database.sqlite'));
+
 // Ensure we have the database encryption key
 const DB_ENCRYPTION_KEY = process.env.DB_ENCRYPTION_KEY || 'default-key-change-in-production';
 
@@ -11,7 +15,7 @@ if (DB_ENCRYPTION_KEY === 'default-key-change-in-production') {
 // Initialize SQLite database with connection pooling and WAL mode for better performance
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: path.join(__dirname, '../database.sqlite'),
+  storage: sqliteStoragePath,
   dialectOptions: {
     // Enable Write-Ahead Logging for better concurrency
     options: [

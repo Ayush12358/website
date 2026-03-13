@@ -1,151 +1,88 @@
-# Oracle Cloud Infrastructure (OCI) Deployment Guide
+# Vercel Deployment Guide (Two Projects)
 
-This guide describes how to host this website on an OCI "Always Free" instance.
+This guide describes the production setup for this repository on Vercel:
 
-## 1. Instance Creation
+- Frontend project: https://ayushmaurya.xyz
+- Backend project: https://api.ayushmaurya.xyz
 
-1. **OCI Console**: Go to **Compute** -> **Instances** -> **Create Instance**.
-2. **OS**: Choose **Ubuntu 22.04 LTS** (Canonical).
-3. **Shape**:
-   * **Ampere (Arm-based)**: `VM.Standard.A1.Flex` (Up to 4 OCPUs and 24GB RAM for free). **Recommended.**
-   * **AMD**: `VM.Standard.E2.1.Micro`.
-4. **SSH Key**: Dowload the Private Key or paste your public key. **Crucial for access.**
-5. **Static IP**: (Optional if using Cloudflare Tunnel) Create a Reserved Public IP for the instance.
+## 1. Prerequisites
 
-## 2. Ingress Rules (Networking)
+1. Vercel account connected to GitHub.
+2. Domain ayushmaurya.xyz managed in DNS.
+3. Repository pushed to GitHub main branch.
 
-Go to **Virtual Cloud Network** -> **Security Lists** -> **Default Security List**:
+## 2. Create Frontend Project
 
-* Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=22 (SSH).
-* Add Ingress Rule: Stateless=No, Source=0.0.0.0/0, IP Protocol=TCP, Port Range=80, 443 (HTTP/S) - *Optional if using Tunnels*.
+1. Import the repository in Vercel.
+2. Set Root Directory to frontend.
+3. Build settings:
+   - Build Command: npm run build
+   - Output Directory: build
+4. Add environment variable:
+   - REACT_APP_API_BASE_URL=/api
+5. Deploy.
 
-## 3. Server Setup (Choose ONE)
+## 3. Create Backend Project
 
-### Option A: Automated Setup (Fastest)
+1. Create a second Vercel project from the same repository.
+2. Set Root Directory to backend.
+3. Keep default Node build, this project uses backend/vercel.json and backend/api/index.js.
+4. Create a **Blob store** in Vercel Storage dashboard and link it to this project (this auto-sets `BLOB_READ_WRITE_TOKEN`).
+5. Add remaining environment variables from backend/.env.production.
+5. Deploy.
 
-Connect to your server and run this one-liner:
+## 4. Environment Variables
 
-```bash
-cd ~ && rm -rf website && mkdir website && cd website && curl -fsSL https://raw.githubusercontent.com/Ayush12358/website/main/scripts/remote_setup.sh -o remote_setup.sh && chmod +x remote_setup.sh && ./remote_setup.sh
+Use these local files as source of truth:
+
+- Frontend: frontend/.env.production
+- Backend: backend/.env.production
+
+Backend minimum required values:
+
+```env
+NODE_ENV=production
+WEBSITE_NODE_ENV=production
+JWT_SECRET=replace-with-a-long-random-secret
+DB_ENCRYPTION_KEY=replace-with-a-long-random-key
+WEBSITE_FRONTEND_URL=https://ayushmaurya.xyz
+FRONTEND_URL=https://ayushmaurya.xyz
+CORS_ORIGINS=https://ayushmaurya.xyz
+BACKEND_URL=https://api.ayushmaurya.xyz
+SQLITE_STORAGE_PATH=/tmp/database.sqlite
+UPLOADS_DIR=/tmp/uploads
+BACKUPS_DIR=/tmp/backups
+BLOB_READ_WRITE_TOKEN=replace-with-token-from-vercel-storage-dashboard
+ENABLE_SCHEDULED_BACKUPS=false
 ```
 
-> [!IMPORTANT]
-> In production, the backend on **port 5001** serves the frontend static files automatically. This is the entry point you should expose via Cloudflare or open in your firewall.
+## 5. Custom Domains
 
-### Option B: Manual Setup
+1. Attach ayushmaurya.xyz to the frontend project.
+2. Attach api.ayushmaurya.xyz to the backend project.
+3. Update DNS according to Vercel instructions for both records.
+4. Wait until both domains are issued valid SSL certificates.
 
-1. **Connect to your server**:
- 
-```bash
-ssh -i "C:\Users\Ayush\Documents\ssh-key-2025-12-26.key" ubuntu@140.245.224.107
-```
+## 6. Routing Behavior
 
-2. **Update and Install Dependencies**:
+The frontend project handles both SPA routes and API proxying:
 
-```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y git python3-pip python3-venv
+1. /api/* on ayushmaurya.xyz is rewritten to https://api.ayushmaurya.xyz/api/*.
+2. All other routes are rewritten to /index.html for React Router.
 
-# Install Node.js v22
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt install -y nodejs
+This is configured in frontend/vercel.json.
 
-# Install PM2
-sudo npm install -g pm2
-```
+## 7. Verification
 
-## 4. Repository Setup
+Run these checks after deployment:
 
-```bash
-git clone https://github.com/Ayush12358/website.git
-cd website
+1. Open https://ayushmaurya.xyz and refresh deep routes like /dashboard.
+2. Open https://api.ayushmaurya.xyz/api/health and confirm JSON response.
+3. Log in from frontend and verify authenticated API requests succeed.
 
-# Setup Environment Variables
-# Copy your .env contents or use the setup script
-nano backend/.env # Paste your variables here
-```
+## 8. Important Runtime Notes
 
-### Install Backend Dependencies
-
-```bash
-cd backend
-npm install
-cd ..
-```
-
-### Build Frontend
-
-```bash
-cd frontend
-npm install
-npm run build
-cd ..
-```
-
-## 5. Process Management (PM2)
-
-Start all services using the provided ecosystem config:
-
-```bash
-pm2 start ecosystem.config.js
-pm2 save
-pm2 startup # Follow the instructions to enable auto-boot
-```
-
-## 6. Cloudflare Tunnel Setup
-
-1. **Install cloudflared**:
-   ```bash
-   curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-   sudo dpkg -i cloudflared.deb
-   ```
-2. **Authenticate**:
-   ```bash
-   cloudflared tunnel login
-   ```
-3. **Run your tunnel**:
-   ```bash
-   cloudflared tunnel run <your-tunnel-name>
-   ```
-
-## 7. Verification & Health Check
-
-Run these commands to verify your deployment is healthy:
-
-### Process Status
-
-Check if all processes (backend, tunnel) are green:
-
-```bash
-pm2 status
-```
-
-### Local Connectivity
-
-Test if the server is responding locally on port 5001:
-
-```bash
-curl -I http://localhost:5001
-```
-
-### Log Inspection
-
-Check the latest logs for errors:
-
-```bash
-pm2 logs website-backend --lines 50
-```
-
-### Auto-Update Verification
-
-Manually run the update script to ensure it works then check its log:
-
-```bash
-/home/ubuntu/website/scripts/auto_update.sh
-cat ~/auto_update.log
-```
-
----
-
-> [!TIP]
-> Use PM2 to keep the tunnel running: `pm2 start "cloudflared tunnel run <name>"`
+1. Backend currently uses SQLite and file-based backups.
+2. Vercel serverless runtime has ephemeral filesystem behavior.
+3. ENABLE_SCHEDULED_BACKUPS should remain false on Vercel.
+4. For long-term reliability, migrate to managed DB + object storage.
