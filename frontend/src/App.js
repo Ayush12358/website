@@ -20,7 +20,6 @@ import BlogAdminPage from './pages/BlogAdminPage';
 import BlogEditorPage from './pages/BlogEditorPage';
 import SitemapPage from './pages/SitemapPage';
 import ReleaseNotesPage from './pages/ReleaseNotesPage';
-import RoadmapPage from './pages/RoadmapPage';
 import LinktreePage from './pages/LinktreePage';
 import NotFoundPage from './pages/NotFoundPage';
 import Header from './components/Header';
@@ -94,7 +93,6 @@ function App() {
             />
             <Route path="/sitemap" element={<SitemapPage />} />
             <Route path="/release-notes" element={<ReleaseNotesPage />} />
-            <Route path="/roadmap" element={<RoadmapPage />} />
             <Route
               path="/linktree"
               element={

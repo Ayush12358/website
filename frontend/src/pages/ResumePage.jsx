@@ -30,9 +30,6 @@ const ResumePage = ({ isAuthenticated = false }) => {
           <Link to="/release-notes" className="btn btn-glass">
             Updates
           </Link>
-          <Link to="/roadmap" className="btn btn-glass">
-            Roadmap
-          </Link>
           {isAuthenticated ? (
             <Link to="/dashboard" className="btn btn-glass">
               Dashboard

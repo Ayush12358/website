@@ -23,9 +23,6 @@ const Header = ({ onMenuClick, isSidebarOpen }) => {
                         <Link to="/blog" className={`nav-link ${isActive('/blog') ? 'active' : ''}`}>
                             Blog
                         </Link>
-                        <Link to="/roadmap" className={`nav-link ${isActive('/roadmap') ? 'active' : ''}`}>
-                            Roadmap
-                        </Link>
                         <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>
                             Dashboard
                         </Link>

@@ -161,8 +161,6 @@ const ReleaseNotesPage = () => {
         <div className="sitemap-footer">
           <h3>Stay Updated</h3>
           <p>
-            Follow the development progress and upcoming features on the{' '}
-            <Link to="/roadmap" className="inline-link">roadmap page</Link>.
             For questions or feedback, feel free to reach out through the contact information on the{' '}
             <Link to="/" className="inline-link">homepage</Link>.
           </p>
