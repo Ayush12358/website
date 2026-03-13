@@ -12,18 +12,34 @@ const router = express.Router();
 // Registration Route
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const normalizedName = typeof name === 'string' ? name.trim() : '';
+  const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+
+  if (!normalizedName || !normalizedEmail || !password) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
   try {
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email: normalizedEmail } });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists.' });
     }
-    const user = await User.create({ name, email, password });
+    await User.create({ name: normalizedName, email: normalizedEmail, password });
     res.status(201).json({ message: 'User registered successfully.' });
   } catch (err) {
     console.error('Registration error:', err);
+
+    if (err.name === 'SequelizeValidationError') {
+      return res.status(400).json({ message: err.errors?.[0]?.message || 'Invalid registration data.' });
+    }
+
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'User already exists.' });
+    }
+
+    if (err.original?.code === 'SQLITE_READONLY' || err.original?.code === 'SQLITE_CANTOPEN') {
+      return res.status(503).json({ message: 'Database is temporarily unavailable. Please try again.' });
+    }
+
     res.status(500).json({ message: 'Server error.' });
   }
 });
