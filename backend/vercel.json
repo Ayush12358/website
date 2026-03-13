@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs20.x",
+      "includeFiles": "node_modules/sqlite3/**/*"
+    }
+  },
   "builds": [
     {
       "src": "api/index.js",
