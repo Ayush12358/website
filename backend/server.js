@@ -88,6 +88,7 @@ const initDatabase = async () => {
     await checkDevAccountStatus();
   } catch (error) {
     console.error('Database connection error:', error);
+    throw error;
   }
 };
 
@@ -108,6 +109,15 @@ const checkDevAccountStatus = async () => {
   }
 };
 
+let databaseInitPromise;
+
+const ensureDatabaseInitialized = async () => {
+  if (!databaseInitPromise) {
+    databaseInitPromise = initDatabase();
+  }
+  return databaseInitPromise;
+};
+
 
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
@@ -120,6 +130,17 @@ const blogRoutes = require('./routes/blogRoutes');
 const portRoutes = require('./routes/portRoutes');
 const linktreeRoutes = require('./routes/linktreeRoutes');
 const publicLinksRoutes = require('./routes/publicLinksRoutes');
+
+// Gate all API requests on DB readiness (critical for serverless cold starts).
+app.use('/api', async (req, res, next) => {
+  try {
+    await ensureDatabaseInitialized();
+    return next();
+  } catch (error) {
+    console.error('API request blocked: database not initialized', error);
+    return res.status(503).json({ message: 'Service temporarily unavailable' });
+  }
+});
 
 // API routes
 app.use('/api/users', userRoutes);
@@ -169,15 +190,6 @@ if (fs.existsSync(frontendPath)) {
     }
   });
 }
-
-let databaseInitPromise;
-
-const ensureDatabaseInitialized = async () => {
-  if (!databaseInitPromise) {
-    databaseInitPromise = initDatabase();
-  }
-  return databaseInitPromise;
-};
 
 if (isVercelRuntime) {
   // In serverless mode we export the app and initialize once per warm runtime.
