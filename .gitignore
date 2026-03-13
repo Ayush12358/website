@@ -51,11 +51,13 @@ out/
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 *.tmp
 *.temp
 
 # IDE files
 .vscode/settings.json
+.vscode/PythonImportHelper-v2-Completion.json
 .idea/
 *.swp
 *.swo
