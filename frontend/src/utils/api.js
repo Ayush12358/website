@@ -5,14 +5,23 @@ const CONFIGURED_API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || '').trim(
 // Automatically detect environment based on current URL
 const getAutoDetectedEnvironment = () => {
   const currentHostname = window.location.hostname;
+  const isLocalHost =
+    currentHostname === 'localhost'
+    || currentHostname === '127.0.0.1'
+    || currentHostname.startsWith('192.168.')
+    || currentHostname.endsWith('.local');
+
+  if (isLocalHost) {
+    return 'local';
+  }
   
-  // If running on ayushmaurya.xyz domain, use production
-  if (currentHostname === 'ayushmaurya.xyz' || currentHostname.includes('ayushmaurya.xyz')) {
+  // For deployed hosts (custom domain and preview URLs), use same-origin /api.
+  if (currentHostname === 'ayushmaurya.xyz' || currentHostname.includes('ayushmaurya.xyz') || currentHostname.endsWith('.vercel.app')) {
     return 'production';
   }
   
-  // For all other domains (localhost, LAN IPs, etc.), use local
-  return 'local';
+  // Default to deployed behavior for any non-local host.
+  return 'production';
 };
 
 // Initialize environment setting based on URL if not already set
@@ -51,7 +60,7 @@ const getBaseURL = () => {
   const useProduction = initializeEnvironmentSetting();
   
   if (useProduction) {
-    return 'https://ayushmaurya.xyz/api';
+    return '/api';
   }
   
   // Use local backend with explicit port
