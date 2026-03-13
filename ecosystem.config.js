@@ -11,7 +11,7 @@ module.exports = {
         {
             name: 'website-frontend',
             script: 'frontend/node_modules/.bin/serve',
-            args: '-s frontend/build -l 8000',
+            args: '-s frontend/dist -l 8000',
             env: {
                 NODE_ENV: 'production'
             }
