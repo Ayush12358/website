@@ -1,15 +1,32 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const { marked } = require('marked');
 
-// Configure marked for security
-marked.setOptions({
-  sanitize: false, // We'll handle sanitization separately if needed
-  gfm: true, // GitHub Flavored Markdown
-  breaks: true, // Convert \n to <br>
-  smartLists: true,
-  smartypants: true // Use smart quotes
-});
+let renderMarkdown = (input) => input;
+
+try {
+  const markedModule = require('marked');
+  const marked = typeof markedModule.marked === 'function' ? markedModule.marked : markedModule;
+
+  if (typeof marked.setOptions === 'function') {
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      async: false
+    });
+  }
+
+  renderMarkdown = (input) => {
+    if (typeof marked.parse === 'function') {
+      return marked.parse(input);
+    }
+    if (typeof marked === 'function') {
+      return marked(input);
+    }
+    return input;
+  };
+} catch (error) {
+  console.warn('Markdown renderer unavailable; serving raw markdown content.', error.message);
+}
 
 const Blog = sequelize.define('Blog', {
   id: {
@@ -130,7 +147,7 @@ const Blog = sequelize.define('Blog', {
       
       // Convert markdown to HTML
       if (blog.content) {
-        blog.contentHtml = marked(blog.content);
+        blog.contentHtml = renderMarkdown(blog.content);
         
         // Calculate read time based on content length
         const wordsPerMinute = 200;
@@ -140,7 +157,7 @@ const Blog = sequelize.define('Blog', {
       
       // Convert excerpt markdown to HTML
       if (blog.excerpt) {
-        blog.excerptHtml = marked(blog.excerpt);
+        blog.excerptHtml = renderMarkdown(blog.excerpt);
       }
     },
     beforeUpdate: (blog) => {
@@ -150,7 +167,7 @@ const Blog = sequelize.define('Blog', {
       
       // Recalculate read time and convert markdown if content changed
       if (blog.changed('content') && blog.content) {
-        blog.contentHtml = marked(blog.content);
+        blog.contentHtml = renderMarkdown(blog.content);
         
         const wordsPerMinute = 200;
         const wordCount = blog.content.split(/\s+/).length;
@@ -159,7 +176,7 @@ const Blog = sequelize.define('Blog', {
       
       // Convert excerpt markdown to HTML if changed
       if (blog.changed('excerpt') && blog.excerpt) {
-        blog.excerptHtml = marked(blog.excerpt);
+        blog.excerptHtml = renderMarkdown(blog.excerpt);
       }
     }
   }

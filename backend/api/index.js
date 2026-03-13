@@ -17,7 +17,8 @@ module.exports = (req, res) => {
 		return res.status(500).json({
 			message: 'Backend failed to initialize',
 			code: 'BOOTSTRAP_FAILED',
-			detail: process.env.NODE_ENV !== 'production' ? bootError.message : undefined,
+			errorName: bootError.name,
+			detail: bootError.message,
 			hint
 		});
 	}
