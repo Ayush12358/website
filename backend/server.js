@@ -219,6 +219,10 @@ app.get('/api/v1/guest/comm/config', (req, res) => {
   return res.json({ enabled: false });
 });
 
+app.get('/api/v1/guest/comm', (req, res) => {
+  return res.json({ enabled: false });
+});
+
 const sendDegradedApiResponse = (req, res) => {
   if (req.method !== 'GET') {
     return false;
