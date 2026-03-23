@@ -3,14 +3,26 @@
   "installCommand": "bun install --cwd backend && bun install --cwd frontend",
   "buildCommand": "bun run --cwd frontend build",
   "functions": {
-    "backend/api/index.js": {
-      "includeFiles": "frontend/dist/**"
+    "api/[...all].js": {
+      "includeFiles": [
+        "frontend/dist/**",
+        "backend/api/**",
+        "backend/config/**",
+        "backend/middleware/**",
+        "backend/models/**",
+        "backend/routes/**",
+        "backend/services/**",
+        "backend/server.js",
+        "backend/package.json",
+        "backend/node_modules/pg/**",
+        "backend/node_modules/pg-hstore/**"
+      ]
     }
   },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/backend/api/index.js"
+      "dest": "/api/[...all].js"
     }
   ]
 }
