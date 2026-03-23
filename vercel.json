@@ -5,7 +5,7 @@
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/[...all].js": {
-      "includeFiles": "frontend/dist/**,backend/**"
+      "includeFiles": "{frontend/dist/**,backend/**}"
     }
   },
   "headers": [
@@ -21,12 +21,8 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/[...all].js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/frontend/dist/$1"
+      "dest": "/api/[...all].js"
     }
   ]
 }
