@@ -8,9 +8,20 @@ const { validateForgotPassword, validateResetPassword } = require('../middleware
 const { loginLimiter, passwordResetLimiter } = require('../middleware/rateLimitMiddleware');
 const { sendPasswordResetEmail } = require('../services/emailService');
 const router = express.Router();
+const isNeonAuthMode = (process.env.AUTH_PROVIDER || 'legacy').toLowerCase() === 'neon';
+
+const rejectLegacyAuthRoute = (res) => {
+  return res.status(410).json({
+    message: 'This endpoint is disabled because AUTH_PROVIDER=neon. Use Neon Auth client flows instead.'
+  });
+};
 
 // Registration Route
 router.post('/register', async (req, res) => {
+  if (isNeonAuthMode) {
+    return rejectLegacyAuthRoute(res);
+  }
+
   const { name, email, password } = req.body;
   const normalizedName = typeof name === 'string' ? name.trim() : '';
   const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
@@ -46,6 +57,10 @@ router.post('/register', async (req, res) => {
 
 // Login Route with rate limiting
 router.post('/login', loginLimiter, async (req, res) => {
+  if (isNeonAuthMode) {
+    return rejectLegacyAuthRoute(res);
+  }
+
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: 'All fields are required.' });
@@ -81,6 +96,10 @@ router.post('/login', loginLimiter, async (req, res) => {
 
 // Logout Route
 router.post('/logout', (req, res) => {
+  if (isNeonAuthMode) {
+    return rejectLegacyAuthRoute(res);
+  }
+
   res.clearCookie('token', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -140,6 +159,10 @@ router.put('/profile', authMiddleware, async (req, res) => {
 
 // Request Password Reset with rate limiting
 router.post('/forgot-password', passwordResetLimiter, validateForgotPassword, async (req, res) => {
+  if (isNeonAuthMode) {
+    return rejectLegacyAuthRoute(res);
+  }
+
   const { email } = req.body;
   
   try {
@@ -176,6 +199,10 @@ router.post('/forgot-password', passwordResetLimiter, validateForgotPassword, as
 
 // Reset Password
 router.post('/reset-password', validateResetPassword, async (req, res) => {
+  if (isNeonAuthMode) {
+    return rejectLegacyAuthRoute(res);
+  }
+
   const { token, newPassword } = req.body;
   
   try {

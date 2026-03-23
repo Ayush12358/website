@@ -6,6 +6,7 @@
     "axios": "^0.27.2",
     "dompurify": "^3.2.6",
     "marked": "^16.1.1",
+    "@neondatabase/neon-js": "latest",
     "phaser": "^3.90.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

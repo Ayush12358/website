@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '../utils/api';
+import { authClient } from '../utils/neonAuth';
 
 const AuthContext = createContext();
 
@@ -14,58 +15,88 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [initialCheckDone, setInitialCheckDone] = useState(false);
 
   const checkAuthStatus = useCallback(async () => {
-    if (initialCheckDone) return; // Prevent multiple initial checks
-    
     try {
-      const response = await api.get('/users/profile');
-      setUser({ profile: response.data });
+      const sessionResult = await authClient.getSession();
+      const sessionUser = sessionResult?.data?.user;
+
+      if (!sessionUser) {
+        setUser(null);
+        return;
+      }
+
+      try {
+        const response = await api.get('/users/profile');
+        setUser({ profile: response.data });
+      } catch (profileError) {
+        setUser({
+          profile: {
+            name: sessionUser.name || sessionUser.email || 'User',
+            email: sessionUser.email,
+            neonUserId: sessionUser.id,
+            emailVerified: sessionUser.emailVerified || false
+          }
+        });
+      }
     } catch (error) {
-      // Not authenticated or token expired
       setUser(null);
-      // Clean up any old localStorage token
-      localStorage.removeItem('token');
     } finally {
       setLoading(false);
-      setInitialCheckDone(true);
     }
-  }, [initialCheckDone]);
+  }, []);
 
   useEffect(() => {
-    // Check authentication status by trying to fetch profile
-    // This will work with cookies automatically
-    if (!initialCheckDone) {
-      checkAuthStatus();
-    }
-  }, [checkAuthStatus, initialCheckDone]); // Empty dependency array to run only once on mount
+    checkAuthStatus();
+  }, [checkAuthStatus]);
 
   const login = async (email, password) => {
     try {
-      await api.post('/users/login', { email, password });
-      // Cookie is set automatically by the server
-      // Fetch user profile to update state
-      const profileResponse = await api.get('/users/profile');
-      setUser({ profile: profileResponse.data });
+      const result = await authClient.signIn.email({ email, password });
+      if (result?.error) {
+        return {
+          success: false,
+          error: result.error.message || 'Login failed'
+        };
+      }
+
+      await checkAuthStatus();
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error.response?.data?.message || 'Login failed' 
+      return {
+        success: false,
+        error: error?.message || 'Login failed'
+      };
+    }
+  };
+
+  const signup = async (name, email, password) => {
+    try {
+      const result = await authClient.signUp.email({ name, email, password });
+      if (result?.error) {
+        return {
+          success: false,
+          error: result.error.message || 'Sign up failed'
+        };
+      }
+
+      await checkAuthStatus();
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error?.message || 'Sign up failed'
       };
     }
   };
 
   const logout = async () => {
     try {
-      await api.post('/users/logout');
+      await authClient.signOut();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Clean up state and localStorage regardless of API call result
       setUser(null);
-      localStorage.removeItem('token');
     }
   };
 
@@ -73,6 +104,7 @@ export const AuthProvider = ({ children }) => {
     user,
     isAuthenticated: !!user,
     login,
+    signup,
     logout,
     loading,
     checkAuthStatus

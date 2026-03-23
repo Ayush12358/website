@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { authClient } from './neonAuth';
 
 const CONFIGURED_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim();
 
@@ -73,16 +74,21 @@ const api = axios.create({
   withCredentials: true, // Include cookies in requests
 });
 
-// Request interceptor to add auth token and update baseURL
+// Request interceptor to add Neon Auth token and update baseURL
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     // Update baseURL for each request to handle environment switching
     config.baseURL = getBaseURL();
-    
-    const token = localStorage.getItem('token');
+
+    const sessionResult = await authClient.getSession();
+    const token = sessionResult?.data?.session?.token;
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else if (config.headers && config.headers.Authorization) {
+      delete config.headers.Authorization;
     }
+
     return config;
   },
   (error) => {
@@ -110,9 +116,7 @@ api.interceptors.response.use(
     }
     
     if (error.response?.status === 401) {
-      // Token is invalid or expired - just clean up localStorage
-      // Let the AuthContext handle the redirect logic
-      localStorage.removeItem('token');
+      // Let the auth context and Neon client manage session lifecycle.
     }
     return Promise.reject(error);
   }

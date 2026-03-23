@@ -70,7 +70,7 @@ User.hasMany(Content, { foreignKey: 'userId' });
 // Sync the model
 // Content.sync({ alter: true });
 
-// Configure multer — always use memory storage so we can route to Blob or local disk
+// Configure multer using memory storage before persisting files to disk.
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -161,22 +161,11 @@ router.post('/upload/:type/:key', authMiddleware, upload.single('file'), async (
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    let fileUrl;
-    if (isVercelRuntime) {
-      const { put } = require('@vercel/blob');
-      const blobName = `uploads/${Date.now()}-${req.file.originalname}`;
-      const blob = await put(blobName, req.file.buffer, {
-        access: 'public',
-        contentType: req.file.mimetype,
-      });
-      fileUrl = blob.url;
-    } else {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      const filename = 'file-' + uniqueSuffix + path.extname(req.file.originalname);
-      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-      fs.writeFileSync(path.join(uploadsDir, filename), req.file.buffer);
-      fileUrl = `/uploads/${filename}`;
-    }
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const filename = 'file-' + uniqueSuffix + path.extname(req.file.originalname);
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+    fs.writeFileSync(path.join(uploadsDir, filename), req.file.buffer);
+    const fileUrl = `/uploads/${filename}`;
 
     const fileMetadata = {
       ...JSON.parse(metadata || '{}'),
@@ -199,14 +188,9 @@ router.post('/upload/:type/:key', authMiddleware, upload.single('file'), async (
     if (!created) {
       // Delete old file if it exists
       if (content.fileUrl) {
-        if (isVercelRuntime) {
-          const { del } = require('@vercel/blob');
-          await del(content.fileUrl).catch(() => {});
-        } else {
-          const oldFileName = path.basename(content.fileUrl);
-          const oldFilePath = path.join(uploadsDir, oldFileName);
-          if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
-        }
+        const oldFileName = path.basename(content.fileUrl);
+        const oldFilePath = path.join(uploadsDir, oldFileName);
+        if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
       }
       await content.update({ fileUrl, metadata: fileMetadata });
     }
@@ -303,7 +287,7 @@ router.delete('/:type/:key', authMiddleware, async (req, res) => {
 
     // Delete associated file if it exists
     if (content.fileUrl) {
-      const filePath = path.join(__dirname, '../../', content.fileUrl);
+      const filePath = path.join(uploadsDir, path.basename(content.fileUrl));
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }

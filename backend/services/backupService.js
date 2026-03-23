@@ -4,6 +4,8 @@ const cron = require('node-cron');
 const crypto = require('crypto');
 
 const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
+const configuredDialect = (process.env.DB_DIALECT || (process.env.DATABASE_URL ? 'postgres' : 'sqlite')).toLowerCase();
+const isSqliteDialect = configuredDialect === 'sqlite';
 const sqliteStoragePath = process.env.SQLITE_STORAGE_PATH
   || (isVercelRuntime ? '/tmp/database.sqlite' : path.join(__dirname, '../database.sqlite'));
 const backupsPath = process.env.BACKUPS_DIR
@@ -14,9 +16,21 @@ class BackupService {
     this.dbPath = sqliteStoragePath;
     this.backupDir = backupsPath;
     this.maxBackups = 30; // Keep 30 days of backups
+    this.enabled = isSqliteDialect;
+
+    if (!this.enabled) {
+      console.log('BackupService is disabled because DB_DIALECT is not sqlite. Use Neon managed backups for Postgres.');
+      return;
+    }
     
     // Ensure backup directory exists
     this.ensureBackupDirectory();
+  }
+
+  ensureEnabled() {
+    if (!this.enabled) {
+      throw new Error('Backup operations are disabled when DB_DIALECT is not sqlite.');
+    }
   }
 
   async ensureBackupDirectory() {
@@ -42,12 +56,10 @@ class BackupService {
 
   async hasBackupToday() {
     try {
-      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      if (isVercelRuntime) {
-        const { list } = require('@vercel/blob');
-        const { blobs } = await list({ prefix: `backups/database-backup-${today}` });
-        return blobs.length > 0;
+      if (!this.enabled) {
+        return false;
       }
+      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
       const files = await fs.readdir(this.backupDir);
       const todayBackups = files.filter(file => 
         file.startsWith(`database-backup-${today}`) && file.endsWith('.sqlite')
@@ -61,6 +73,9 @@ class BackupService {
 
   async createDailyBackup() {
     try {
+      if (!this.enabled) {
+        return null;
+      }
       // Check if we already have a backup for today
       if (await this.hasBackupToday()) {
         console.log('📅 Daily backup already exists for today, skipping...');
@@ -87,13 +102,6 @@ class BackupService {
       console.log(`✅ Daily backup created: ${backupFilename}`);
       console.log(`📁 Backup path: ${backupPath}`);
 
-      if (isVercelRuntime) {
-        const { put } = require('@vercel/blob');
-        const fileBuffer = await fs.readFile(backupPath);
-        const blob = await put(`backups/${backupFilename}`, fileBuffer, { access: 'public' });
-        console.log(`☁️  Daily backup uploaded to Blob: ${blob.url}`);
-      }
-
       // Clean up old backups
       await this.cleanupOldBackups();
       
@@ -106,6 +114,9 @@ class BackupService {
 
   async createBackup() {
     try {
+      if (!this.enabled) {
+        return null;
+      }
       const backupFilename = this.generateBackupFilename();
       const backupPath = path.join(this.backupDir, backupFilename);
 
@@ -125,13 +136,6 @@ class BackupService {
 
       console.log(`✅ Database backup created: ${backupFilename}`);
       console.log(`📁 Backup path: ${backupPath}`);
-
-      if (isVercelRuntime) {
-        const { put } = require('@vercel/blob');
-        const fileBuffer = await fs.readFile(backupPath);
-        const blob = await put(`backups/${backupFilename}`, fileBuffer, { access: 'public' });
-        console.log(`☁️  Backup uploaded to Blob: ${blob.url}`);
-      }
 
       // Clean up old backups
       await this.cleanupOldBackups();
@@ -156,6 +160,7 @@ class BackupService {
 
   async verifyBackup(backupPath) {
     try {
+      this.ensureEnabled();
       const checksumPath = backupPath + '.checksum';
       
       if (!await fs.pathExists(checksumPath)) {
@@ -178,6 +183,9 @@ class BackupService {
 
   async cleanupOldBackups() {
     try {
+      if (!this.enabled) {
+        return;
+      }
       const files = await fs.readdir(this.backupDir);
       const backupFiles = files.filter(file => file.startsWith('database-backup-') && file.endsWith('.sqlite'));
       
@@ -209,16 +217,8 @@ class BackupService {
 
   async listBackups() {
     try {
-      if (isVercelRuntime) {
-        const { list } = require('@vercel/blob');
-        const { blobs } = await list({ prefix: 'backups/database-backup-' });
-        const backupNames = blobs.map(b => path.basename(b.pathname));
-        console.log(`📋 Available backups in Blob (${backupNames.length}):`);
-        for (const b of blobs) {
-          const size = (b.size / 1024).toFixed(2);
-          console.log(`  - ${path.basename(b.pathname)} (${size} KB, ${b.uploadedAt})`);
-        }
-        return backupNames;
+      if (!this.enabled) {
+        return [];
       }
       const files = await fs.readdir(this.backupDir);
       const backupFiles = files.filter(file => file.startsWith('database-backup-') && file.endsWith('.sqlite'));
@@ -240,30 +240,7 @@ class BackupService {
 
   async restoreBackup(backupFilename) {
     try {
-      if (isVercelRuntime) {
-        const { list, put } = require('@vercel/blob');
-        // Find the blob for this filename
-        const { blobs } = await list({ prefix: `backups/${backupFilename}` });
-        const target = blobs.find(b => path.basename(b.pathname) === backupFilename);
-        if (!target) throw new Error(`Backup not found in Blob storage: ${backupFilename}`);
-
-        // Save current database to Blob before overwriting
-        if (await fs.pathExists(this.dbPath)) {
-          const currentBuf = await fs.readFile(this.dbPath);
-          const preRestoreName = `backups/pre-restore-${Date.now()}.sqlite`;
-          await put(preRestoreName, currentBuf, { access: 'public' });
-          console.log(`📦 Current database backed up to Blob: ${preRestoreName}`);
-        }
-
-        // Download backup from Blob and write to writable path
-        const response = await fetch(target.url);
-        if (!response.ok) throw new Error(`Failed to download backup: ${response.statusText}`);
-        const arrayBuffer = await response.arrayBuffer();
-        await fs.writeFile(this.dbPath, Buffer.from(arrayBuffer));
-        console.log(`✅ Database restored from Blob: ${backupFilename}`);
-        return true;
-      }
-
+      this.ensureEnabled();
       const backupPath = path.join(this.backupDir, backupFilename);
       
       if (!await fs.pathExists(backupPath)) {
@@ -295,6 +272,11 @@ class BackupService {
   }
 
   startScheduledBackups() {
+    if (!this.enabled) {
+      console.log('Scheduled backups are disabled because DB_DIALECT is not sqlite.');
+      return;
+    }
+
     // Run daily backups at 2:00 AM
     cron.schedule('0 2 * * *', async () => {
       console.log('🕐 Starting scheduled daily backup...');

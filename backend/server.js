@@ -202,13 +202,11 @@ app.use('/api/ports', portRoutes);
 app.use('/api/linktree', linktreeRoutes);
 app.use('/api/public-links', publicLinksRoutes);
 
-// Serve uploaded files (local dev only — on Vercel, files are served from Blob CDN URLs)
-if (!isVercelRuntime) {
-  if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-  }
-  app.use('/uploads', express.static(uploadsDir));
+// Serve uploaded files from local runtime storage.
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
 }
+app.use('/uploads', express.static(uploadsDir));
 
 app.get('/api', (req, res) => {
   res.send('API is running');

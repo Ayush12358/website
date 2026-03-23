@@ -100,8 +100,8 @@ router.get('/status', authMiddleware, async (req, res) => {
     const fs = require('fs-extra');
     const path = require('path');
     
-    const dbPath = path.join(__dirname, '../database.sqlite');
-    const backupDir = path.join(__dirname, '../backups');
+    const dbPath = backupService.dbPath;
+    const backupDir = backupService.backupDir;
     
     let dbSize = 0;
     let dbExists = false;
@@ -116,6 +116,7 @@ router.get('/status', authMiddleware, async (req, res) => {
     
     res.json({
       success: true,
+      mode: backupService.enabled ? 'sqlite' : 'postgres',
       database: {
         exists: dbExists,
         size: dbSize,
@@ -127,7 +128,7 @@ router.get('/status', authMiddleware, async (req, res) => {
         maxBackups: backupService.maxBackups
       },
       schedule: {
-        enabled: true,
+        enabled: backupService.enabled,
         frequency: 'Daily at 2:00 AM',
         timezone: 'America/New_York'
       }

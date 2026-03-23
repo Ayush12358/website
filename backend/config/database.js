@@ -2,6 +2,8 @@ const { Sequelize } = require('sequelize');
 const path = require('path');
 
 const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
+const configuredDialect = (process.env.DB_DIALECT || (process.env.DATABASE_URL ? 'postgres' : 'sqlite')).toLowerCase();
+const isPostgresDialect = configuredDialect === 'postgres' || configuredDialect === 'postgresql';
 const sqliteStoragePath = process.env.SQLITE_STORAGE_PATH
   || (isVercelRuntime ? '/tmp/database.sqlite' : path.join(__dirname, '../database.sqlite'));
 
@@ -26,8 +28,6 @@ const resolveSqliteDialectModule = () => {
   }
 };
 
-const dialectModule = resolveSqliteDialectModule();
-
 if (DB_ENCRYPTION_KEY === DEFAULT_DB_ENCRYPTION_KEY) {
   if (process.env.NODE_ENV === 'production') {
     const missingKeyError = new Error('DB_ENCRYPTION_KEY must be set in production. Refusing to start with default key.');
@@ -37,34 +37,72 @@ if (DB_ENCRYPTION_KEY === DEFAULT_DB_ENCRYPTION_KEY) {
   console.warn('WARNING: Using default database encryption key outside production. Set DB_ENCRYPTION_KEY for real deployments.');
 }
 
-// Initialize SQLite database with connection pooling and WAL mode for better performance
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: sqliteStoragePath,
-  dialectModule,
-  dialectOptions: {
-    // Enable Write-Ahead Logging for better concurrency
-    options: [
-      'PRAGMA journal_mode = WAL;',
-      'PRAGMA synchronous = NORMAL;',
-      'PRAGMA cache_size = 1000000;',
-      'PRAGMA foreign_keys = ON;',
-      'PRAGMA temp_store = MEMORY;'
-    ]
-  },
-  logging: false, // Set to console.log to see SQL queries
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  },
-  define: {
-    // Add automatic createdAt and updatedAt timestamps
-    timestamps: true,
-    // Use camelCase for automatically added attributes
-    underscored: false
+let sequelize;
+
+if (isPostgresDialect) {
+  const databaseUrl = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error('DATABASE_URL (or NEON_DATABASE_URL) is required when DB_DIALECT=postgres');
   }
-});
+
+  const useSsl = process.env.PG_SSL === 'true'
+    || process.env.NODE_ENV === 'production'
+    || databaseUrl.includes('neon.tech');
+
+  sequelize = new Sequelize(databaseUrl, {
+    dialect: 'postgres',
+    logging: false,
+    dialectOptions: useSsl
+      ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false
+        }
+      }
+      : {},
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
+    define: {
+      timestamps: true,
+      underscored: false
+    }
+  });
+} else {
+  const dialectModule = resolveSqliteDialectModule();
+
+  // Initialize SQLite database with connection pooling and WAL mode for better performance
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: sqliteStoragePath,
+    dialectModule,
+    dialectOptions: {
+      // Enable Write-Ahead Logging for better concurrency
+      options: [
+        'PRAGMA journal_mode = WAL;',
+        'PRAGMA synchronous = NORMAL;',
+        'PRAGMA cache_size = 1000000;',
+        'PRAGMA foreign_keys = ON;',
+        'PRAGMA temp_store = MEMORY;'
+      ]
+    },
+    logging: false, // Set to console.log to see SQL queries
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
+    define: {
+      // Add automatic createdAt and updatedAt timestamps
+      timestamps: true,
+      // Use camelCase for automatically added attributes
+      underscored: false
+    }
+  });
+}
 
 module.exports = sequelize;
