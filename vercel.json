@@ -2,6 +2,7 @@
   "version": 2,
   "installCommand": "bun install --cwd backend && bun install --cwd frontend",
   "buildCommand": "bun run --cwd frontend build",
+  "outputDirectory": "frontend/dist",
   "functions": {
     "api/[...all].js": {
       "includeFiles": "frontend/dist/**"
