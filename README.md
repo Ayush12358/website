@@ -9,8 +9,6 @@ A sophisticated, full-stack personal ecosystem featuring a portfolio website, ma
 - [Vercel Deployment](#vercel-deployment-single-root-project)
 
 - **Architecture**: A full-stack solution featuring a secure Node.js backend and a dynamic React frontend.
-- **Infrastructure**: Cloudflare Tunnels for secure local-to-web exposure.
-
 ## 🚀 Getting Started
 
 ### Quick Start (Server)

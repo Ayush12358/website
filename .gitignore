@@ -9,7 +9,6 @@ frontend/.env
 
 # Secrets and configuration
 config.yml
-cloudflare.yml
 secrets/
 keys/
 

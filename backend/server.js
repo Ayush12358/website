@@ -18,7 +18,6 @@ const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'tr
 const uploadsDir = process.env.UPLOADS_DIR
   || (isVercelRuntime ? '/tmp/uploads' : path.join(__dirname, 'uploads'));
 
-// Trust proxy for Cloudflare tunnel
 app.set('trust proxy', true);
 
 // Security middleware
