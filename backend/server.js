@@ -213,6 +213,12 @@ app.get('/api/ready', async (req, res) => {
   }
 });
 
+// Vercel guest communication config endpoint can be requested by platform tooling.
+// Keep it available without requiring DB initialization to avoid noisy 503s.
+app.get('/api/v1/guest/comm/config', (req, res) => {
+  return res.json({ enabled: false });
+});
+
 // Gate all API requests on DB readiness (critical for serverless cold starts).
 app.use('/api', async (req, res, next) => {
   try {
