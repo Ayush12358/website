@@ -27,10 +27,13 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      styleSrcElem: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      scriptSrc: ["'self'", "https://vercel.live"],
+      scriptSrcElem: ["'self'", "https://vercel.live"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", neonAuthUrl],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", neonAuthUrl, "https://vercel.live"],
       frameSrc: [neonAuthUrl],
     },
   },
