@@ -4,7 +4,6 @@
   "buildCommand": "bun run --cwd frontend build",
   "functions": {
     "api/[...all].js": {
-      "runtime": "nodejs20.x",
       "includeFiles": "frontend/dist/**"
     }
   },
