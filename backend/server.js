@@ -21,6 +21,8 @@ const uploadsDir = process.env.UPLOADS_DIR
 app.set('trust proxy', true);
 
 // Security middleware
+const neonAuthUrl = process.env.VITE_NEON_AUTH_URL || 'https://ep-rough-dust-an6dybh2.neonauth.c-6.us-east-1.aws.neon.tech';
+
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -28,6 +30,8 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'"],
       scriptSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", neonAuthUrl],
+      frameSrc: [neonAuthUrl],
     },
   },
   crossOriginEmbedderPolicy: false
