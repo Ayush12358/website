@@ -1,11 +1,23 @@
 const { Sequelize } = require('sequelize');
 const path = require('path');
+const fs = require('fs');
 
 const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
 const configuredDialect = (process.env.DB_DIALECT || (process.env.DATABASE_URL ? 'postgres' : 'sqlite')).toLowerCase();
 const isPostgresDialect = configuredDialect === 'postgres' || configuredDialect === 'postgresql';
-const sqliteStoragePath = process.env.SQLITE_STORAGE_PATH
-  || (isVercelRuntime ? '/tmp/database.sqlite' : path.join(__dirname, '../database.sqlite'));
+
+// Resolve SQLite path more robustly for Windows
+let sqliteStoragePath;
+if (process.env.SQLITE_STORAGE_PATH) {
+  sqliteStoragePath = process.env.SQLITE_STORAGE_PATH;
+} else if (isVercelRuntime) {
+  sqliteStoragePath = '/tmp/database.sqlite';
+} else {
+  // Use absolute path based on parent directory
+  // __dirname is backend/config, so go up 2 levels to project root
+  const projectRoot = path.resolve(__dirname, '../../');
+  sqliteStoragePath = path.join(projectRoot, 'database.sqlite');
+}
 
 // Ensure we have the database encryption key
 const DEFAULT_DB_ENCRYPTION_KEY = 'default-key-change-in-production';

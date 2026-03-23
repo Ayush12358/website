@@ -85,6 +85,35 @@ app.use(cors({
 
 const PORT = process.env.WEBSITE_PORT || process.env.PORT || 5001;
 
+// Ensure necessary directories exist before database initialization
+const ensureDirectories = () => {
+  const projectRoot = path.resolve(__dirname, '../');
+  const dbStoragePath = process.env.SQLITE_STORAGE_PATH || path.join(projectRoot, 'database.sqlite');
+  const uploadsPath = uploadsDir;
+  const backupsPath = process.env.BACKUPS_DIR || path.join(projectRoot, 'backups');
+  
+  const dirs = [
+    path.dirname(dbStoragePath),
+    uploadsPath,
+    backupsPath
+  ];
+  
+  dirs.forEach(dir => {
+    try {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+        console.log(`Created directory: ${dir}`);
+      }
+    } catch (error) {
+      if (error.code !== 'EEXIST') {
+        console.warn(`Warning creating directory ${dir}:`, error.message);
+      }
+    }
+  });
+};
+
+ensureDirectories();
+
 // Initialize database
 const initDatabase = async () => {
   try {
