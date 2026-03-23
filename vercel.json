@@ -4,19 +4,7 @@
   "buildCommand": "bun run --cwd frontend build",
   "functions": {
     "api/[...all].js": {
-      "includeFiles": [
-        "frontend/dist/**",
-        "backend/api/**",
-        "backend/config/**",
-        "backend/middleware/**",
-        "backend/models/**",
-        "backend/routes/**",
-        "backend/services/**",
-        "backend/server.js",
-        "backend/package.json",
-        "backend/node_modules/pg/**",
-        "backend/node_modules/pg-hstore/**"
-      ]
+      "includeFiles": "{frontend/dist/**,backend/**}"
     }
   },
   "routes": [
