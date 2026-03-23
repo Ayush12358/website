@@ -219,6 +219,43 @@ app.get('/api/v1/guest/comm/config', (req, res) => {
   return res.json({ enabled: false });
 });
 
+const sendDegradedApiResponse = (req, res) => {
+  if (req.method !== 'GET') {
+    return false;
+  }
+
+  if (req.path === '/public-links') {
+    res.json({ success: true, data: [] });
+    return true;
+  }
+
+  if (req.path === '/blog') {
+    res.json({
+      blogs: [],
+      pagination: {
+        currentPage: 1,
+        totalPages: 0,
+        totalPosts: 0,
+        hasNext: false,
+        hasPrev: false
+      }
+    });
+    return true;
+  }
+
+  if (req.path === '/blog/categories') {
+    res.json([]);
+    return true;
+  }
+
+  if (req.path === '/blog/tags') {
+    res.json([]);
+    return true;
+  }
+
+  return false;
+};
+
 // Gate all API requests on DB readiness (critical for serverless cold starts).
 app.use('/api', async (req, res, next) => {
   try {
@@ -226,6 +263,11 @@ app.use('/api', async (req, res, next) => {
     return next();
   } catch (error) {
     console.error('API request blocked: database not initialized', error);
+
+    if (sendDegradedApiResponse(req, res)) {
+      return;
+    }
+
     return res.status(503).json({ message: 'Service temporarily unavailable' });
   }
 });
