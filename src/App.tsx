@@ -1,5 +1,5 @@
 import "./index.css";
-import './App.css';
+import "./App.css";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
@@ -165,10 +165,6 @@ const honours = [
 
 const linktreeLinks: Array<{ title: string; href: string }> = [
   {
-    title: "Ayush Maurya - Portfolio",
-    href: "https://ayushmaurya.xyz/",
-  },
-  {
     title: "My Research - Representing India",
     href: "https://research.ayushmaurya.xyz/",
   },
@@ -228,18 +224,16 @@ function Tags({ tags }: { tags: string[] }) {
 
 export function App() {
   const [isProjectsPopupOpen, setIsProjectsPopupOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     const savedMode = window.localStorage.getItem("theme-mode");
-    if (savedMode === "dark") {
-      setIsDarkMode(true);
+    if (savedMode === "light") {
+      setIsDarkMode(false);
       return;
     }
 
-    if (!savedMode && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDarkMode(true);
-    }
+    setIsDarkMode(true);
   }, []);
 
   useEffect(() => {
@@ -264,9 +258,9 @@ export function App() {
   }, [isProjectsPopupOpen]);
 
   const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'resume_ayush_maurya.pdf';
+    const link = document.createElement("a");
+    link.href = "/resume.pdf";
+    link.download = "resume_ayush_maurya.pdf";
     link.click();
   };
 
@@ -282,11 +276,6 @@ export function App() {
           {heroHighlights.map(highlight => (
             <span key={highlight}>{highlight}</span>
           ))}
-        </div>
-        <div className="resume-actions animate-fade-in">
-          <button onClick={handleDownload} className="btn btn-primary">
-            Download PDF
-          </button>
         </div>
       </header>
 
@@ -390,32 +379,41 @@ export function App() {
               </div>
             ))}
           </section>
+
+          <div className="sidebar-controls">
+            <button
+              type="button"
+              className="side-projects-button"
+              onClick={() => setIsProjectsPopupOpen(true)}
+            >
+              Other Projects
+            </button>
+
+            <button
+              type="button"
+              className="sidebar-action-button"
+              onClick={handleDownload}
+            >
+              Download PDF
+            </button>
+          </div>
         </div>
       </div>
 
       <button
         type="button"
-        className="theme-toggle-floating"
+        className="theme-toggle-floating theme-toggle-corner"
         onClick={() => setIsDarkMode(prev => !prev)}
         role="switch"
-        aria-pressed={isDarkMode}
         aria-checked={isDarkMode}
         aria-label="Toggle dark mode"
       >
         <span className="theme-toggle-icon" aria-hidden="true">
-          {isDarkMode ? <Moon size={14} /> : <Sun size={14} />}
+          {isDarkMode ? <Moon size={12} /> : <Sun size={12} />}
         </span>
         <span className={`theme-toggle-track${isDarkMode ? " active" : ""}`}>
           <span className="theme-toggle-thumb" />
         </span>
-      </button>
-
-      <button
-        type="button"
-        className="side-projects-button"
-        onClick={() => setIsProjectsPopupOpen(true)}
-      >
-        Other Projects
       </button>
 
       {isProjectsPopupOpen && (

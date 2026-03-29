@@ -116,76 +116,38 @@
   border-color: rgba(200, 214, 236, 0.24);
 }
 
-.resume-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.btn {
-  border: 0;
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 0.9rem 1.7rem;
-  cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-
-.btn-primary {
-  background: #55637a;
-  color: #eef3fa;
-  box-shadow: 0 10px 20px -16px rgba(23, 31, 45, 0.55);
-}
-
-.resume-container.dark-mode .btn-primary {
-  background: #4b5d79;
-  color: #eaf1fc;
-  border: 1px solid rgba(188, 201, 223, 0.34);
-  box-shadow: 0 10px 22px -16px rgba(5, 8, 14, 0.9);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  background: #60708a;
-  box-shadow: 0 12px 22px -16px rgba(23, 31, 45, 0.6);
-}
-
-.resume-container.dark-mode .btn-primary:hover {
-  background: #566a88;
-  box-shadow: 0 14px 24px -16px rgba(5, 8, 14, 0.92);
-}
-
-.btn-secondary {
-  background: #dde4ee;
-  color: #2f3a4a;
-  border: 1px solid var(--stroke);
-  box-shadow: none;
-}
-
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  background: #e5ebf4;
+.sidebar-controls {
+  margin-top: 0.2rem;
+  display: grid;
+  gap: 0.58rem;
+  justify-items: stretch;
 }
 
 .theme-toggle-floating {
-  position: fixed;
-  right: 1rem;
-  top: 4.35rem;
-  z-index: 130;
   border: 1px solid rgba(0, 0, 0, 0.22);
   background: #dde4ee;
   color: #2f3a4a;
   border-radius: 999px;
-  padding: 0.58rem 0.84rem;
-  font-size: 0.9rem;
+  padding: 0.54rem 0.72rem;
+  font-size: 0.82rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.55rem;
+  min-width: 160px;
   cursor: pointer;
   box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.8);
+}
+
+.theme-toggle-corner {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 180;
+  min-width: 0;
+  padding: 0.38rem 0.44rem;
+  gap: 0.38rem;
 }
 
 .theme-toggle-floating:hover {
@@ -228,16 +190,6 @@
 
 .theme-toggle-track.active .theme-toggle-thumb {
   left: 1.15rem;
-}
-
-.resume-container.dark-mode .btn-secondary {
-  background: #394357;
-  color: #dbe4f1;
-  border-color: rgba(200, 214, 236, 0.28);
-}
-
-.resume-container.dark-mode .btn-secondary:hover {
-  background: #434f66;
 }
 
 .resume-container.dark-mode .theme-toggle-floating {
@@ -302,7 +254,7 @@
   margin: 0 0 1rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  padding: 0.78rem 1.08rem;
   color: #2f3a4a;
   font-size: clamp(1.2rem, 2.2vw, 1.45rem);
   letter-spacing: -0.02em;
@@ -543,25 +495,18 @@
 }
 
 .side-projects-button {
-  position: fixed;
-  right: 1rem;
-  top: 1rem;
-  transform: none;
-  z-index: 120;
   border: 1px solid rgba(63, 76, 96, 0.28);
   background: #55637a;
   color: #eef3fa;
   border-radius: 999px;
-  padding: 0.85rem 1.25rem;
+  padding: 0.78rem 1.08rem;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  writing-mode: horizontal-tb;
   cursor: pointer;
   box-shadow: 0 8px 20px -14px rgba(23, 31, 45, 0.52);
-  opacity: 1;
-  visibility: visible;
+  min-width: 160px;
 }
 
 .side-projects-button:hover {
@@ -576,6 +521,33 @@
 
 .resume-container.dark-mode .side-projects-button:hover {
   background: #43516b;
+}
+
+.sidebar-action-button {
+  border: 1px solid rgba(63, 76, 96, 0.26);
+  background: #dde4ee;
+  color: #2f3a4a;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  min-width: 160px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -14px rgba(23, 31, 45, 0.42);
+}
+
+.sidebar-action-button:hover {
+  background: #e6ecf5;
+}
+
+.resume-container.dark-mode .sidebar-action-button {
+  background: #3a455a;
+  color: #d8e1ef;
+  border-color: rgba(188, 201, 223, 0.28);
+}
+
+.resume-container.dark-mode .sidebar-action-button:hover {
+  background: #44526a;
 }
 
 .link-list {
@@ -627,7 +599,7 @@
   display: grid;
   place-items: center;
   padding: 1rem;
-  z-index: 100;
+  z-index: 220;
 }
 
 .resume-container.dark-mode .projects-popup-overlay {
@@ -737,11 +709,22 @@
     align-items: flex-start;
   }
 
+  .sidebar-controls {
+    gap: 0.5rem;
+  }
+
   .theme-toggle-floating {
+    padding: 0.5rem 0.66rem;
+    font-size: 0.78rem;
+    min-width: 142px;
+  }
+
+  .theme-toggle-corner {
     right: 0.75rem;
-    top: 3.9rem;
-    padding: 0.54rem 0.72rem;
-    font-size: 0.82rem;
+    bottom: 0.75rem;
+    min-width: 0;
+    padding: 0.34rem 0.42rem;
+    gap: 0.34rem;
   }
 
   .projects-popup {
@@ -758,9 +741,14 @@
   }
 
   .side-projects-button {
-    right: 0.75rem;
-    top: 0.75rem;
-    padding: 0.72rem 1rem;
-    font-size: 0.88rem;
+    padding: 0.66rem 0.86rem;
+    font-size: 0.82rem;
+    min-width: 142px;
+  }
+
+  .sidebar-action-button {
+    padding: 0.62rem 0.8rem;
+    font-size: 0.8rem;
+    min-width: 142px;
   }
 }
