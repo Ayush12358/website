@@ -259,7 +259,7 @@ export function App() {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/resume.pdf";
+    link.href = "/resume_ayush_maurya.pdf";
     link.download = "resume_ayush_maurya.pdf";
     link.click();
   };
