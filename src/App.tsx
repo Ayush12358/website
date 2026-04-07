@@ -392,6 +392,14 @@ export function App() {
             <button
               type="button"
               className="sidebar-action-button"
+              onClick={() => window.location.href = "/blog"}
+            >
+              Blog
+            </button>
+
+            <button
+              type="button"
+              className="sidebar-action-button"
               onClick={handleDownload}
             >
               Download PDF
