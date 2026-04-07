@@ -7,7 +7,11 @@
     "framework": null,
     "rewrites": [
         {
-            "source": "/((?!api/.*).*)",
+            "source": "/blog",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/blog/:path*",
             "destination": "/index.html"
         }
     ],
