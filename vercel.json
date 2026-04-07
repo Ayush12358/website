@@ -1,23 +1,14 @@
 {
+    "$schema": "https://openapi.vercel.sh/vercel.json",
     "buildCommand": "bun run build",
     "devCommand": "bun run dev",
     "installCommand": "bun install",
+    "bunVersion": "1.x",
     "framework": null,
-    "functions": {
-        "src/index.ts": {
-            "runtime": "bun",
-            "memory": 1024,
-            "maxDuration": 60
-        }
-    },
-    "routes": [
+    "rewrites": [
         {
-            "src": "/api/(.*)",
-            "dest": "/src/index.ts"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/src/index.ts"
+            "source": "/((?!api/.*).*)",
+            "destination": "/index.html"
         }
     ],
     "outputDirectory": "dist"
