@@ -30,12 +30,40 @@ const server = serve({
 
     "/api/blog": async req => {
       try {
-        const blogDir = new URL("../public/blog/", import.meta.url).pathname;
+        // Try multiple possible locations for blog directory
+        let blogDir: string | null = null;
+        const possiblePaths = [
+          // Production: Running from dist folder
+          `${process.cwd()}/blog`,
+          // Development: Running from src folder
+          new URL("../public/blog/", import.meta.url).pathname,
+          // Alternative paths
+          `${process.cwd()}/dist/blog`,
+          `${process.cwd()}/public/blog`,
+        ];
+
+        for (const path of possiblePaths) {
+          try {
+            const files = [...new Bun.Glob("*.md").scanSync(path)];
+            if (files && files.length > 0) {
+              blogDir = path;
+              break;
+            }
+          } catch {
+            // Path doesn't exist or glob failed, try next one
+          }
+        }
+
+        if (!blogDir) {
+          console.error(`Could not find blog directory with markdown files. Tried: ${possiblePaths.join(", ")}`);
+          return Response.json({ error: "Blog directory not found" }, { status: 404 });
+        }
+
         const files = [...new Bun.Glob("*.md").scanSync(blogDir)];
 
         const posts = await Promise.all(
           files.map(async file => {
-            const filePath = `${blogDir}${file}`;
+            const filePath = `${blogDir}/${file}`;
             const content = await Bun.file(filePath).text();
 
             // Parse frontmatter for date
