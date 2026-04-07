@@ -30,33 +30,46 @@ const server = serve({
 
     "/api/blog": async req => {
       try {
-        // Try multiple possible locations for blog directory
+        // Determine blog directory using multiple strategies
         let blogDir: string | null = null;
+        
+        // Strategy 1: Use import.meta.url to find relative to server file
+        const serverUrl = new URL(import.meta.url);
+        const serverDir = new URL(".", serverUrl).pathname;
+        const relativeFromServer = new URL("../blog", serverUrl).pathname;
+        
+        // Strategy 2: Try common paths
         const possiblePaths = [
-          // Production: Running from dist folder
-          `${process.cwd()}/blog`,
-          // Development: Running from src folder
-          new URL("../public/blog/", import.meta.url).pathname,
-          // Alternative paths
-          `${process.cwd()}/dist/blog`,
-          `${process.cwd()}/public/blog`,
+          relativeFromServer, // ../blog from src/index.ts
+          `${serverDir}/../blog`, // ../blog from current
+          `${serverDir}/../public/blog`, // ../public/blog from current
+          `${process.cwd()}/blog`, // CWD/blog
+          `${process.cwd()}/public/blog`, // CWD/public/blog
+          `${process.cwd()}/dist/blog`, // CWD/dist/blog
         ];
 
-        for (const path of possiblePaths) {
+        // Remove duplicates
+        const uniquePaths = [...new Set(possiblePaths)];
+
+        for (const path of uniquePaths) {
           try {
             const files = [...new Bun.Glob("*.md").scanSync(path)];
             if (files && files.length > 0) {
               blogDir = path;
+              console.log(`✓ Found blog directory at: ${path}`);
               break;
             }
-          } catch {
+          } catch (e) {
             // Path doesn't exist or glob failed, try next one
           }
         }
 
         if (!blogDir) {
-          console.error(`Could not find blog directory with markdown files. Tried: ${possiblePaths.join(", ")}`);
-          return Response.json({ error: "Blog directory not found" }, { status: 404 });
+          console.error(`✗ Could not find blog directory with markdown files.`);
+          console.error(`  Tried paths: ${uniquePaths.join("\n    ")}`);
+          console.error(`  process.cwd(): ${process.cwd()}`);
+          console.error(`  serverDir: ${serverDir}`);
+          return Response.json({ error: "Blog directory not found", paths: uniquePaths }, { status: 404 });
         }
 
         const files = [...new Bun.Glob("*.md").scanSync(blogDir)];
@@ -106,7 +119,7 @@ const server = serve({
         return Response.json(posts);
       } catch (error) {
         console.error("Error reading blog posts:", error);
-        return Response.json({ error: "Failed to read blog posts" }, { status: 500 });
+        return Response.json({ error: "Failed to read blog posts", details: String(error) }, { status: 500 });
       }
     },
   },

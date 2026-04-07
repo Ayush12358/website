@@ -1,8 +1,24 @@
 {
-    "outputDirectory": "dist",
-    "cleanUrls": true,
+    "buildCommand": "bun run build",
+    "devCommand": "bun run dev",
+    "installCommand": "bun install",
     "framework": null,
-    "rewrites": [
-        { "source": "/(.*)", "destination": "/" }
-    ]
+    "functions": {
+        "src/index.ts": {
+            "runtime": "bun",
+            "memory": 1024,
+            "maxDuration": 60
+        }
+    },
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/src/index.ts"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/src/index.ts"
+        }
+    ],
+    "outputDirectory": "dist"
 }
