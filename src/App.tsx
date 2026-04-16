@@ -402,7 +402,7 @@ export function App() {
               className="sidebar-action-button"
               onClick={handleDownload}
             >
-              Download PDF
+              Download Resume PDF
             </button>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import "./index.css";
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Moon, Sun, ArrowLeft } from "lucide-react";
+import { Moon, Sun, Edit } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { BlogAdmin } from "./BlogAdmin";
 
 interface BlogPost {
   title: string;
@@ -21,6 +22,7 @@ export function Blog({ slug }: BlogProps) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   useEffect(() => {
     const savedMode = window.localStorage.getItem("theme-mode");
@@ -71,6 +73,10 @@ export function Blog({ slug }: BlogProps) {
   };
 
   const handleBackToList = () => {
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
     window.location.href = "/blog";
   };
 
@@ -100,18 +106,45 @@ export function Blog({ slug }: BlogProps) {
     return encodeURIComponent(nameWithoutExt);
   };
 
+  const refreshPosts = async () => {
+    try {
+      const response = await fetch("/api/blog");
+      const data = await response.json();
+      setPosts(data);
+    } catch (error) {
+      console.error("Failed to refresh blog posts:", error);
+    }
+  };
+
   return (
     <div className={`resume-container${isDarkMode ? " dark-mode" : ""}`}>
+      <BlogAdmin
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        onPostsUpdate={refreshPosts}
+      />
+
       <header className="resume-header blog-header">
         <div className="blog-header-top">
           <p className="hero-kicker animate-fade-in">Blog</p>
-          <button
-            type="button"
-            className="header-back-button animate-fade-in"
-            onClick={handleBack}
-          >
-            ← Back to Portfolio
-          </button>
+          <div className="blog-header-actions animate-fade-in">
+            <button
+              type="button"
+              className="header-back-button"
+              onClick={handleBack}
+            >
+              ← Back to Portfolio
+            </button>
+            {selectedPost ? (
+              <button
+                type="button"
+                className="header-back-button"
+                onClick={handleBackToList}
+              >
+                ← Back to posts
+              </button>
+            ) : null}
+          </div>
         </div>
         <h1 className="animate-fade-in">
           {selectedPost ? selectedPost.title : "Articles & Thoughts"}
@@ -131,14 +164,6 @@ export function Blog({ slug }: BlogProps) {
             </section>
           ) : selectedPost ? (
             <article className="resume-section animate-fade-in blog-article">
-              <button
-                type="button"
-                className="back-button"
-                onClick={handleBackToList}
-              >
-                <ArrowLeft size={16} />
-                Back to posts
-              </button>
               <div className="blog-article-header">
                 <h2>{selectedPost.title}</h2>
                 <time className="blog-date">
@@ -185,6 +210,15 @@ export function Blog({ slug }: BlogProps) {
           </div>
         </div>
       </div>
+
+      <button
+        type="button"
+        className="edit-blog-button"
+        onClick={() => setIsAdminOpen(true)}
+        title="Manage blog posts"
+      >
+        <Edit size={18} />
+      </button>
 
       <button
         type="button"
