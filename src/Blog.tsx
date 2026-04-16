@@ -45,7 +45,8 @@ export function Blog({ slug }: BlogProps) {
 
         // If slug is provided, find and select that post
         if (slug) {
-          const slugWithoutExt = slug.replace(/\.md$/, "");
+          const decodedSlug = decodeURIComponent(slug);
+          const slugWithoutExt = decodedSlug.replace(/\.md$/, "");
           const post = data.find(
             (p: BlogPost) =>
               p.filename.replace(/\.md$/, "").toLowerCase() ===
@@ -95,7 +96,8 @@ export function Blog({ slug }: BlogProps) {
   };
 
   const getSlugFromFilename = (filename: string) => {
-    return filename.replace(/\.md$/, "").toLowerCase();
+    const nameWithoutExt = filename.replace(/\.md$/, "").toLowerCase();
+    return encodeURIComponent(nameWithoutExt);
   };
 
   return (
