@@ -1,4 +1,10 @@
-import { createBlogPost, updateBlogPost, deleteBlogPost, getAllBlogPostsAdmin } from "./db";
+import {
+  createBlogPost,
+  updateBlogPost,
+  deleteBlogPost,
+  getAllBlogPostsAdmin,
+  initializeDatabase,
+} from "./db";
 
 type BlogManagementRequest = {
   action: "create" | "update" | "delete" | "list";
@@ -23,6 +29,8 @@ export default {
   async fetch(request: Request) {
     if (request.method === "POST") {
       try {
+        await initializeDatabase();
+
         const data: BlogManagementRequest = await request.json();
 
         if (!verifyPassword(data.password)) {
