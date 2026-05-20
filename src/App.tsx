@@ -1,6 +1,7 @@
 import "./index.css";
 import "./App.css";
 import { useEffect, useState } from "react";
+import { Mail, Phone, Linkedin, Github } from "lucide-react";
 
 type LabeledValue = {
   label: string;
@@ -251,6 +252,22 @@ function Tags({ tags }: { tags: string[] }) {
   );
 }
 
+const getContactIcon = (code: string) => {
+  switch (code) {
+    case "EM":
+    case "II":
+      return <Mail size={14} />;
+    case "PH":
+      return <Phone size={14} />;
+    case "IN":
+      return <Linkedin size={14} />;
+    case "GH":
+      return <Github size={14} />;
+    default:
+      return null;
+  }
+};
+
 export function App() {
   const [isProjectsPopupOpen, setIsProjectsPopupOpen] = useState(false);
 
@@ -368,7 +385,7 @@ export function App() {
             <h2>Connectivity</h2>
             {contacts.map(contact => (
               <div key={`${contact.code}-${contact.label}`} className="contact-item">
-                <div className="contact-icon">{contact.code}</div>
+                <div className="contact-icon">{getContactIcon(contact.code)}</div>
                 {contact.href ? (
                   <a href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
                     {contact.label}
