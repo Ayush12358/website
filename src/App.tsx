@@ -181,7 +181,7 @@ const expertise: Array<{ category: string; tags: string[] }> = [
   },
   {
     category: "Technologies",
-    tags: ["Machine Learning", "PyTorch", "Linux", "System Design", "Image Processing"],
+    tags: ["Machine Learning", "PyTorch", "Linux", "System Design", "Systems Programming"],
   },
   {
     category: "UI/UX & Design",
