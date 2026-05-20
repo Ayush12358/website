@@ -6,7 +6,7 @@
   --stroke: rgba(63, 76, 96, 0.18);
   --brand: #2f3a49;
   --ring: rgba(63, 76, 96, 0.3);
-  --radius: 6px;
+  --radius: 22px;
   min-height: 100vh;
   color: var(--ink);
   overflow-x: hidden;
@@ -16,13 +16,13 @@
 }
 
 .resume-container.dark-mode {
-  --paper: #1b2028;
+  --paper: #080a0f;
   --ink: #dbe3ef;
   --ink-soft: #aeb8c7;
-  --card: rgba(31, 38, 50, 0.9);
-  --stroke: rgba(188, 201, 223, 0.2);
+  --card: rgba(18, 22, 30, 0.95);
+  --stroke: rgba(188, 201, 223, 0.12);
   --brand: #dfe6f2;
-  --ring: rgba(188, 201, 223, 0.35);
+  --ring: rgba(188, 201, 223, 0.24);
   background: var(--paper);
 }
 
@@ -62,7 +62,7 @@
   background: rgba(239, 244, 250, 0.82);
   border: 1px solid var(--stroke);
   padding: 0.46rem 0.72rem;
-  border-radius: 4px;
+  border-radius: 999px;
   backdrop-filter: blur(8px);
 }
 
@@ -86,7 +86,7 @@
   border: 1px solid var(--stroke);
   color: var(--brand);
   padding: 0.46rem 0.72rem;
-  border-radius: 4px;
+  border-radius: 999px;
   font-size: 0.76rem;
   font-weight: 700;
   cursor: pointer;
@@ -138,7 +138,7 @@
 .hero-highlights span {
   background: rgba(239, 244, 250, 0.82);
   border: 1px solid var(--stroke);
-  border-radius: 4px;
+  border-radius: 999px;
   padding: 0.45rem 0.78rem;
   font-size: 0.8rem;
   font-weight: 600;
@@ -175,7 +175,7 @@
   z-index: 180;
   width: 2.88rem;
   height: 2.88rem;
-  border-radius: 4px;
+  border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.22);
   background: #dde4ee;
   color: #2f3a4a;
@@ -374,7 +374,7 @@
 .metric-item {
   background: rgba(230, 236, 245, 0.94);
   border: 1px dashed rgba(63, 76, 96, 0.3);
-  border-radius: 4px;
+  border-radius: 16px;
   padding: 0.68rem;
   display: grid;
   gap: 0.15rem;
@@ -469,7 +469,7 @@
   color: #5a6474;
   background: rgba(233, 239, 247, 0.9);
   border: 1px solid var(--stroke);
-  border-radius: 4px;
+  border-radius: 999px;
   padding: 0.24rem 0.66rem;
   white-space: nowrap;
 }
@@ -489,7 +489,7 @@
 .project-item {
   background: rgba(230, 236, 245, 0.9);
   border: 1px solid var(--stroke);
-  border-radius: 6px;
+  border-radius: 17px;
   padding: 0.95rem;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
@@ -520,7 +520,7 @@
   color: #3f4a5b;
   background: rgba(207, 217, 231, 0.65);
   border: 1px solid rgba(99, 115, 139, 0.22);
-  border-radius: 4px;
+  border-radius: 999px;
   padding: 0.25rem 0.62rem;
 }
 
@@ -549,7 +549,7 @@
   height: 2rem;
   display: grid;
   place-items: center;
-  border-radius: 4px;
+  border-radius: 10px;
   background: rgba(230, 236, 245, 0.94);
   border: 1px solid var(--stroke);
 }
@@ -589,7 +589,7 @@
   border: 1px solid rgba(63, 76, 96, 0.28);
   background: #55637a;
   color: #eef3fa;
-  border-radius: 4px;
+  border-radius: 999px;
   padding: 0.78rem 1.08rem;
   font-size: 0.95rem;
   font-weight: 700;
@@ -618,7 +618,7 @@
   border: 1px solid rgba(63, 76, 96, 0.26);
   background: #dde4ee;
   color: #2f3a4a;
-  border-radius: 4px;
+  border-radius: 999px;
   padding: 0.72rem 1rem;
   min-width: 160px;
   font-size: 0.88rem;
@@ -656,7 +656,7 @@
   color: #334051;
   background: rgba(229, 236, 246, 0.92);
   border: 1px solid var(--stroke);
-  border-radius: 6px;
+  border-radius: 14px;
   padding: 1rem;
   text-decoration: none;
   text-align: center;
@@ -701,7 +701,7 @@
   width: min(720px, 100%);
   max-height: min(80vh, 700px);
   overflow: auto;
-  border-radius: 6px;
+  border-radius: 16px;
   border: 1px solid var(--stroke);
   background: #edf2f8;
   padding: 1rem;
@@ -733,7 +733,7 @@
   border: 1px solid var(--stroke);
   background: #dde4ee;
   color: #2f3a4a;
-  border-radius: 4px;
+  border-radius: 999px;
   padding: 0.42rem 0.72rem;
   cursor: pointer;
 }
@@ -899,7 +899,7 @@
 .blog-post-card {
   background: var(--card);
   border: 1px solid var(--stroke);
-  border-radius: 6px;
+  border-radius: 16px;
   padding: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
