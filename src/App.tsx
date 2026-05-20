@@ -131,12 +131,7 @@ const projects: ProjectEntry[] = [
       "Developed a model to predict age from images using transfer learning and compared it with ensemble methods like Random Forests and SVMs.",
     tags: ["Machine Learning", "PyTorch"],
   },
-  {
-    title: "Hoi Shell",
-    description:
-      "Built a custom shell in C supporting basic Linux commands, piping, and redirection.",
-    tags: ["C/C++", "Linux", "Systems"],
-  },
+
   {
     title: "Campus Mart",
     description:
