@@ -20,9 +20,9 @@
   --ink: #dbe3ef;
   --ink-soft: #aeb8c7;
   --card: rgba(11, 14, 20, 0.97);
-  --stroke: rgba(188, 201, 223, 0.12);
+  --stroke: rgba(188, 201, 223, 0.35);
   --brand: #dfe6f2;
-  --ring: rgba(188, 201, 223, 0.24);
+  --ring: rgba(188, 201, 223, 0.45);
   background: var(--paper);
 }
 
@@ -382,7 +382,7 @@
 
 .resume-container.dark-mode .metric-item {
   background: rgba(22, 28, 38, 0.8);
-  border-color: rgba(188, 201, 223, 0.28);
+  border-color: rgba(188, 201, 223, 0.45);
 }
 
 .metric-value {
@@ -496,7 +496,7 @@
 
 .resume-container.dark-mode .project-item {
   background: rgba(22, 28, 38, 0.8);
-  border-color: rgba(188, 201, 223, 0.24);
+  border-color: rgba(188, 201, 223, 0.35);
 }
 
 .project-item:hover {
@@ -528,7 +528,7 @@
 .resume-container.dark-mode .skill-tag {
   color: #cfd8e7;
   background: rgba(188, 201, 223, 0.12);
-  border-color: rgba(188, 201, 223, 0.25);
+  border-color: rgba(188, 201, 223, 0.4);
 }
 
 .contact-item {
@@ -558,7 +558,7 @@
 .resume-container.dark-mode .contact-icon {
   color: #d2dced;
   background: rgba(188, 201, 223, 0.12);
-  border-color: rgba(188, 201, 223, 0.24);
+  border-color: rgba(188, 201, 223, 0.35);
 }
 
 .contact-item a {
@@ -676,7 +676,7 @@
 .resume-container.dark-mode .link-list-item {
   color: #d4deec;
   background: rgba(22, 28, 38, 0.8);
-  border-color: rgba(188, 201, 223, 0.24);
+  border-color: rgba(188, 201, 223, 0.35);
 }
 
 .resume-container.dark-mode .link-list-item:hover {
@@ -710,7 +710,7 @@
 
 .resume-container.dark-mode .projects-popup {
   background: #12161e;
-  border-color: rgba(188, 201, 223, 0.24);
+  border-color: rgba(188, 201, 223, 0.35);
 }
 
 .projects-popup-header {
