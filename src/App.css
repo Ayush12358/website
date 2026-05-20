@@ -381,7 +381,7 @@
 }
 
 .resume-container.dark-mode .metric-item {
-  background: rgba(50, 60, 76, 0.9);
+  background: rgba(22, 28, 38, 0.8);
   border-color: rgba(188, 201, 223, 0.28);
 }
 
@@ -495,7 +495,7 @@
 }
 
 .resume-container.dark-mode .project-item {
-  background: rgba(47, 57, 73, 0.92);
+  background: rgba(22, 28, 38, 0.8);
   border-color: rgba(188, 201, 223, 0.24);
 }
 
@@ -506,6 +506,7 @@
 
 .resume-container.dark-mode .project-item:hover {
   border-color: rgba(188, 201, 223, 0.38);
+  background: rgba(28, 35, 48, 0.9);
 }
 
 .skills-tags {
@@ -605,13 +606,13 @@
 }
 
 .resume-container.dark-mode .side-projects-button {
-  background: #384359;
+  background: rgba(28, 35, 48, 0.9);
   color: #d8e1ef;
   border-color: rgba(200, 214, 236, 0.3);
 }
 
 .resume-container.dark-mode .side-projects-button:hover {
-  background: #43516b;
+  background: rgba(40, 50, 68, 0.9);
 }
 
 .sidebar-action-button {
@@ -632,13 +633,13 @@
 }
 
 .resume-container.dark-mode .sidebar-action-button {
-  background: #3a455a;
+  background: rgba(28, 35, 48, 0.75);
   color: #d8e1ef;
   border-color: rgba(188, 201, 223, 0.28);
 }
 
 .resume-container.dark-mode .sidebar-action-button:hover {
-  background: #44526a;
+  background: rgba(40, 50, 68, 0.75);
 }
 
 .link-list {
@@ -674,13 +675,13 @@
 
 .resume-container.dark-mode .link-list-item {
   color: #d4deec;
-  background: rgba(45, 54, 69, 0.92);
+  background: rgba(22, 28, 38, 0.8);
   border-color: rgba(188, 201, 223, 0.24);
 }
 
 .resume-container.dark-mode .link-list-item:hover {
   border-color: rgba(188, 201, 223, 0.4);
-  background: rgba(55, 66, 84, 0.96);
+  background: rgba(32, 40, 55, 0.9);
 }
 
 .projects-popup-overlay {
@@ -708,7 +709,7 @@
 }
 
 .resume-container.dark-mode .projects-popup {
-  background: #252d3b;
+  background: #12161e;
   border-color: rgba(188, 201, 223, 0.24);
 }
 
