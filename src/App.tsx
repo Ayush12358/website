@@ -113,6 +113,13 @@ const projects: ProjectEntry[] = [
     href: "https://crowdtwin.vercel.app/",
   },
   {
+    title: "Design for Social Innovation (TAFEA)",
+    description:
+      "Designed TAFEA (Teaching Assistant for Extracurricular Activities), an AI-assisted platform to help Teach For India fellows plan and customize extracurricular curricula for resource-constrained classrooms.",
+    tags: ["Human-Centered Design", "Education", "AI"],
+    href: "https://drive.google.com/drive/folders/1eeFthW_dBVRH_B3e6DE2cVocBUmpsps0?usp=drive_link",
+  },
+  {
     title: "Highland History Project",
     description:
       "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks.",
