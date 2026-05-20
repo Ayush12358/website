@@ -25,6 +25,7 @@ type ProjectEntry = {
   title: string;
   description: string;
   tags: string[];
+  href?: string;
 };
 
 type ContactEntry = {
@@ -34,15 +35,14 @@ type ContactEntry = {
 };
 
 const heroHighlights = [
-  "Systems + Product Thinking",
+  "Software Engineering",
   "Machine Learning",
   "Human Sciences",
 ];
 
 const profileMetrics: LabeledValue[] = [
-  { value: "40K+", label: "UGEE Applicants" },
-  { value: "8", label: "Project Sprints Led" },
-  { value: "0.3%", label: "UGEE Rank Bracket" },
+  { value: "2021", label: "Started B.Tech/M.S." },
+  { value: "111", label: "UGEE Rank" },
 ];
 
 const education: TimelineEntry[] = [
@@ -51,7 +51,15 @@ const education: TimelineEntry[] = [
     date: "2021 – Present",
     lines: [
       "B.Tech in Computer Science Engineering (CSE)",
-      "M.S. by Research in Computing and Human Sciences",
+      "M.S. by Research in Computing and Human Sciences (Ongoing)",
+    ],
+  },
+  {
+    title: "Relevant Coursework & Labs",
+    date: "2022 – 2024",
+    lines: [
+      "Design & Analysis of Software Systems",
+      "Human Science Lab (NLP Research)",
     ],
   },
   {
@@ -69,44 +77,70 @@ const education: TimelineEntry[] = [
 const experiences: TaggedEntry[] = [
   {
     title: "SERC Digital Twin",
-    date: "Real-time IoT",
+    date: "Environmental IoT",
     description:
-      "Led development of a real-time environmental monitoring digital twin using MERN stack and on-campus sensors (temp, humidity, water, air quality). Followed full SDLC over 8 sprints.",
-    tags: ["System Design", "JavaScript", "IoT", "MERN"],
+      "Developed a real-time environmental monitoring dashboard using the MERN stack, integrating local sensors for temperature, humidity, water, and air quality.",
+    tags: ["MERN", "IoT", "SQL"],
   },
   {
-    title: "tafea - System Design",
-    date: "Product Lead",
+    title: "tafea",
+    date: "System Design",
     description:
-      "Designed an end-to-end client software system following SDLC. Leveraged LLM to create student-catered features.",
-    tags: ["UX Research", "Product Design", "LLM Integration"],
+      "Designed a student client software system using standard SDLC methodologies and integrated LLM APIs.",
+    tags: ["System Design", "UI Design", "LLM"],
   },
 ];
 
 const projects: ProjectEntry[] = [
   {
-    title: "Age Prediction Model",
-    description:
-      "Predicting age from images using transfer learning and ensemble methods with high accuracy.",
-    tags: ["ML", "PyTorch"],
-  },
-  {
     title: "ML for Local Geoguesser",
     description:
-      "Predicted location details from images using ResNet50 with attention. Achieved 92% region accuracy.",
-    tags: ["ResNet50", "Vision AI"],
+      "Created a location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
+    tags: ["Python", "Machine Learning", "PyTorch"],
   },
   {
-    title: "Katha Marketplace",
+    title: "ElectoralSim",
     description:
-      "Designed a UI/UX solution for local artisans using digital storytelling to enhance engagement.",
-    tags: ["Design Thinking", "Marketplace"],
+      "Developed an open-source Python library for simulating electoral systems and voting methods as a side project of human sciences research.",
+    tags: ["Python", "Simulation", "Open Source"],
+    href: "https://pypi.org/project/electoral-sim",
+  },
+  {
+    title: "CrowdTwin",
+    description:
+      "Created a predictive crowd monitoring dashboard prototype as part of a Tech Product Entrepreneurship course, focusing on idea refinement and pitching to guest evaluators.",
+    tags: ["Next.js", "Product Design", "Prototype"],
+    href: "https://crowdtwin.vercel.app/",
+  },
+  {
+    title: "Highland History Project",
+    description:
+      "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks.",
+    tags: ["Machine Learning", "OCR", "LLM"],
+  },
+  {
+    title: "Age Prediction Model",
+    description:
+      "Developed a model to predict age from images using transfer learning and compared it with ensemble methods like Random Forests and SVMs.",
+    tags: ["Machine Learning", "PyTorch"],
   },
   {
     title: "Hoi Shell",
     description:
-      "Built a custom shell in C supporting Linux commands, piping, and redirection.",
-    tags: ["Systems", "C/C++"],
+      "Built a custom shell in C supporting basic Linux commands, piping, and redirection.",
+    tags: ["C/C++", "Linux", "Systems"],
+  },
+  {
+    title: "Campus Mart",
+    description:
+      "Designed UI/UX for a buy-sell-rent application featuring NFC tracking integration.",
+    tags: ["UI/UX Design", "Prototyping"],
+  },
+  {
+    title: "Katha Marketplace",
+    description:
+      "Designed a prototype storytelling-based marketplace interface for local artisans.",
+    tags: ["UI/UX Design", "Wireframing"],
   },
 ];
 
@@ -140,26 +174,30 @@ const contacts: ContactEntry[] = [
 const expertise: Array<{ category: string; tags: string[] }> = [
   {
     category: "Languages",
-    tags: ["Python", "C++", "JS"],
+    tags: ["Python", "C/C++", "JavaScript", "SQL", "HTML/CSS"],
   },
   {
-    category: "Frameworks",
-    tags: ["React", "Node", "PyTorch"],
+    category: "Technologies",
+    tags: ["Machine Learning", "PyTorch", "Linux", "System Design", "Image Processing"],
   },
   {
-    category: "Design Tools",
-    tags: ["Figma", "Adobe XD"],
+    category: "UI/UX & Design",
+    tags: ["Wireframing", "Prototyping", "User Stories", "User Research", "Interaction Design"],
   },
 ];
 
 const honours = [
   {
     title: "UGEE Rank: 111",
-    description: "Top 0.3% out of 40,000+ candidates",
+    description: "Rank 111 out of 40,000+ candidates",
   },
   {
-    title: "Cultural Merit",
-    description: "Base Guitarist, 2nd Place Inter-house",
+    title: "JEE Main",
+    description: "96.9 Percentile",
+  },
+  {
+    title: "Extra-Curricular",
+    description: "Bass guitarist in college band, lawn tennis player",
   },
 ];
 
@@ -169,32 +207,16 @@ const linktreeLinks: Array<{ title: string; href: string }> = [
     href: "https://research.ayushmaurya.xyz/",
   },
   {
-    title: "WorDrop Android App",
-    href: "https://github.com/Ayush12358/WorDrop",
-  },
-  {
-    title: "ElectoralSim Python Library",
-    href: "https://pypi.org/project/electoral-sim",
-  },
-  {
-    title: "Mental Health Toolkit",
-    href: "https://mh.ayushmaurya.xyz/",
-  },
-  {
-    title: "Better Intranet",
-    href: "https://betterintranet.vercel.app/",
-  },
-  {
-    title: "Sculpture | Gallery",
-    href: "https://sculpture-iiith.vercel.app/",
-  },
-  {
     title: "IPL Strategy Lab | Next-Gen Cricket Analytics",
     href: "https://ipl.ayushmaurya.xyz/",
   },
   {
-    title: "CrowdTwin | Predictive Command Center",
-    href: "https://crowdtwin.vercel.app/",
+    title: "TempusLogic NLP Research",
+    href: "https://github.com/Ayush12358/TempusLogic",
+  },
+  {
+    title: "WorDrop Android App",
+    href: "https://github.com/Ayush12358/WorDrop",
   },
   {
     title: "WebTTS - EPUB to Audiobook",
@@ -205,9 +227,17 @@ const linktreeLinks: Array<{ title: string; href: string }> = [
     href: "https://m4b.ayushmaurya.xyz/",
   },
   {
+    title: "IIIT In Context",
+    href: "https://iiit-in-context.vercel.app/",
+  },
+  {
+    title: "Mental Health Toolkit",
+    href: "https://mh.ayushmaurya.xyz/",
+  },
+  {
     title: "ZenFocus",
     href: "https://zen.ayushmaurya.xyz/",
-  },
+  }
 ];
 
 function Tags({ tags }: { tags: string[] }) {
@@ -270,7 +300,7 @@ export function App() {
         <p className="hero-kicker animate-fade-in">Portfolio Resume</p>
         <h1 className="animate-fade-in">Ayush Maurya</h1>
         <p className="resume-subtitle animate-fade-in">
-          Computer Science Engineering Student and Researcher at IIIT Hyderabad, building software that blends technical depth with human-centered outcomes.
+          Computer Science Engineering student and researcher at IIIT Hyderabad working at the intersection of computer science and human sciences.
         </p>
         <div className="hero-highlights animate-fade-in">
           {heroHighlights.map(highlight => (
@@ -284,9 +314,7 @@ export function App() {
           <section className="resume-section animate-fade-in">
             <h2>About Me</h2>
             <p>
-              Proficiently trained in both human sciences and computer science, I possess a unique perspective
-              that enables me to comprehend the far-reaching implications and outcomes of technological advancements.
-              My work focuses on the intersection of technical excellence and human-centric design.
+              Pursuing a dual degree (B.Tech in CS + M.S. by Research in Computing and Human Sciences) at IIIT Hyderabad. Academic interests include machine learning and software systems.
             </p>
             <div className="profile-metrics">
               {profileMetrics.map(metric => (
@@ -334,7 +362,15 @@ export function App() {
             <div className="projects-grid">
               {projects.map(project => (
                 <div key={project.title} className="project-item">
-                  <h3>{project.title}</h3>
+                  <h3>
+                    {project.href ? (
+                      <a href={project.href} target="_blank" rel="noopener noreferrer" className="project-link">
+                        {project.title}
+                      </a>
+                    ) : (
+                      project.title
+                    )}
+                  </h3>
                   <p>{project.description}</p>
                   <Tags tags={project.tags} />
                 </div>

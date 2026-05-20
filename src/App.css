@@ -445,6 +445,16 @@
   font-size: 1rem;
 }
 
+.project-link {
+  color: inherit;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.project-link:hover {
+  color: var(--ring, #4a5a76);
+}
+
 .course-item h4,
 .skills-category h4 {
   font-size: 0.88rem;
