@@ -1,7 +1,6 @@
 import "./index.css";
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
 
 type LabeledValue = {
   label: string;
@@ -254,21 +253,6 @@ function Tags({ tags }: { tags: string[] }) {
 
 export function App() {
   const [isProjectsPopupOpen, setIsProjectsPopupOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  useEffect(() => {
-    const savedMode = window.localStorage.getItem("theme-mode");
-    if (savedMode === "light") {
-      setIsDarkMode(false);
-      return;
-    }
-
-    setIsDarkMode(true);
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem("theme-mode", isDarkMode ? "dark" : "light");
-  }, [isDarkMode]);
 
   useEffect(() => {
     if (!isProjectsPopupOpen) {
@@ -295,7 +279,7 @@ export function App() {
   };
 
   return (
-    <div className={`resume-container${isDarkMode ? " dark-mode" : ""}`}>
+    <div className="resume-container dark-mode">
       <header className="resume-header">
         <p className="hero-kicker animate-fade-in">Portfolio Resume</p>
         <h1 className="animate-fade-in">Ayush Maurya</h1>
@@ -443,22 +427,6 @@ export function App() {
           </div>
         </div>
       </div>
-
-      <button
-        type="button"
-        className="theme-toggle-floating theme-toggle-corner"
-        onClick={() => setIsDarkMode(prev => !prev)}
-        role="switch"
-        aria-checked={isDarkMode}
-        aria-label="Toggle dark mode"
-      >
-        <span className="theme-toggle-icon" aria-hidden="true">
-          {isDarkMode ? <Moon size={12} /> : <Sun size={12} />}
-        </span>
-        <span className={`theme-toggle-track${isDarkMode ? " active" : ""}`}>
-          <span className="theme-toggle-thumb" />
-        </span>
-      </button>
 
       {isProjectsPopupOpen && (
         <div
