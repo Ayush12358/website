@@ -142,6 +142,7 @@ const projects: ProjectEntry[] = [
     description:
       "Designed UI/UX for a buy-sell-rent application featuring NFC tracking integration.",
     tags: ["UI/UX Design", "Prototyping"],
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
   },
   {
     title: "Katha Marketplace",
