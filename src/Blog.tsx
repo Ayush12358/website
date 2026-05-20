@@ -43,20 +43,25 @@ export function Blog({ slug }: BlogProps) {
       try {
         const response = await fetch("/api/blog");
         const data = await response.json();
-        setPosts(data);
+        if (Array.isArray(data)) {
+          setPosts(data);
 
-        // If slug is provided, find and select that post
-        if (slug) {
-          const decodedSlug = decodeURIComponent(slug);
-          const slugWithoutExt = decodedSlug.replace(/\.md$/, "");
-          const post = data.find(
-            (p: BlogPost) =>
-              p.filename.replace(/\.md$/, "").toLowerCase() ===
-              slugWithoutExt.toLowerCase()
-          );
-          if (post) {
-            setSelectedPost(post);
+          // If slug is provided, find and select that post
+          if (slug) {
+            const decodedSlug = decodeURIComponent(slug);
+            const slugWithoutExt = decodedSlug.replace(/\.md$/, "");
+            const post = data.find(
+              (p: BlogPost) =>
+                p.filename.replace(/\.md$/, "").toLowerCase() ===
+                slugWithoutExt.toLowerCase()
+            );
+            if (post) {
+              setSelectedPost(post);
+            }
           }
+        } else {
+          console.error("Fetched blog posts is not an array:", data);
+          setPosts([]);
         }
       } catch (error) {
         console.error("Failed to fetch blog posts:", error);
@@ -110,7 +115,11 @@ export function Blog({ slug }: BlogProps) {
     try {
       const response = await fetch("/api/blog");
       const data = await response.json();
-      setPosts(data);
+      if (Array.isArray(data)) {
+        setPosts(data);
+      } else {
+        setPosts([]);
+      }
     } catch (error) {
       console.error("Failed to refresh blog posts:", error);
     }
