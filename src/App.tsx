@@ -273,15 +273,15 @@ const getContactIcon = (code: string) => {
 
 export function App() {
   const [isProjectsPopupOpen, setIsProjectsPopupOpen] = useState(false);
+  const [isDownloadPopupOpen, setIsDownloadPopupOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("ml-ai");
+  const [selectedStyle, setSelectedStyle] = useState("human");
 
   useEffect(() => {
-    if (!isProjectsPopupOpen) {
-      return;
-    }
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsProjectsPopupOpen(false);
+        setIsDownloadPopupOpen(false);
       }
     };
 
@@ -289,12 +289,12 @@ export function App() {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [isProjectsPopupOpen]);
+  }, []);
 
-  const handleDownload = () => {
+  const triggerDownload = (fileName: string) => {
     const link = document.createElement("a");
-    link.href = "/resume_ayush_maurya.pdf";
-    link.download = "resume_ayush_maurya.pdf";
+    link.href = `/${fileName}`;
+    link.download = fileName;
     link.click();
   };
 
@@ -440,7 +440,7 @@ export function App() {
             <button
               type="button"
               className="sidebar-action-button"
-              onClick={handleDownload}
+              onClick={() => setIsDownloadPopupOpen(true)}
             >
               Download Resume PDF
             </button>
@@ -484,6 +484,128 @@ export function App() {
                   {link.title}
                 </a>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isDownloadPopupOpen && (
+        <div
+          className="projects-popup-overlay"
+          role="presentation"
+          onClick={() => setIsDownloadPopupOpen(false)}
+        >
+          <div
+            className="projects-popup"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="download-popup-title"
+            onClick={event => event.stopPropagation()}
+            style={{ maxWidth: '500px' }}
+          >
+            <div className="projects-popup-header">
+              <h2 id="download-popup-title">Download Resume</h2>
+              <button
+                type="button"
+                className="projects-popup-close"
+                onClick={() => setIsDownloadPopupOpen(false)}
+                aria-label="Close popup"
+              >
+                Close
+              </button>
+            </div>
+            
+            <div style={{ marginBottom: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <p style={{ margin: 0, fontWeight: 600, color: 'var(--ink)' }}>Download a Tailored Version:</p>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink-soft)' }}>1. Target Role</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {[
+                      { id: 'sde', label: 'Software Engineering' },
+                      { id: 'ml-ai', label: 'Machine Learning / AI' },
+                      { id: 'research', label: 'Research' },
+                      { id: 'pd', label: 'Product Design' },
+                    ].map(role => (
+                      <button
+                        key={role.id}
+                        type="button"
+                        className="skill-tag"
+                        style={{ 
+                          cursor: 'pointer', 
+                          background: selectedRole === role.id ? 'var(--brand)' : '',
+                          color: selectedRole === role.id ? 'var(--paper)' : '',
+                          borderColor: selectedRole === role.id ? 'var(--brand)' : ''
+                        }}
+                        onClick={() => setSelectedRole(role.id)}
+                      >
+                        {role.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink-soft)' }}>2. Company Type / Style</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {[
+                      { id: 'ats', label: 'Corporate / ATS Optimized' },
+                      { id: 'startup', label: 'Startup / Creative' },
+                      { id: 'human', label: 'Human Reader' },
+                    ].map(style => (
+                      <button
+                        key={style.id}
+                        type="button"
+                        className="skill-tag"
+                        style={{ 
+                          cursor: 'pointer', 
+                          background: selectedStyle === style.id ? 'var(--brand)' : '',
+                          color: selectedStyle === style.id ? 'var(--paper)' : '',
+                          borderColor: selectedStyle === style.id ? 'var(--brand)' : ''
+                        }}
+                        onClick={() => setSelectedStyle(style.id)}
+                      >
+                        {style.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <button 
+                  type="button" 
+                  className="side-projects-button"
+                  style={{ 
+                    width: '100%', 
+                    marginTop: '0.5rem', 
+                    opacity: (!selectedRole || !selectedStyle) ? 0.5 : 1, 
+                    cursor: (!selectedRole || !selectedStyle) ? 'not-allowed' : 'pointer',
+                    justifyContent: 'center',
+                    padding: '0.8rem 1rem'
+                  }}
+                  disabled={!selectedRole || !selectedStyle}
+                  onClick={() => {
+                    if (selectedRole && selectedStyle) {
+                      triggerDownload(`resume-${selectedRole}-${selectedStyle}.pdf`);
+                    }
+                  }}
+                >
+                  Download Specific Resume
+                </button>
+              </div>
+
+              <div style={{ textAlign: 'center', margin: '0.2rem 0', color: 'var(--ink-soft)', fontSize: '0.85rem', fontWeight: 600 }}>
+                — OR —
+              </div>
+              
+              <button 
+                type="button" 
+                className="sidebar-action-button" 
+                style={{ width: '100%', justifyContent: 'center', padding: '0.8rem 1rem' }}
+                onClick={() => triggerDownload('resume_ayush_maurya.pdf')}
+              >
+                Download Main Resume
+              </button>
             </div>
           </div>
         </div>
