@@ -738,6 +738,42 @@
   color: #dce4f1;
 }
 
+.projects-popup-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.header-lock-button {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: #dde4ee;
+  color: #2f3a4a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.header-lock-button:hover {
+  background: #e6ecf5;
+  transform: scale(1.05);
+}
+
+.resume-container.dark-mode .header-lock-button {
+  background: #3a455a;
+  color: #d8e1ef;
+  border-color: rgba(188, 201, 223, 0.28);
+}
+
+.resume-container.dark-mode .header-lock-button:hover {
+  background: #44526a;
+}
+
 .projects-popup-close {
   border: 1px solid var(--stroke);
   background: #dde4ee;
@@ -896,6 +932,105 @@
   .blog-content code {
     font-size: 0.8em;
   }
+}
+
+.download-popup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lock-popup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.lock-popup-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lock-popup-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.lock-popup-options {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.lock-popup-pill {
+  font-size: 0.72rem;
+  color: #3f4a5b;
+  background: rgba(207, 217, 231, 0.65);
+  border: 1px solid rgba(99, 115, 139, 0.22);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.lock-popup-pill:hover {
+  background: rgba(190, 202, 220, 0.8);
+}
+
+.lock-popup-pill[data-active] {
+  background: var(--brand);
+  color: var(--paper);
+  border-color: var(--brand);
+}
+
+.resume-container.dark-mode .lock-popup-pill {
+  color: #cfd8e7;
+  background: rgba(188, 201, 223, 0.12);
+  border-color: rgba(188, 201, 223, 0.4);
+}
+
+.resume-container.dark-mode .lock-popup-pill[data-active] {
+  background: var(--brand);
+  color: #080a0f;
+  border-color: var(--brand);
+}
+
+.lock-popup-download {
+  width: 100%;
+  border: 1px solid rgba(63, 76, 96, 0.28);
+  background: #55637a;
+  color: #eef3fa;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -14px rgba(23, 31, 45, 0.52);
+  margin-top: 0.3rem;
+  transition: all 0.15s ease;
+}
+
+.lock-popup-download:hover:not(:disabled) {
+  background: #60708a;
+}
+
+.lock-popup-download:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.resume-container.dark-mode .lock-popup-download {
+  background: rgba(28, 35, 48, 0.9);
+  color: #d8e1ef;
+  border-color: rgba(200, 214, 236, 0.3);
+}
+
+.resume-container.dark-mode .lock-popup-download:hover:not(:disabled) {
+  background: rgba(40, 50, 68, 0.9);
 }
 
 /* Blog Styles */

@@ -1,7 +1,7 @@
 import "./index.css";
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Mail, Phone, Linkedin, Github } from "lucide-react";
+import { Mail, Phone, Linkedin, Github, Lock } from "lucide-react";
 
 type LabeledValue = {
   label: string;
@@ -274,6 +274,7 @@ const getContactIcon = (code: string) => {
 export function App() {
   const [isProjectsPopupOpen, setIsProjectsPopupOpen] = useState(false);
   const [isDownloadPopupOpen, setIsDownloadPopupOpen] = useState(false);
+  const [isLockPopupOpen, setIsLockPopupOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("ml-ai");
   const [selectedStyle, setSelectedStyle] = useState("human");
 
@@ -282,6 +283,7 @@ export function App() {
       if (event.key === "Escape") {
         setIsProjectsPopupOpen(false);
         setIsDownloadPopupOpen(false);
+        setIsLockPopupOpen(false);
       }
     };
 
@@ -444,6 +446,7 @@ export function App() {
             >
               Download Resume PDF
             </button>
+
           </div>
         </div>
       </div>
@@ -505,99 +508,28 @@ export function App() {
           >
             <div className="projects-popup-header">
               <h2 id="download-popup-title">Download Resume</h2>
-              <button
-                type="button"
-                className="projects-popup-close"
-                onClick={() => setIsDownloadPopupOpen(false)}
-                aria-label="Close popup"
-              >
-                Close
-              </button>
-            </div>
-            
-            <div style={{ marginBottom: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <p style={{ margin: 0, fontWeight: 600, color: 'var(--ink)' }}>Download a Tailored Version:</p>
-                
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink-soft)' }}>1. Target Role</label>
-                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    {[
-                      { id: 'sde', label: 'Software Engineering' },
-                      { id: 'ml-ai', label: 'Machine Learning / AI' },
-                      { id: 'research', label: 'Research' },
-                      { id: 'pd', label: 'Product Design' },
-                    ].map(role => (
-                      <button
-                        key={role.id}
-                        type="button"
-                        className="skill-tag"
-                        style={{ 
-                          cursor: 'pointer', 
-                          background: selectedRole === role.id ? 'var(--brand)' : '',
-                          color: selectedRole === role.id ? 'var(--paper)' : '',
-                          borderColor: selectedRole === role.id ? 'var(--brand)' : ''
-                        }}
-                        onClick={() => setSelectedRole(role.id)}
-                      >
-                        {role.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink-soft)' }}>2. Company Type / Style</label>
-                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    {[
-                      { id: 'ats', label: 'Corporate / ATS Optimized' },
-                      { id: 'startup', label: 'Startup / Creative' },
-                      { id: 'human', label: 'Human Reader' },
-                    ].map(style => (
-                      <button
-                        key={style.id}
-                        type="button"
-                        className="skill-tag"
-                        style={{ 
-                          cursor: 'pointer', 
-                          background: selectedStyle === style.id ? 'var(--brand)' : '',
-                          color: selectedStyle === style.id ? 'var(--paper)' : '',
-                          borderColor: selectedStyle === style.id ? 'var(--brand)' : ''
-                        }}
-                        onClick={() => setSelectedStyle(style.id)}
-                      >
-                        {style.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                
-                <button 
-                  type="button" 
-                  className="side-projects-button"
-                  style={{ 
-                    width: '100%', 
-                    marginTop: '0.5rem', 
-                    opacity: (!selectedRole || !selectedStyle) ? 0.5 : 1, 
-                    cursor: (!selectedRole || !selectedStyle) ? 'not-allowed' : 'pointer',
-                    justifyContent: 'center',
-                    padding: '0.8rem 1rem'
-                  }}
-                  disabled={!selectedRole || !selectedStyle}
-                  onClick={() => {
-                    if (selectedRole && selectedStyle) {
-                      triggerDownload(`resume-${selectedRole}-${selectedStyle}.pdf`);
-                    }
-                  }}
+              <div className="projects-popup-header-actions">
+                <button
+                  type="button"
+                  className="header-lock-button"
+                  onClick={() => setIsLockPopupOpen(true)}
+                  aria-label="Download tailored version"
+                  title="Download tailored version"
                 >
-                  Download Specific Resume
+                  <Lock size={12} />
+                </button>
+                <button
+                  type="button"
+                  className="projects-popup-close"
+                  onClick={() => setIsDownloadPopupOpen(false)}
+                  aria-label="Close popup"
+                >
+                  Close
                 </button>
               </div>
-
-              <div style={{ textAlign: 'center', margin: '0.2rem 0', color: 'var(--ink-soft)', fontSize: '0.85rem', fontWeight: 600 }}>
-                — OR —
-              </div>
-              
+            </div>
+            
+            <div className="download-popup-body">
               <button 
                 type="button" 
                 className="sidebar-action-button" 
@@ -605,6 +537,95 @@ export function App() {
                 onClick={() => triggerDownload('resume_ayush_maurya.pdf')}
               >
                 Download Main Resume
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isLockPopupOpen && (
+        <div
+          className="projects-popup-overlay"
+          role="presentation"
+          onClick={() => setIsLockPopupOpen(false)}
+        >
+          <div
+            className="projects-popup"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lock-popup-title"
+            onClick={event => event.stopPropagation()}
+            style={{ maxWidth: '460px' }}
+          >
+            <div className="projects-popup-header">
+              <h2 id="lock-popup-title">Tailored Resume</h2>
+              <button
+                type="button"
+                className="projects-popup-close"
+                onClick={() => setIsLockPopupOpen(false)}
+                aria-label="Close popup"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="lock-popup-body">
+              <div className="lock-popup-section">
+                <label className="lock-popup-label">1. Target Role</label>
+                <div className="lock-popup-options">
+                  {[
+                    { id: 'sde', label: 'Software Eng.' },
+                    { id: 'ml-ai', label: 'ML / AI' },
+                    { id: 'research', label: 'Research' },
+                    { id: 'pd', label: 'Product Design' },
+                  ].map(role => (
+                    <button
+                      key={role.id}
+                      type="button"
+                      className="lock-popup-pill"
+                      data-active={selectedRole === role.id || undefined}
+                      onClick={() => setSelectedRole(role.id)}
+                    >
+                      {role.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lock-popup-section">
+                <label className="lock-popup-label">2. Company Style</label>
+                <div className="lock-popup-options">
+                  {[
+                    { id: 'ats', label: 'ATS' },
+                    { id: 'startup', label: 'Creative' },
+                    { id: 'human', label: 'Human Reader' },
+                  ].map(style => (
+                    <button
+                      key={style.id}
+                      type="button"
+                      className="lock-popup-pill"
+                      data-active={selectedStyle === style.id || undefined}
+                      onClick={() => setSelectedStyle(style.id)}
+                    >
+                      {style.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="lock-popup-download"
+                disabled={!selectedRole || !selectedStyle}
+                onClick={() => {
+                  if (selectedRole && selectedStyle) {
+                    triggerDownload(`resume-${selectedRole}-${selectedStyle}.pdf`);
+                    setIsLockPopupOpen(false);
+                    setIsDownloadPopupOpen(false);
+                  }
+                }}
+              >
+                Download Specific Resume
               </button>
             </div>
           </div>
