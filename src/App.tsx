@@ -355,9 +355,9 @@ const asciiArts = {
 };
 
 // Falling letters background component
-function MatrixBackground({ themeMode, screensaverActive, onClose, playKeySound }: { 
-  themeMode: "stark" | "green" | "amber"; 
-  screensaverActive: boolean; 
+function MatrixBackground({ themeMode, screensaverActive, onClose, playKeySound }: {
+  themeMode: "stark" | "green" | "amber";
+  screensaverActive: boolean;
   onClose: () => void;
   playKeySound: () => void;
 }) {
@@ -477,7 +477,7 @@ function TuiHorizontalScroll({ children }: { children: React.ReactNode }) {
     let pauseCounter = 0;
     const speed = 0.55; // Pixels per frame (extremely smooth and slow)
     const pauseDuration = 100; // Pause duration in frames (~1.6s)
-    
+
     // Use floating-point accumulator to prevent browser decimal truncation
     let scrollPos = el.scrollLeft;
 
@@ -543,7 +543,7 @@ function TuiHorizontalScroll({ children }: { children: React.ReactNode }) {
 }
 
 const BOOT_LOGS = [
-  "BOOTING PORTFOLIO KERNEL V2.0...",
+  "BOOTING PORTFOLIO KERNEL v2.1...",
   "PARSING ENVIRONMENT SPECIFICATIONS... OK",
   "ALLOCATING MONOSPACE BUFFER BLOCKS... OK",
   "INITIALIZING NEO DATABASE INSTANCES... OK",
@@ -603,7 +603,7 @@ export function App() {
 
       osc.start();
       osc.stop(ctx.currentTime + 0.04);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const getBackgroundAudio = useCallback(() => {
@@ -631,7 +631,7 @@ export function App() {
       if (pendingAudioUnlockRef.current) return;
 
       const playOnInteraction = () => {
-        audio.play().then(clearPendingAudioUnlock).catch(() => {});
+        audio.play().then(clearPendingAudioUnlock).catch(() => { });
       };
 
       const cleanup = () => {
@@ -660,7 +660,7 @@ export function App() {
       // Slower incremental ticks (2% to 4%)
       const oldProgress = currentProgress;
       currentProgress += Math.floor(Math.random() * 3) + 2;
-      
+
       if (currentProgress >= 100) {
         currentProgress = 100;
         clearInterval(progressInterval);
@@ -668,16 +668,16 @@ export function App() {
           setIsBooting(false);
         }, 400);
       }
-      
+
       // Trigger dynamic phosphor theme wake-up midway (50% progress)
       if (oldProgress < 50 && currentProgress >= 50) {
         setVisibleLogs(prev => [
-          ...prev, 
+          ...prev,
           `> [ OK ] VOLTAGE SECURED. PHOSPHOR TUBES ENGAGED [THEME: ${themeMode.toUpperCase()}]`
         ]);
         playKeySound();
       }
-      
+
       setBootProgress(currentProgress);
     }, 80); // Slowed progress interval from 80ms to 120ms
 
@@ -821,7 +821,7 @@ export function App() {
         <div className={`boot-box animate-fade-in ${bootProgress >= 50 ? 'phosphor-active' : ''}`}>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--stroke)', paddingBottom: '0.5rem', marginBottom: '1rem', fontSize: '0.75rem', color: 'var(--brand)', fontWeight: 700 }}>
             <span>BOOT_SEQUENCE.SYS</span>
-            <span>v2.0-STABLE</span>
+            <span>v2.1-STABLE</span>
           </div>
           <div className="boot-log-container">
             {visibleLogs.map((log, idx) => (
@@ -858,7 +858,7 @@ export function App() {
       <header className="resume-header" style={{ width: '100%' }}>
         <div className="header-controls-row">
           <p className="hero-kicker animate-fade-in" style={{ display: 'inline-flex', gap: '0.4rem', alignItems: 'center', margin: 0 }}>
-            Portfolio CLI v2.0
+            Portfolio CLI v2.1
           </p>
 
           <button
@@ -1183,7 +1183,7 @@ export function App() {
             ) : (
               Array(6).fill(null).map((_, i) => (
                 <div key={`mock-post-${i}`} className="project-item" style={{ opacity: 0.7 }}>
-                  <h3>[ Simulated Entry {i+1} ]</h3>
+                  <h3>[ Simulated Entry {i + 1} ]</h3>
                   <p>Connecting to Neon serverless database instances... Querying public table blog_posts...</p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', fontSize: '0.7rem', color: 'var(--ink-soft)' }}>
                     <span>2026-05-30</span>
