@@ -337,14 +337,6 @@ const getContactIcon = (code: string) => {
 };
 
 const asciiArts = {
-  slant: `
-    _                     _      __  __                                
-   / \\  _   _ _   _  ___| |_  |  \\/  | __ _ _   _ _ __ _   _  __ _ 
-  / _ \\| | | | | | |/ __| '_ \\ | |\\/| |/ _\` | | | | '__| | | |/ _\` |
- / ___ \\ |_| | |_| |\\__ \\ | | || |  | | (_| | |_| | |  | |_| | (_| |
-/_/   \\_\\__, |\\__,_||___/_| |_||_|  |_|\\__,_|\\__,_|_|   \\__, |\\__,_|
-        |___/                                           |___/       
-  `,
   block: `
  █████  ██    ██ ██    ██  ██████ ██   ██     ███    ███  █████  ██    ██ ██████  ██    ██  █████  
 ██   ██  ██  ██  ██    ██ ██      ██   ██     ████  ████ ██   ██ ██    ██ ██   ██  ██  ██  ██   ██ 
@@ -464,6 +456,21 @@ function MatrixBackground({ themeMode, screensaverActive, onClose, playKeySound 
   );
 }
 
+function MatrixArtifacts() {
+  return (
+    <div className="matrix-artifacts" aria-hidden="true">
+      <span className="matrix-artifact artifact-north">0101::TRACE</span>
+      <span className="matrix-artifact artifact-east">SYS/WAKE_09</span>
+      <span className="matrix-artifact artifact-west">[ RED PILL CACHE ]</span>
+      <span className="matrix-artifact artifact-south">follow_the_white_cursor()</span>
+      <span className="matrix-glyph-cluster artifact-cluster-a">ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜ</span>
+      <span className="matrix-glyph-cluster artifact-cluster-b">101101001011</span>
+      <span className="matrix-crosshair artifact-crosshair-a" />
+      <span className="matrix-crosshair artifact-crosshair-b" />
+    </div>
+  );
+}
+
 function TuiHorizontalScroll({ children }: { children: React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -559,6 +566,7 @@ const BOOT_LOGS = [
 export function App() {
   const [isBooting, setIsBooting] = useState(true);
   const [bootProgress, setBootProgress] = useState(0);
+  const [bootGlitchHot, setBootGlitchHot] = useState(false);
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const pendingAudioUnlockRef = useRef<(() => void) | null>(null);
@@ -567,11 +575,7 @@ export function App() {
   const [selectedRole, setSelectedRole] = useState("ml-ai");
   const [selectedStyle, setSelectedStyle] = useState("human");
 
-  // Retro Theme state variables
-  const [themeMode, setThemeMode] = useState<"stark" | "green" | "amber">("green");
-
   // Creative TUI Elements states
-  const [asciiStyle, setAsciiStyle] = useState<"slant" | "block">("block");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [screensaverActive, setScreensaverActive] = useState(false);
 
@@ -673,7 +677,7 @@ export function App() {
       if (oldProgress < 50 && currentProgress >= 50) {
         setVisibleLogs(prev => [
           ...prev,
-          `> [ OK ] VOLTAGE SECURED. PHOSPHOR TUBES ENGAGED [THEME: ${themeMode.toUpperCase()}]`
+          `> [ OK ] VOLTAGE SECURED. PHOSPHOR TUBES ENGAGED [THEME: GREEN]`
         ]);
         playKeySound();
       }
@@ -698,6 +702,21 @@ export function App() {
       clearInterval(logsInterval);
     };
   }, []);
+
+  useEffect(() => {
+    if (!isBooting) {
+      setBootGlitchHot(false);
+      return;
+    }
+
+    const glitchInterval = setInterval(() => {
+      setBootGlitchHot(Math.random() > 0.48);
+    }, 140);
+
+    return () => {
+      clearInterval(glitchInterval);
+    };
+  }, [isBooting]);
 
   // Reactively initialize and control loop background audio (song.mp3)
   useEffect(() => {
@@ -815,9 +834,21 @@ export function App() {
   };
 
   if (isBooting) {
-    const activeBootTheme = bootProgress >= 50 ? themeMode : "stark";
     return (
-      <div className={`resume-container theme-${activeBootTheme} boot-screen`}>
+      <div className={`resume-container theme-green boot-screen ${bootGlitchHot ? "glitch-hot" : ""}`}>
+        <div className="boot-glitch-fragments" aria-hidden="true">
+          <span>ERR_NEURAL_HANDSHAKE</span>
+          <span>0xMATRIX_RELINK</span>
+          <span>WAKE_SIGNAL_DROPPED</span>
+          <span>REALITY_BUFFER_SPLIT</span>
+          <span>TRACE_RED_VECTOR</span>
+        </div>
+        <div className="boot-glitch-bars" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
         <div className={`boot-box animate-fade-in ${bootProgress >= 50 ? 'phosphor-active' : ''}`}>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--stroke)', paddingBottom: '0.5rem', marginBottom: '1rem', fontSize: '0.75rem', color: 'var(--brand)', fontWeight: 700 }}>
             <span>BOOT_SEQUENCE.SYS</span>
@@ -825,7 +856,7 @@ export function App() {
           </div>
           <div className="boot-log-container">
             {visibleLogs.map((log, idx) => (
-              <div key={idx} style={{ fontFamily: 'monospace', lineHeight: 1.4 }}>
+              <div key={idx} className="boot-log-line" style={{ fontFamily: 'monospace', lineHeight: 1.4 }}>
                 {log.startsWith("DECRYPTION") ? `> ${log}` : `[ OK ] ${log}`}
               </div>
             ))}
@@ -838,21 +869,33 @@ export function App() {
               {getBootProgressBar(bootProgress)}
             </div>
           </div>
+          <div className={`pill-choice-protocol ${bootProgress >= 50 ? "choice-locked" : ""}`} aria-hidden="true">
+            <span className="pill-choice-label">CHOICE_PROTOCOL</span>
+            <div className={`pill-track ${bootProgress >= 50 ? "red-only-track" : ""}`}>
+              {bootProgress < 50 && <span className="matrix-pill blue-pill">BLUE</span>}
+              <span className="pill-signal-line">{bootProgress < 50 ? "SELECTING_RED" : "BLUE_REMOVED"}</span>
+              <span className="matrix-pill red-pill selected-pill">RED</span>
+            </div>
+            <span className="pill-choice-status">
+              {bootProgress < 50 ? "blue pill rejected" : "red pill selected: waking up"}
+            </span>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`resume-container theme-${themeMode}`}>
+    <div className="resume-container theme-green">
       <MatrixBackground
-        themeMode={themeMode}
+        themeMode="green"
         screensaverActive={screensaverActive}
         onClose={() => {
           setScreensaverActive(false);
         }}
         playKeySound={playKeySound}
       />
+      <MatrixArtifacts />
 
       {/* Retro Header controls */}
       <header className="resume-header" style={{ width: '100%' }}>
@@ -872,7 +915,6 @@ export function App() {
             Download Resume
           </button>
 
-          {/* Theme custom select box */}
           <div className="header-control-group" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>Sound:</span>
             <button
@@ -903,41 +945,12 @@ export function App() {
               {soundEnabled ? <Volume2 size={10} /> : <VolumeX size={10} />}
               {soundEnabled ? "ON" : "OFF"}
             </button>
-
-            <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', color: 'var(--ink-soft)', marginLeft: '0.5rem' }}>Phosphor:</span>
-            {[
-              { id: 'stark', label: 'STARK' },
-              { id: 'green', label: 'GREEN' },
-              { id: 'amber', label: 'AMBER' },
-            ].map(theme => (
-              <button
-                key={theme.id}
-                type="button"
-                style={{
-                  fontSize: '0.65rem',
-                  border: '1px solid var(--stroke)',
-                  background: themeMode === theme.id ? 'var(--stroke)' : 'transparent',
-                  color: themeMode === theme.id ? 'var(--brand)' : 'var(--ink-soft)',
-                  padding: '0.2rem 0.4rem',
-                  cursor: 'pointer',
-                  fontWeight: 700
-                }}
-                onClick={() => {
-                  playKeySound();
-                  setThemeMode(theme.id as any);
-                }}
-              >
-                {theme.label}
-              </button>
-            ))}
-
           </div>
         </div>
 
         <div className="header-container">
           {/* Left Column: ASCII name title, controls, highlights */}
           <div>
-            {/* Dynamic ASCII Art title header selector */}
             <div style={{ width: '100%', marginTop: '1.25rem', overflowX: 'auto' }} className="animate-fade-in">
               <pre
                 style={{
@@ -946,47 +959,10 @@ export function App() {
                   color: 'var(--brand)',
                   margin: 0,
                   fontFamily: 'monospace'
-                }}
+              }}
               >
-                <DecryptText text={asciiArts[asciiStyle]} />
+                <DecryptText text={asciiArts.block} />
               </pre>
-              <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem' }}>
-                <span style={{ fontSize: '0.65rem', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>ASCII Font:</span>
-                <button
-                  type="button"
-                  style={{
-                    fontSize: '0.65rem',
-                    background: asciiStyle === 'slant' ? 'var(--stroke)' : 'transparent',
-                    border: '1px solid var(--stroke)',
-                    color: 'var(--ink)',
-                    cursor: 'pointer',
-                    padding: '0.1rem 0.3rem'
-                  }}
-                  onClick={() => {
-                    playKeySound();
-                    setAsciiStyle('slant');
-                  }}
-                >
-                  [ Slant ]
-                </button>
-                <button
-                  type="button"
-                  style={{
-                    fontSize: '0.65rem',
-                    background: asciiStyle === 'block' ? 'var(--stroke)' : 'transparent',
-                    border: '1px solid var(--stroke)',
-                    color: 'var(--ink)',
-                    cursor: 'pointer',
-                    padding: '0.1rem 0.3rem'
-                  }}
-                  onClick={() => {
-                    playKeySound();
-                    setAsciiStyle('block');
-                  }}
-                >
-                  [ Block ]
-                </button>
-              </div>
             </div>
 
             <p className="resume-subtitle animate-fade-in terminal-cursor" style={{ marginTop: '1rem' }}>
