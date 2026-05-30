@@ -1,7 +1,8 @@
 import "./index.css";
 import "./App.css";
-import { useEffect, useState, useRef } from "react";
-import { Mail, Phone, Linkedin, Github, Lock, Terminal, Volume2, VolumeX } from "lucide-react";
+import { useCallback, useEffect, useState, useRef } from "react";
+import { Mail, Phone, Linkedin, Github, Lock, Volume2, VolumeX } from "lucide-react";
+import { DecryptText } from "./DecryptText";
 
 type LabeledValue = {
   label: string;
@@ -312,7 +313,7 @@ function Tags({ tags }: { tags: string[] }) {
     <div className="skills-tags">
       {tags.map(tag => (
         <span key={tag} className="skill-tag">
-          {tag}
+          <DecryptText text={tag} />
         </span>
       ))}
     </div>
@@ -541,7 +542,26 @@ function TuiHorizontalScroll({ children }: { children: React.ReactNode }) {
   );
 }
 
+const BOOT_LOGS = [
+  "BOOTING PORTFOLIO KERNEL V2.0...",
+  "PARSING ENVIRONMENT SPECIFICATIONS... OK",
+  "ALLOCATING MONOSPACE BUFFER BLOCKS... OK",
+  "INITIALIZING NEO DATABASE INSTANCES... OK",
+  "RETRIEVING ENCRYPTED EXPERIENCE LOGS... OK",
+  "DECRYPTING PROFILE BIO ARTIFACTS... OK",
+  "UNPACKING INTERACTIVE SHELL PROMPTS... OK",
+  "CONNECTING PHOSPHOR STREAM DAEMONS... OK",
+  "ESTABLISHING SECURE VISITOR TRAFFIC PORTS... OK",
+  "SYNTHESIZING RETRO SOUND SYSTEMS... OK",
+  "DECRYPTION COMPLETED SUCCESSFULLY.",
+];
+
 export function App() {
+  const [isBooting, setIsBooting] = useState(true);
+  const [bootProgress, setBootProgress] = useState(0);
+  const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const pendingAudioUnlockRef = useRef<(() => void) | null>(null);
   const [isDownloadPopupOpen, setIsDownloadPopupOpen] = useState(false);
   const [isLockPopupOpen, setIsLockPopupOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("ml-ai");
@@ -560,15 +580,6 @@ export function App() {
   const [loadPercentage, setLoadPercentage] = useState(34);
   const [uptime, setUptime] = useState(6192);
 
-  // CLI state variables
-  const [activeConsoleTab, setActiveConsoleTab] = useState<"shell" | "syslog" | "traffic">("shell");
-  const [commandInput, setCommandInput] = useState("");
-  const [consoleLogs, setConsoleLogs] = useState<string[]>([
-    "System Initialized successfully.",
-    "Type 'help' for a list of interactive shell commands.",
-    ""
-  ]);
-  const consoleEndRef = useRef<HTMLDivElement>(null);
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
 
   // Audio click synthesizer function (No heavy assets)
@@ -594,6 +605,114 @@ export function App() {
       osc.stop(ctx.currentTime + 0.04);
     } catch (e) {}
   };
+
+  const getBackgroundAudio = useCallback(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/song.mp3");
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.45;
+    }
+
+    return audioRef.current;
+  }, []);
+
+  const clearPendingAudioUnlock = useCallback(() => {
+    const cleanup = pendingAudioUnlockRef.current;
+    if (cleanup) {
+      cleanup();
+      pendingAudioUnlockRef.current = null;
+    }
+  }, []);
+
+  const startBackgroundAudio = useCallback(() => {
+    const audio = getBackgroundAudio();
+
+    audio.play().then(clearPendingAudioUnlock).catch(() => {
+      if (pendingAudioUnlockRef.current) return;
+
+      const playOnInteraction = () => {
+        audio.play().then(clearPendingAudioUnlock).catch(() => {});
+      };
+
+      const cleanup = () => {
+        document.removeEventListener("click", playOnInteraction);
+        document.removeEventListener("keydown", playOnInteraction);
+        document.removeEventListener("touchstart", playOnInteraction);
+      };
+
+      pendingAudioUnlockRef.current = cleanup;
+      document.addEventListener("click", playOnInteraction);
+      document.addEventListener("keydown", playOnInteraction);
+      document.addEventListener("touchstart", playOnInteraction);
+    });
+  }, [clearPendingAudioUnlock, getBackgroundAudio]);
+
+  const stopBackgroundAudio = useCallback(() => {
+    clearPendingAudioUnlock();
+    audioRef.current?.pause();
+  }, [clearPendingAudioUnlock]);
+
+  useEffect(() => {
+    let currentProgress = 0;
+    let logIndex = 0;
+
+    const progressInterval = setInterval(() => {
+      // Slower incremental ticks (2% to 4%)
+      const oldProgress = currentProgress;
+      currentProgress += Math.floor(Math.random() * 3) + 2;
+      
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(progressInterval);
+        setTimeout(() => {
+          setIsBooting(false);
+        }, 400);
+      }
+      
+      // Trigger dynamic phosphor theme wake-up midway (50% progress)
+      if (oldProgress < 50 && currentProgress >= 50) {
+        setVisibleLogs(prev => [
+          ...prev, 
+          `> [ OK ] VOLTAGE SECURED. PHOSPHOR TUBES ENGAGED [THEME: ${themeMode.toUpperCase()}]`
+        ]);
+        playKeySound();
+      }
+      
+      setBootProgress(currentProgress);
+    }, 80); // Slowed progress interval from 80ms to 120ms
+
+    const logsInterval = setInterval(() => {
+      if (logIndex < BOOT_LOGS.length) {
+        const nextLog = BOOT_LOGS[logIndex];
+        if (nextLog) {
+          setVisibleLogs(prev => [...prev, nextLog]);
+        }
+        logIndex++;
+      } else {
+        clearInterval(logsInterval);
+      }
+    }, 150); // Slowed logs interval from 130ms to 220ms
+
+    return () => {
+      clearInterval(progressInterval);
+      clearInterval(logsInterval);
+    };
+  }, []);
+
+  // Reactively initialize and control loop background audio (song.mp3)
+  useEffect(() => {
+    if (soundEnabled && !isBooting) {
+      startBackgroundAudio();
+    } else {
+      stopBackgroundAudio();
+    }
+  }, [soundEnabled, isBooting, startBackgroundAudio, stopBackgroundAudio]);
+
+  useEffect(() => {
+    return () => {
+      stopBackgroundAudio();
+    };
+  }, [stopBackgroundAudio]);
 
   useEffect(() => {
     // Live ticking values
@@ -628,10 +747,26 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (consoleEndRef.current) {
-      consoleEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [consoleLogs, activeConsoleTab]);
+    if (isBooting) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          }
+        });
+      },
+      { threshold: 0.05, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    const sections = document.querySelectorAll(".resume-section, .sidebar-section");
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+    };
+  }, [isBooting]);
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -658,111 +793,6 @@ export function App() {
     link.click();
   };
 
-  const handleCommandRun = (cmd: string) => {
-    playKeySound();
-    const trimmed = cmd.trim();
-    if (!trimmed) return;
-
-    const parts = trimmed.split(" ");
-    const primaryCmd = parts[0]?.toLowerCase();
-    const arg = parts.slice(1).join(" ").toLowerCase();
-
-    let outputLines: string[] = [];
-
-    switch (primaryCmd) {
-      case "help":
-        outputLines = [
-          "----------------------------------------------------------------",
-          "Available Commands:",
-          "  help               Display this assistant manual",
-          "  clear              Clear the log console lines",
-          "  cat about.txt      Print profile biographical text",
-          "  ls projects        List key engineering software projects",
-          "  cat projects/<id>  View detailed info for a project",
-          "                     (e.g., cat projects/electoral-sim)",
-          "  cat contact.conf   Show connectivity paths (email, github...)",
-          "  matrix             Initiate digital falling rain screensaver",
-          "  blog               Direct route to the Blog section",
-          "----------------------------------------------------------------"
-        ];
-        break;
-      case "clear":
-        setConsoleLogs([]);
-        setCommandInput("");
-        return;
-      case "matrix":
-        outputLines = ["Initiating screensaver..."];
-        setTimeout(() => {
-          setScreensaverActive(true);
-        }, 300);
-        break;
-      case "cat":
-        if (arg === "about.txt") {
-          outputLines = [
-            "Ayush Maurya - CSE Student & Researcher @ IIIT Hyderabad.",
-            "Working at the intersection of computer science and human sciences.",
-            "Dual Degree: B.Tech in CSE + M.S. by Research in Computing & Human Sciences.",
-            "Interests: Machine Learning, NLP, Software Engineering, System Design."
-          ];
-        } else if (arg === "contact.conf") {
-          outputLines = [
-            "Connectivity Contacts:",
-            "  - Email (Personal): ayushmaurya2003@gmail.com",
-            "  - Email (IIIT-H)  : ayush.maurya@research.iiit.ac.in",
-            "  - LinkedIn        : linkedin.com/in/ayush-maurya-a41a9721a",
-            "  - GitHub          : github.com/Ayush12358"
-          ];
-        } else if (arg.startsWith("projects/")) {
-          const projectId = arg.replace("projects/", "").trim();
-          const match = projects.find(p => p.id === projectId);
-          if (match) {
-            outputLines = [
-              `Project: ${match.title}`,
-              `Desc:    ${match.description}`,
-              `Tags:    ${match.tags.join(", ")}`,
-              match.href ? `Url:     ${match.href}` : ""
-            ].filter(Boolean);
-          } else {
-            outputLines = [`Project not found: '${projectId}'. Type 'ls projects' for listings.`];
-          }
-        } else {
-          outputLines = [
-            `Usage: cat [file]`,
-            `  Files: about.txt, contact.conf, projects/[project_id]`,
-            `  Example: cat about.txt`
-          ];
-        }
-        break;
-      case "ls":
-        if (arg === "projects") {
-          outputLines = [
-            "Project ID List (type 'cat projects/<id>' to inspect):",
-            ...projects.map(p => `  - ${p.id}  [${p.title.substring(0, 30)}]`)
-          ];
-        } else {
-          outputLines = [`Usage: ls projects`];
-        }
-        break;
-      case "blog":
-        outputLines = ["Navigating to /blog..."];
-        setTimeout(() => {
-          window.location.href = "/blog";
-        }, 800);
-        break;
-      default:
-        outputLines = [`Command not found: '${trimmed}'. Type 'help' for assistance.`];
-        break;
-    }
-
-    setConsoleLogs(prev => [
-      ...prev,
-      `guest@ayushmaurya.online:~$ ${trimmed}`,
-      ...outputLines,
-      ""
-    ]);
-    setCommandInput("");
-  };
-
   const formatUptime = (seconds: number) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -777,6 +807,42 @@ export function App() {
     return `[${"█".repeat(filledBlocks)}${"░".repeat(emptyBlocks)}] ${pct}%`;
   };
 
+  const getBootProgressBar = (pct: number) => {
+    const totalBlocks = 20;
+    const filledBlocks = Math.round((pct / 100) * totalBlocks);
+    const emptyBlocks = totalBlocks - filledBlocks;
+    return `[${"█".repeat(filledBlocks)}${"░".repeat(emptyBlocks)}] ${pct}%`;
+  };
+
+  if (isBooting) {
+    const activeBootTheme = bootProgress >= 50 ? themeMode : "stark";
+    return (
+      <div className={`resume-container theme-${activeBootTheme} boot-screen`}>
+        <div className={`boot-box animate-fade-in ${bootProgress >= 50 ? 'phosphor-active' : ''}`}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--stroke)', paddingBottom: '0.5rem', marginBottom: '1rem', fontSize: '0.75rem', color: 'var(--brand)', fontWeight: 700 }}>
+            <span>BOOT_SEQUENCE.SYS</span>
+            <span>v2.0-STABLE</span>
+          </div>
+          <div className="boot-log-container">
+            {visibleLogs.map((log, idx) => (
+              <div key={idx} style={{ fontFamily: 'monospace', lineHeight: 1.4 }}>
+                {log.startsWith("DECRYPTION") ? `> ${log}` : `[ OK ] ${log}`}
+              </div>
+            ))}
+          </div>
+          <div className="boot-progress-container" style={{ fontFamily: 'monospace' }}>
+            <div style={{ marginBottom: '0.25rem', fontSize: '0.7rem', color: 'var(--ink-soft)' }}>
+              DECRYPTING PORTFOLIO BUFFER ARTIFACTS
+            </div>
+            <div style={{ fontWeight: 700 }}>
+              {getBootProgressBar(bootProgress)}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`resume-container theme-${themeMode}`}>
       <MatrixBackground
@@ -790,13 +856,24 @@ export function App() {
 
       {/* Retro Header controls */}
       <header className="resume-header" style={{ width: '100%' }}>
-        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px dashed var(--stroke)', paddingBottom: '0.75rem' }}>
+        <div className="header-controls-row">
           <p className="hero-kicker animate-fade-in" style={{ display: 'inline-flex', gap: '0.4rem', alignItems: 'center', margin: 0 }}>
             Portfolio CLI v2.0
           </p>
 
+          <button
+            type="button"
+            className="header-control-button header-resume-button"
+            onClick={() => {
+              playKeySound();
+              setIsDownloadPopupOpen(true);
+            }}
+          >
+            Download Resume
+          </button>
+
           {/* Theme custom select box */}
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="header-control-group" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>Sound:</span>
             <button
               type="button"
@@ -813,13 +890,14 @@ export function App() {
                 fontWeight: 700
               }}
               onClick={() => {
-                setSoundEnabled(prev => !prev);
-                setTimeout(() => {
-                  if(!soundEnabled) {
-                    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-                    if(AudioCtx) new AudioCtx();
-                  }
-                }, 50);
+                const nextSoundEnabled = !soundEnabled;
+                setSoundEnabled(nextSoundEnabled);
+
+                if (nextSoundEnabled && !isBooting) {
+                  startBackgroundAudio();
+                } else if (!nextSoundEnabled) {
+                  stopBackgroundAudio();
+                }
               }}
             >
               {soundEnabled ? <Volume2 size={10} /> : <VolumeX size={10} />}
@@ -853,7 +931,6 @@ export function App() {
               </button>
             ))}
 
-
           </div>
         </div>
 
@@ -871,7 +948,7 @@ export function App() {
                   fontFamily: 'monospace'
                 }}
               >
-                {asciiArts[asciiStyle]}
+                <DecryptText text={asciiArts[asciiStyle]} />
               </pre>
               <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem' }}>
                 <span style={{ fontSize: '0.65rem', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>ASCII Font:</span>
@@ -912,16 +989,16 @@ export function App() {
               </div>
             </div>
 
-            <p className="resume-subtitle animate-fade-in" style={{ marginTop: '1rem' }}>
-              Computer Science Engineering student and researcher at IIIT Hyderabad
+            <p className="resume-subtitle animate-fade-in terminal-cursor" style={{ marginTop: '1rem' }}>
+              <DecryptText text="Computer Science Engineering student and researcher at IIIT Hyderabad" />
             </p>
             <p className="resume-subtitle animate-fade-in" style={{ marginTop: '0rem' }}>
-              working at the intersection of computer science and human sciences.
+              <DecryptText text="working at the intersection of computer science and human sciences." />
             </p>
 
             <div className="hero-highlights animate-fade-in" style={{ marginTop: '0.75rem' }}>
               {heroHighlights.map(highlight => (
-                <span key={highlight}>{highlight}</span>
+                <span key={highlight}><DecryptText text={highlight} /></span>
               ))}
             </div>
           </div>
@@ -939,31 +1016,31 @@ export function App() {
       <div className="resume-content">
         <div className="resume-main">
           <section className="resume-section animate-fade-in">
-            <h2>About Me</h2>
+            <h2><DecryptText text="About Me" /></h2>
             <p>
-              Pursuing a dual degree (B.Tech in CS + M.S. by Research in Computing and Human Sciences) at IIIT Hyderabad. Academic interests include machine learning and software systems.
+              <DecryptText text="Pursuing a dual degree (B.Tech in CS + M.S. by Research in Computing and Human Sciences) at IIIT Hyderabad. Academic interests include machine learning and software systems." />
             </p>
             <div className="profile-metrics">
               {profileMetrics.map(metric => (
                 <div key={metric.label} className="metric-item">
-                  <span className="metric-value">{metric.value}</span>
-                  <span className="metric-label">{metric.label}</span>
+                  <span className="metric-value"><DecryptText text={metric.value} /></span>
+                  <span className="metric-label"><DecryptText text={metric.label} /></span>
                 </div>
               ))}
             </div>
           </section>
 
           <section className="resume-section animate-fade-in">
-            <h2>Education</h2>
+            <h2><DecryptText text="Education" /></h2>
             {education.map(entry => (
               <div key={entry.title} className="education-item">
                 <div className="header-flex">
-                  <h3>{entry.title}</h3>
-                  <span className="date">{entry.date}</span>
+                  <h3><DecryptText text={entry.title} /></h3>
+                  <span className="date"><DecryptText text={entry.date} /></span>
                 </div>
                 {entry.lines.map(line => (
                   <p key={line} className="degree">
-                    {line}
+                    <DecryptText text={line} />
                   </p>
                 ))}
               </div>
@@ -971,14 +1048,14 @@ export function App() {
           </section>
 
           <section className="resume-section animate-fade-in">
-            <h2>Experience</h2>
+            <h2><DecryptText text="Experience" /></h2>
             {experiences.map(experience => (
               <div key={experience.title} className="experience-item">
                 <div className="header-flex">
-                  <h3>{experience.title}</h3>
-                  <span className="date">{experience.date}</span>
+                  <h3><DecryptText text={experience.title} /></h3>
+                  <span className="date"><DecryptText text={experience.date} /></span>
                 </div>
-                <p className="experience-desc">{experience.description}</p>
+                <p className="experience-desc"><DecryptText text={experience.description} /></p>
                 <Tags tags={experience.tags} />
               </div>
             ))}
@@ -987,20 +1064,8 @@ export function App() {
         </div>
 
         <div className="resume-sidebar">
-
-          <button
-            type="button"
-            className="sidebar-download-button animate-fade-in"
-            onClick={() => {
-              playKeySound();
-              setIsDownloadPopupOpen(true);
-            }}
-          >
-            [ F1: Download Resume ]
-          </button>
-
           <section className="sidebar-section animate-fade-in">
-            <h2>Connectivity</h2>
+            <h2><DecryptText text="Connectivity" /></h2>
             {contacts.map(contact => (
               <div key={`${contact.code}-${contact.label}`} className="contact-item">
                 <div className="contact-icon">{getContactIcon(contact.code)}</div>
@@ -1011,31 +1076,31 @@ export function App() {
                     rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     onClick={playKeySound}
                   >
-                    {contact.label}
+                    <DecryptText text={contact.label} />
                   </a>
                 ) : (
-                  <span>{contact.label}</span>
+                  <span><DecryptText text={contact.label} /></span>
                 )}
               </div>
             ))}
           </section>
 
           <section className="sidebar-section animate-fade-in">
-            <h2>Expertise</h2>
+            <h2><DecryptText text="Expertise" /></h2>
             {expertise.map(group => (
               <div key={group.category} className="skills-category">
-                <h4>{group.category}</h4>
+                <h4><DecryptText text={group.category} /></h4>
                 <Tags tags={group.tags} />
               </div>
             ))}
           </section>
 
           <section className="sidebar-section animate-fade-in">
-            <h2>Honours</h2>
+            <h2><DecryptText text="Honours" /></h2>
             {honours.map(item => (
               <div key={item.title} className="course-item">
-                <h4>{item.title}</h4>
-                <p>{item.description}</p>
+                <h4><DecryptText text={item.title} /></h4>
+                <p><DecryptText text={item.description} /></p>
               </div>
             ))}
           </section>
@@ -1046,20 +1111,20 @@ export function App() {
 
       <div style={{ width: 'min(1080px, 100%)', margin: '0 auto', padding: '0 1.25rem 3.5rem', display: 'flex', flexDirection: 'column', gap: '2rem', boxSizing: 'border-box' }}>
         <section className="resume-section animate-fade-in">
-          <h2>Key Projects</h2>
+          <h2><DecryptText text="Key Projects" /></h2>
           <TuiHorizontalScroll>
             {projects.map(project => (
               <div key={project.title} className="project-item">
                 <h3>
                   {project.href ? (
                     <a href={project.href} target="_blank" rel="noopener noreferrer" className="project-link">
-                      {project.title}
+                      <DecryptText text={project.title} />
                     </a>
                   ) : (
-                    project.title
+                    <DecryptText text={project.title} />
                   )}
                 </h3>
-                <p>{project.description}</p>
+                <p><DecryptText text={project.description} /></p>
                 <Tags tags={project.tags} />
               </div>
             ))}
@@ -1067,16 +1132,16 @@ export function App() {
         </section>
 
         <section className="resume-section animate-fade-in">
-          <h2>Other Projects</h2>
+          <h2><DecryptText text="Other Projects" /></h2>
           <TuiHorizontalScroll>
             {linktreeLinks.map(link => (
               <div key={link.title} className="project-item">
                 <h3>
                   <a href={link.href} target="_blank" rel="noopener noreferrer" className="project-link">
-                    {link.title}
+                    <DecryptText text={link.title} />
                   </a>
                 </h3>
-                <p>External project repository/analytics resource. Click to launch site.</p>
+                <p><DecryptText text="External project repository/analytics resource. Click to launch site." /></p>
                 <div className="skills-tags" style={{ marginTop: 'auto' }}>
                   <span className="skill-tag">[ External Link ]</span>
                 </div>
@@ -1086,7 +1151,7 @@ export function App() {
         </section>
 
         <section className="resume-section animate-fade-in">
-          <h2>Recent Blog Posts</h2>
+          <h2><DecryptText text="Recent Blog Posts" /></h2>
           <TuiHorizontalScroll>
             {blogPosts.length > 0 ? (
               blogPosts.map(post => (
@@ -1105,13 +1170,13 @@ export function App() {
                       className="project-link"
                       onClick={e => e.preventDefault()}
                     >
-                      {post.title}
+                      <DecryptText text={post.title} />
                     </a>
                   </h3>
-                  <p>{post.content ? post.content.substring(0, 110).replace(/[#*`_-]/g, '') + '...' : 'Retro TUI blog post...'}</p>
+                  <p><DecryptText text={post.content ? post.content.substring(0, 110).replace(/[#*`_-]/g, '') + '...' : 'Retro TUI blog post...'} /></p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', fontSize: '0.7rem', opacity: 0.8, color: 'var(--brand)' }}>
-                    <span>{new Date(post.date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                    <span>[ Read Post ]</span>
+                    <span><DecryptText text={new Date(post.date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })} /></span>
+                    <span>[ <DecryptText text="Read Post" /> ]</span>
                   </div>
                 </div>
               ))
@@ -1131,125 +1196,13 @@ export function App() {
         </section>
       </div>
 
-      {/* Expandable CLI terminal at bottom with multi-tab simulation */}
-      <div style={{ maxWidth: '1080px', margin: '0 auto 4rem', padding: '0 1.25rem' }}>
-        <div className="tui-console animate-fade-in">
-          {/* Console Tab Selector Headers */}
-          <div className="tui-console-header" style={{ paddingBottom: 0 }}>
-            <div style={{ display: 'flex', gap: '0.25rem' }}>
-              {[
-                { id: 'shell', label: '1: interactive.sh' },
-                { id: 'syslog', label: '2: kernel_log.sys' },
-                { id: 'traffic', label: '3: traffic.log' },
-              ].map(tab => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  style={{
-                    fontSize: '0.7rem',
-                    border: '1px solid var(--stroke)',
-                    borderBottom: 'none',
-                    background: activeConsoleTab === tab.id ? 'var(--stroke)' : 'transparent',
-                    color: activeConsoleTab === tab.id ? 'var(--brand)' : 'var(--ink-soft)',
-                    padding: '0.25rem 0.5rem',
-                    cursor: 'pointer',
-                    fontWeight: 700
-                  }}
-                  onClick={() => {
-                    playKeySound();
-                    setActiveConsoleTab(tab.id as any);
-                  }}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-            <span style={{ fontSize: '0.7rem', color: 'var(--ink-soft)', alignSelf: 'center' }}>
-              PORTFOLIO CLI SIMULATOR
-            </span>
-          </div>
-
-          <div className="tui-console-logs" style={{ borderTop: '1px solid var(--stroke)', paddingTop: '0.4rem' }}>
-            {activeConsoleTab === "shell" && (
-              <>
-                {consoleLogs.map((line, idx) => (
-                  <div
-                    key={idx}
-                    className={`tui-console-log-line ${line.startsWith("guest@") ? "tui-console-log-command" : ""}`}
-                  >
-                    {line}
-                  </div>
-                ))}
-                <div ref={consoleEndRef} />
-              </>
-            )}
-
-            {activeConsoleTab === "syslog" && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', color: 'var(--ink)' }}>
-                <div>[  0.000000] Initializing portfolio kernel v2.0...</div>
-                <div>[  0.038291] Secure virtual core boot: x86_64 host processor parsed.</div>
-                <div>[  0.109281] Memory allocation: 8192 MB Unified RAM secured.</div>
-                <div>[  0.320491] ACPI: Core ACPI table parsed successfully.</div>
-                <div>[  0.490281] ext4: Mounted volume ~/website in read-only mode.</div>
-                <div>[  0.718291] network: Loaded active connection portfolio.ayushmaurya.online.</div>
-                <div>[  1.092819] bun: Hot reloading engine active on hot-module-reload port 3001.</div>
-                <div>[  1.218291] sound: Web Audio synthetic mechanical switch synthesizer compiled.</div>
-                <div style={{ color: 'var(--brand)' }}>[  1.512918] syslogd: Dynamic system logger daemon active [STATUS: OK]</div>
-              </div>
-            )}
-
-            {activeConsoleTab === "traffic" && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', color: 'var(--ink-soft)' }}>
-                <div>[21:45:02] Connection received from 127.0.0.1 (localhost)</div>
-                <div style={{ color: 'var(--brand)' }}>[21:45:03] GET /api/blog (200 OK) - Dublin, IE</div>
-                <div>[21:45:09] Connection received from 192.168.1.48</div>
-                <div style={{ color: 'var(--brand)' }}>[21:45:10] GET /index.html (200 OK) - Lucknow, IN</div>
-                <div style={{ color: 'var(--brand)' }}>[21:45:22] GET /resume_ayush_maurya.pdf (304 Not Modified) - Tokyo, JP</div>
-                <div style={{ color: 'var(--brand)' }}>[21:45:34] GET /api/manage-blog (401 Unauthorized) - Frankfurt, DE</div>
-                <div>[21:45:51] Connection received from 10.0.2.15</div>
-                <div style={{ color: 'var(--brand)' }}>[21:45:52] GET /blog/geoguesser (200 OK) - California, US</div>
-              </div>
-            )}
-          </div>
-
-          {activeConsoleTab === "shell" && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleCommandRun(commandInput);
-              }}
-              className="tui-console-input-line"
-            >
-              <span className="tui-console-prompt">guest@ayushmaurya.online:~$</span>
-              <input
-                type="text"
-                className="tui-console-input"
-                value={commandInput}
-                onChange={(e) => {
-                  playKeySound();
-                  setCommandInput(e.target.value);
-                }}
-                placeholder="type 'help'..."
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-              />
-            </form>
-          )}
-
-          {/* Simple shortcuts for mobile/quick clicks */}
-          <div className="tui-console-shortcuts">
-            <span>Quick Commands: </span>
-            <button type="button" className="tui-console-shortcut-btn" onClick={() => handleCommandRun("help")}>[ help ]</button>
-            <button type="button" className="tui-console-shortcut-btn" onClick={() => handleCommandRun("cat about.txt")}>[ cat about.txt ]</button>
-            <button type="button" className="tui-console-shortcut-btn" onClick={() => handleCommandRun("ls projects")}>[ ls projects ]</button>
-            <button type="button" className="tui-console-shortcut-btn" onClick={() => handleCommandRun("cat contact.conf")}>[ cat contact.conf ]</button>
-            <button type="button" className="tui-console-shortcut-btn" onClick={() => handleCommandRun("matrix")}>[ matrix ]</button>
-            <button type="button" className="tui-console-shortcut-btn" onClick={() => handleCommandRun("clear")}>[ clear ]</button>
-          </div>
-        </div>
-      </div>
+      <footer className="site-footer animate-fade-in">
+        <span>Ayush Maurya</span>
+        <span>IIIT Hyderabad</span>
+        <a href="mailto:ayushmaurya2003@gmail.com" onClick={playKeySound}>
+          ayushmaurya2003@gmail.com
+        </a>
+      </footer>
 
 
 

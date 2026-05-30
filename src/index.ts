@@ -17,6 +17,16 @@ const server = serve({
       },
     },
 
+    "/song.mp3": {
+      async GET() {
+        return new Response(Bun.file("public/song.mp3"), {
+          headers: {
+            "Content-Type": "audio/mpeg",
+          },
+        });
+      },
+    },
+
     // Serve index.html for all unmatched routes.
     "/*": index,
   },
