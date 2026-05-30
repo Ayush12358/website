@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { X } from "lucide-react";
 import "./BlogAdmin.css";
 
 export type BlogPost = {
@@ -27,7 +26,7 @@ export function BlogAdmin({ isOpen, onClose, onPostsUpdate }: BlogAdminProps) {
     title: "",
     filename: "",
     content: "",
-    date: new Date().toISOString().split("T")[0],
+    date: new Date().toISOString().substring(0, 10),
     is_public: true,
   });
   const [loading, setLoading] = useState(false);
@@ -102,7 +101,7 @@ export function BlogAdmin({ isOpen, onClose, onPostsUpdate }: BlogAdminProps) {
         title: "", 
         filename: "", 
         content: "", 
-        date: new Date().toISOString().split("T")[0],
+        date: new Date().toISOString().substring(0, 10),
         is_public: true,
       });
       setSelectedPost(null);
@@ -195,8 +194,8 @@ export function BlogAdmin({ isOpen, onClose, onPostsUpdate }: BlogAdminProps) {
       <div className="blog-admin-modal">
         <div className="blog-admin-header">
           <h2>Blog Management</h2>
-          <button className="blog-admin-close" onClick={onClose}>
-            <X size={24} />
+          <button className="blog-admin-close" onClick={onClose} style={{ fontSize: '0.8rem', fontWeight: 700 }}>
+            [X]
           </button>
         </div>
 
@@ -240,7 +239,7 @@ export function BlogAdmin({ isOpen, onClose, onPostsUpdate }: BlogAdminProps) {
                     title: "",
                     filename: "",
                     content: "",
-                    date: new Date().toISOString().split("T")[0],
+                    date: new Date().toISOString().substring(0, 10),
                     is_public: true,
                   });
                 }}

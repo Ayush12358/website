@@ -4,7 +4,7 @@ Welcome to my portfolio website! This is a personal project that showcases my sk
 
 ## Link
 
-You can visit my portfolio website at [https://ayushmaurya.xyz](https://ayushmaurya.xyz).
+You can visit my portfolio website at [https://ayushmaurya.online](https://ayushmaurya.online).
 
 ## License
 

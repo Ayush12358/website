@@ -129,5 +129,5 @@ export const deleteBlogPost = async (filename: string): Promise<boolean> => {
     WHERE filename = ${filename}
   `;
   
-  return result.count > 0;
+  return (result as any).count > 0;
 };

@@ -14,16 +14,22 @@ const parsePost = (
   const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (frontmatterMatch) {
     const frontmatter = frontmatterMatch[1];
-    const dateMatch = frontmatter.match(/date:\s*(\d{4}-\d{2}-\d{2})/);
-    if (dateMatch) {
-      date = dateMatch[1];
+    const markdownContent = frontmatterMatch[2];
+    if (frontmatter && markdownContent) {
+      const dateMatch = frontmatter.match(/date:\s*(\d{4}-\d{2}-\d{2})/);
+      if (dateMatch) {
+        const dateVal = dateMatch[1];
+        if (dateVal) {
+          date = dateVal;
+        }
+      }
+      markdown = markdownContent;
     }
-    markdown = frontmatterMatch[2];
   }
 
   let title = filename.replace(/\.md$/, "");
   const firstLine = markdown.split("\n")[0];
-  if (firstLine.startsWith("#")) {
+  if (firstLine && firstLine.startsWith("#")) {
     title = firstLine.replace(/^#+\s*/, "");
   }
 

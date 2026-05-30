@@ -1,7 +1,7 @@
 import "./index.css";
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Moon, Sun, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { BlogAdmin } from "./BlogAdmin";
@@ -18,25 +18,13 @@ interface BlogProps {
 }
 
 export function Blog({ slug }: BlogProps) {
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
-  useEffect(() => {
-    const savedMode = window.localStorage.getItem("theme-mode");
-    if (savedMode === "light") {
-      setIsDarkMode(false);
-      return;
-    }
-
-    setIsDarkMode(true);
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem("theme-mode", isDarkMode ? "dark" : "light");
-  }, [isDarkMode]);
+  // Retro theme state
+  const [themeMode, setThemeMode] = useState<"stark" | "green" | "amber">("green");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -103,7 +91,7 @@ export function Blog({ slug }: BlogProps) {
     const paragraphs = content
       .split("\n")
       .filter(line => line.trim() && !line.startsWith("#"));
-    return paragraphs.slice(0, 2).join(" ").substring(0, 150);
+    return paragraphs.slice(0, 2).join(" ").substring(0, 120);
   };
 
   const getSlugFromFilename = (filename: string) => {
@@ -126,7 +114,8 @@ export function Blog({ slug }: BlogProps) {
   };
 
   return (
-    <div className={`resume-container${isDarkMode ? " dark-mode" : ""}`}>
+    <div className={`resume-container theme-${themeMode}`}>
+
       <BlogAdmin
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
@@ -134,15 +123,46 @@ export function Blog({ slug }: BlogProps) {
       />
 
       <header className="resume-header blog-header">
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+          <p className="hero-kicker animate-fade-in">Articles & Logs</p>
+
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>Phosphor:</span>
+            {[
+              { id: 'stark', label: 'STARK' },
+              { id: 'green', label: 'GREEN' },
+              { id: 'amber', label: 'AMBER' },
+            ].map(theme => (
+              <button
+                key={theme.id}
+                type="button"
+                style={{
+                  fontSize: '0.65rem',
+                  border: '1px solid var(--stroke)',
+                  background: themeMode === theme.id ? 'var(--stroke)' : 'transparent',
+                  color: themeMode === theme.id ? 'var(--brand)' : 'var(--ink-soft)',
+                  padding: '0.2rem 0.4rem',
+                  cursor: 'pointer',
+                  fontWeight: 700
+                }}
+                onClick={() => setThemeMode(theme.id as any)}
+              >
+                {theme.label}
+              </button>
+            ))}
+
+
+          </div>
+        </div>
+
         <div className="blog-header-top">
-          <p className="hero-kicker animate-fade-in">Blog</p>
-          <div className="blog-header-actions animate-fade-in">
+          <div className="blog-header-actions animate-fade-in" style={{ flexDirection: 'row', gap: '0.5rem' }}>
             <button
               type="button"
               className="header-back-button"
               onClick={handleBack}
             >
-              ← Back to Portfolio
+              [ ← ESC: Portfolio ]
             </button>
             {selectedPost ? (
               <button
@@ -150,12 +170,13 @@ export function Blog({ slug }: BlogProps) {
                 className="header-back-button"
                 onClick={handleBackToList}
               >
-                ← Back to posts
+                [ ← BACK: Posts ]
               </button>
             ) : null}
           </div>
         </div>
-        <h1 className="animate-fade-in">
+
+        <h1 className="animate-fade-in" style={{ fontSize: '2rem', marginTop: '0.5rem' }}>
           {selectedPost ? selectedPost.title : "Articles & Thoughts"}
         </h1>
         <p className="resume-subtitle animate-fade-in">
@@ -205,7 +226,7 @@ export function Blog({ slug }: BlogProps) {
                         </time>
                       </div>
                       <p className="blog-excerpt">{getExcerpt(post.content)}...</p>
-                      <span className="read-more">Read more →</span>
+                      <span className="read-more">Read post</span>
                     </a>
                   ))}
                 </div>
@@ -215,8 +236,7 @@ export function Blog({ slug }: BlogProps) {
         </div>
 
         <div className="resume-sidebar">
-          <div className="sidebar-controls">
-          </div>
+          {/* Keep sidebar placeholder aligned */}
         </div>
       </div>
 
@@ -226,23 +246,7 @@ export function Blog({ slug }: BlogProps) {
         onClick={() => setIsAdminOpen(true)}
         title="Manage blog posts"
       >
-        <Edit size={18} />
-      </button>
-
-      <button
-        type="button"
-        className="theme-toggle-floating theme-toggle-corner"
-        onClick={() => setIsDarkMode(prev => !prev)}
-        role="switch"
-        aria-checked={isDarkMode}
-        aria-label="Toggle dark mode"
-      >
-        <span className="theme-toggle-icon" aria-hidden="true">
-          {isDarkMode ? <Moon size={12} /> : <Sun size={12} />}
-        </span>
-        <span className={`theme-toggle-track${isDarkMode ? " active" : ""}`}>
-          <span className="theme-toggle-thumb" />
-        </span>
+        <Edit size={16} />
       </button>
     </div>
   );

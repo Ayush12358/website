@@ -104,7 +104,7 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
   * **Client-Side WASM Engine:** Runs Python's Pandas engine entirely in the browser using **Pyodide** (WebAssembly), keeping computing fully client-side.
   * **Rich Analytics:** Analyzes a massive, Gzip-optimized dataset of **260,000+ deliveries** (covering IPL seasons from 2008 to 2024) with interactive Recharts diagrams.
 * **Tags:** `React` | `Agentic AI` | `Pyodide (WASM)` | `Pandas` | `Recharts` | `PWA`
-* **Link:** [ipl.ayushmaurya.xyz](https://ipl.ayushmaurya.xyz/)
+* **Link:** [ipl.ayushmaurya.online](https://ipl.ayushmaurya.online/)
 
 ### 3. **WorDrop**
 > **Offline Personal Safety & Automation Android App**
@@ -135,7 +135,7 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
   * **IndexedDB Storage:** Keeps files, metadata, playback speeds, bookmark timestamps, and cover art (`music-metadata-browser`) stored locally inside the browser.
   * **UI/UX:** Dual-axis theme configurations (5 preset visual colors + Light/Dark modes) built in React 19 and Vite 6.
 * **Tags:** `React 19` | `Vite 6` | `Tailwind CSS` | `IndexedDB` | `M4B Player` | `PWA`
-* **Link:** [m4b.ayushmaurya.xyz](https://m4b.ayushmaurya.xyz/)
+* **Link:** [m4b.ayushmaurya.online](https://m4b.ayushmaurya.online/)
 
 ### 6. **WebTTS**
 > **Ebook-to-Audiobook Converter PWA**
@@ -145,14 +145,14 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
   * **Interactive Reader:** Highlights active sentences in real time, supports right-click bookmarking on specific sentences, and dynamically calculates remaining "reading time" relative to playback speeds.
   * **Storage:** Integrates Vercel Blob storage.
 * **Tags:** `React` | `Vite` | `Web Speech API` | `Google Cloud TTS` | `EPUB Parser` | `PWA`
-* **Link:** [tts.ayushmaurya.xyz](https://tts.ayushmaurya.xyz/)
+* **Link:** [tts.ayushmaurya.online](https://tts.ayushmaurya.online/)
 
 ### 7. **ZenFocus HUD**
 > **Cinematic, ADHD-Friendly Productivity Dashboard**
 * **Overview:** A highly aesthetic Progressive Web App (PWA) "Heads-Up Display" designed to help users reach flow states. It integrates ambient custom visual streams (curated YouTube lofi/nature channels or offline drag-and-drop playlists) with custom productivity anchors.
 * **Key Features:** Animated Circular Pomodoro timer, focus intention locking (`"I am focusing on..."`), IndexedDB offline local video playlists, custom quick-link docks, and JSON configuration importing/exporting.
 * **Tags:** `HTML5` | `IndexedDB` | `ADHD-Friendly` | `Pomodoro` | `PWA`
-* **Link:** [zen.ayushmaurya.xyz](https://zen.ayushmaurya.xyz/)
+* **Link:** [zen.ayushmaurya.online](https://zen.ayushmaurya.online/)
 
 ### 8. **Himalayan Trade Networks (Highland History Project)**
 * **Overview:** A specialized digital humanities project developed in collaboration with Prof. Aniket Alam's research at HSRC. Focuses on digitizing massive registers of historical trade documents, applying OCR processing, and leveraging LLMs to recover text anomalies to map trade routes throughout the Himalayas.
@@ -164,7 +164,7 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Design for Social Innovation (TAFEA):** Platform enabling Teach for India fellows to draft extracurricular courses. [Google Drive Folder](https://drive.google.com/drive/folders/1eeFthW_dBVRH_B3e6DE2cVocBUmpsps0?usp=drive_link)
 * **Katha Marketplace:** Stories-first visual interface prototype for rural artisans. (`UI/UX Design`)
 * **IIIT In Context:** Autonomous student-oriented platform context. [iiit-in-context.vercel.app](https://iiit-in-context.vercel.app/)
-* **Mental Health Toolkit:** Minimal, elegant web wellness toolkit. [mh.ayushmaurya.xyz](https://mh.ayushmaurya.xyz/)
+* **Mental Health Toolkit:** Minimal, elegant web wellness toolkit. [mh.ayushmaurya.online](https://mh.ayushmaurya.online/)
 
 ---
 
@@ -186,4 +186,4 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Phone:** +91-7985149173
 * **LinkedIn:** [/in/ayush-maurya-a41a9721a](https://linkedin.com/in/ayush-maurya-a41a9721a)
 * **GitHub Profile:** [Ayush12358](https://github.com/Ayush12358)
-* **Personal/Portfolio Website:** [ayushmaurya.xyz](https://ayushmaurya.xyz)
+* **Personal/Portfolio Website:** [ayushmaurya.online](https://ayushmaurya.online)

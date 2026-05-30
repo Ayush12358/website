@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap");
-@import url("https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap");
 @import "../styles/globals.css";
 
 @layer base {
@@ -8,12 +7,17 @@
   }
 
   body {
-    @apply min-w-[320px] min-h-screen relative m-0 bg-background text-foreground;
+    @apply min-w-[320px] min-h-screen relative m-0;
+    font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   }
 
   #root {
     @apply min-h-screen;
   }
+}
+
+*, *::before, *::after {
+  font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 
 @media (prefers-reduced-motion) {
