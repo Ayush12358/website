@@ -1,7 +1,7 @@
 import "./index.css";
 import "./App.css";
-import { useCallback, useEffect, useState, useRef } from "react";
-import { Mail, Phone, Linkedin, Github, Lock, Volume2, VolumeX } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { Mail, Phone, Linkedin, Github, Volume2, VolumeX } from "lucide-react";
 import { DecryptText } from "./DecryptText";
 
 type LabeledValue = {
@@ -35,6 +35,8 @@ type ContactEntry = {
   label: string;
   href?: string;
 };
+
+type BlogArchiveStatus = "querying" | "ready" | "fallback";
 
 const heroHighlights = [
   "Software Engineering",
@@ -550,7 +552,7 @@ function TuiHorizontalScroll({ children }: { children: React.ReactNode }) {
 }
 
 const BOOT_LOGS = [
-  "BOOTING PORTFOLIO KERNEL v2.1...",
+  "BOOTING PORTFOLIO KERNEL v2.2...",
   "PARSING ENVIRONMENT SPECIFICATIONS... OK",
   "ALLOCATING MONOSPACE BUFFER BLOCKS... OK",
   "INITIALIZING NEO DATABASE INSTANCES... OK",
@@ -570,11 +572,6 @@ export function App() {
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const pendingAudioUnlockRef = useRef<(() => void) | null>(null);
-  const [isDownloadPopupOpen, setIsDownloadPopupOpen] = useState(false);
-  const [isLockPopupOpen, setIsLockPopupOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("ml-ai");
-  const [selectedStyle, setSelectedStyle] = useState("human");
-
   // Creative TUI Elements states
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [screensaverActive, setScreensaverActive] = useState(false);
@@ -585,6 +582,16 @@ export function App() {
   const [uptime, setUptime] = useState(6192);
 
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
+  const [blogArchiveStatus, setBlogArchiveStatus] = useState<BlogArchiveStatus>("querying");
+  const accessBadge = useMemo(() => {
+    const segment = () => Math.floor(Math.random() * 0xffff).toString(16).toUpperCase().padStart(4, "0");
+
+    return {
+      access: "GUEST",
+      session: `${segment()}-${segment()}`,
+      node: "IIIT-H",
+    };
+  }, []);
 
   // Audio click synthesizer function (No heavy assets)
   const playKeySound = () => {
@@ -753,8 +760,6 @@ export function App() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsDownloadPopupOpen(false);
-        setIsLockPopupOpen(false);
         setScreensaverActive(false);
       }
     };
@@ -795,10 +800,14 @@ export function App() {
           const data = await response.json();
           if (Array.isArray(data)) {
             setBlogPosts(data);
+            setBlogArchiveStatus("ready");
+            return;
           }
         }
+        setBlogArchiveStatus("fallback");
       } catch (err) {
         console.error("Failed to fetch blog posts:", err);
+        setBlogArchiveStatus("fallback");
       }
     };
     fetchBlogPosts();
@@ -852,7 +861,7 @@ export function App() {
         <div className={`boot-box animate-fade-in ${bootProgress >= 50 ? 'phosphor-active' : ''}`}>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--stroke)', paddingBottom: '0.5rem', marginBottom: '1rem', fontSize: '0.75rem', color: 'var(--brand)', fontWeight: 700 }}>
             <span>BOOT_SEQUENCE.SYS</span>
-            <span>v2.1-STABLE</span>
+            <span>v2.2-unSTABLE</span>
           </div>
           <div className="boot-log-container">
             {visibleLogs.map((log, idx) => (
@@ -901,15 +910,20 @@ export function App() {
       <header className="resume-header" style={{ width: '100%' }}>
         <div className="header-controls-row">
           <p className="hero-kicker animate-fade-in" style={{ display: 'inline-flex', gap: '0.4rem', alignItems: 'center', margin: 0 }}>
-            Portfolio CLI v2.1
+            Portfolio CLI v2.2
           </p>
+
+          <div className="access-badge" aria-label="Visitor access session">
+            <span>ACCESS: {accessBadge.access}</span>
+            <span>SESSION: {accessBadge.session}</span>
+            <span>NODE: {accessBadge.node}</span>
+          </div>
 
           <button
             type="button"
             className="header-control-button header-resume-button"
             onClick={() => {
-              playKeySound();
-              setIsDownloadPopupOpen(true);
+              triggerDownload('resume_ayush_maurya.pdf');
             }}
           >
             Download Resume
@@ -959,7 +973,7 @@ export function App() {
                   color: 'var(--brand)',
                   margin: 0,
                   fontFamily: 'monospace'
-              }}
+                }}
               >
                 <DecryptText text={asciiArts.block} />
               </pre>
@@ -1129,7 +1143,23 @@ export function App() {
         <section className="resume-section animate-fade-in">
           <h2><DecryptText text="Recent Blog Posts" /></h2>
           <TuiHorizontalScroll>
-            {blogPosts.length > 0 ? (
+            {blogArchiveStatus === "querying" ? (
+              Array(4).fill(null).map((_, i) => (
+                <div key={`archive-loader-${i}`} className="project-item blog-archive-loader">
+                  <h3>[ Querying Archive {String(i + 1).padStart(2, "0")} ]</h3>
+                  <div className="archive-loader-lines">
+                    <span>opening /api/blog stream...</span>
+                    <span>checking public visibility flags...</span>
+                    <span>decrypting markdown index...</span>
+                  </div>
+                  <div className="archive-loader-bar" />
+                  <div className="archive-loader-footer">
+                    <span>NEON::READ</span>
+                    <span>[ WAIT ]</span>
+                  </div>
+                </div>
+              ))
+            ) : blogPosts.length > 0 ? (
               blogPosts.map(post => (
                 <div
                   key={post.filename}
@@ -1157,16 +1187,17 @@ export function App() {
                 </div>
               ))
             ) : (
-              Array(6).fill(null).map((_, i) => (
-                <div key={`mock-post-${i}`} className="project-item" style={{ opacity: 0.7 }}>
-                  <h3>[ Simulated Entry {i + 1} ]</h3>
-                  <p>Connecting to Neon serverless database instances... Querying public table blog_posts...</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', fontSize: '0.7rem', color: 'var(--ink-soft)' }}>
-                    <span>2026-05-30</span>
-                    <span>[ Waiting ]</span>
-                  </div>
+              <div className="project-item blog-archive-loader">
+                <h3>[ Archive Unavailable ]</h3>
+                <div className="archive-loader-lines">
+                  <span>{blogArchiveStatus === "fallback" ? "blog endpoint returned no readable entries." : "no public posts indexed yet."}</span>
+                  <span>portfolio shell remains online.</span>
                 </div>
-              ))
+                <div className="archive-loader-footer">
+                  <span>ARCHIVE::EMPTY</span>
+                  <span>[ OK ]</span>
+                </div>
+              </div>
             )}
           </TuiHorizontalScroll>
         </section>
@@ -1180,168 +1211,6 @@ export function App() {
         </a>
       </footer>
 
-
-
-      {isDownloadPopupOpen && (
-        <div
-          className="projects-popup-overlay"
-          role="presentation"
-          onClick={() => {
-            playKeySound();
-            setIsDownloadPopupOpen(false);
-          }}
-        >
-          <div
-            className="projects-popup"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="download-popup-title"
-            onClick={event => event.stopPropagation()}
-            style={{ maxWidth: '500px' }}
-          >
-            <div className="projects-popup-header">
-              <h2 id="download-popup-title">Download Resume</h2>
-              <div className="projects-popup-header-actions">
-                <button
-                  type="button"
-                  className="header-lock-button"
-                  onClick={() => {
-                    playKeySound();
-                    setIsLockPopupOpen(true);
-                  }}
-                  aria-label="Download tailored version"
-                  title="Download tailored version"
-                >
-                  <Lock size={12} />
-                </button>
-                <button
-                  type="button"
-                  className="projects-popup-close"
-                  onClick={() => {
-                    playKeySound();
-                    setIsDownloadPopupOpen(false);
-                  }}
-                  aria-label="Close popup"
-                >
-                  [X]
-                </button>
-              </div>
-            </div>
-
-            <div className="download-popup-body">
-              <button
-                type="button"
-                className="sidebar-action-button"
-                style={{ width: '100%', justifyContent: 'center' }}
-                onClick={() => triggerDownload('resume_ayush_maurya.pdf')}
-              >
-                [ Download Main Resume ]
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isLockPopupOpen && (
-        <div
-          className="projects-popup-overlay"
-          role="presentation"
-          onClick={() => {
-            playKeySound();
-            setIsLockPopupOpen(false);
-          }}
-        >
-          <div
-            className="projects-popup"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="lock-popup-title"
-            onClick={event => event.stopPropagation()}
-            style={{ maxWidth: '460px' }}
-          >
-            <div className="projects-popup-header">
-              <h2 id="lock-popup-title">Tailored Resume</h2>
-              <button
-                type="button"
-                className="projects-popup-close"
-                onClick={() => {
-                  playKeySound();
-                  setIsLockPopupOpen(false);
-                }}
-                aria-label="Close popup"
-              >
-                [X]
-              </button>
-            </div>
-
-            <div className="lock-popup-body">
-              <div className="lock-popup-section">
-                <label className="lock-popup-label">1. Target Role</label>
-                <div className="lock-popup-options">
-                  {[
-                    { id: 'sde', label: 'Software Eng.' },
-                    { id: 'ml-ai', label: 'ML / AI' },
-                    { id: 'research', label: 'Research' },
-                    { id: 'pd', label: 'Product Design' },
-                  ].map(role => (
-                    <button
-                      key={role.id}
-                      type="button"
-                      className="lock-popup-pill"
-                      data-active={selectedRole === role.id || undefined}
-                      onClick={() => {
-                        playKeySound();
-                        setSelectedRole(role.id);
-                      }}
-                    >
-                      {role.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="lock-popup-section">
-                <label className="lock-popup-label">2. Company Style</label>
-                <div className="lock-popup-options">
-                  {[
-                    { id: 'ats', label: 'ATS' },
-                    { id: 'startup', label: 'Creative' },
-                    { id: 'human', label: 'Human Reader' },
-                  ].map(style => (
-                    <button
-                      key={style.id}
-                      type="button"
-                      className="lock-popup-pill"
-                      data-active={selectedStyle === style.id || undefined}
-                      onClick={() => {
-                        playKeySound();
-                        setSelectedStyle(style.id);
-                      }}
-                    >
-                      {style.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="lock-popup-download"
-                disabled={!selectedRole || !selectedStyle}
-                onClick={() => {
-                  if (selectedRole && selectedStyle) {
-                    triggerDownload(`resume-${selectedRole}-${selectedStyle}.pdf`);
-                    setIsLockPopupOpen(false);
-                    setIsDownloadPopupOpen(false);
-                  }
-                }}
-              >
-                [ Download tailored PDF ]
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
