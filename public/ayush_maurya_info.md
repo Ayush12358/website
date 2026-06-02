@@ -165,7 +165,7 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Katha Marketplace:** Stories-first visual interface prototype for rural artisans. (`UI/UX Design`)
 * **IIIT In Context:** Autonomous student-oriented platform context. [iiit-in-context.vercel.app](https://iiit-in-context.vercel.app/)
 * **Mental Health Toolkit:** Minimal, elegant web wellness toolkit. [mh.ayushmaurya.online](https://mh.ayushmaurya.online/)
-
+ 
 ---
 
 ## 🏆 Honours & Extra-Curricular Activities

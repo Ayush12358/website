@@ -4,11 +4,6 @@ import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { Mail, Phone, Linkedin, Github, Volume2, VolumeX } from "lucide-react";
 import { DecryptText } from "./DecryptText";
 
-type LabeledValue = {
-  label: string;
-  value: string;
-};
-
 type TimelineEntry = {
   title: string;
   date: string;
@@ -41,12 +36,7 @@ type BlogArchiveStatus = "querying" | "ready" | "fallback";
 const heroHighlights = [
   "Software Engineering",
   "Machine Learning",
-  "Human Sciences",
-];
-
-const profileMetrics: LabeledValue[] = [
-  { value: "2021", label: "Started B.Tech/M.S." },
-  { value: "111", label: "UGEE Rank" },
+  "Computational Social Science",
 ];
 
 const education: TimelineEntry[] = [
@@ -1008,16 +998,8 @@ export function App() {
           <section className="resume-section animate-fade-in">
             <h2><DecryptText text="About Me" /></h2>
             <p>
-              <DecryptText text="Pursuing a dual degree (B.Tech in CS + M.S. by Research in Computing and Human Sciences) at IIIT Hyderabad. Academic interests include machine learning and software systems." />
+              <DecryptText text="I'm Ayush Maurya, a CS + Computational Human Sciences dual-degree research student at IIIT Hyderabad. I build at the intersection of software systems, machine learning, and human behavior — from agent-based electoral simulations to agentic AI cricket analytics. My work spans across NLP research, data analytics, full-stack web apps, product design, and digital humanities. When I'm not coding or grilling you with questions, you'll find me playing guitar, ukulele, tennis, or pickleball." />
             </p>
-            <div className="profile-metrics">
-              {profileMetrics.map(metric => (
-                <div key={metric.label} className="metric-item">
-                  <span className="metric-value"><DecryptText text={metric.value} /></span>
-                  <span className="metric-label"><DecryptText text={metric.label} /></span>
-                </div>
-              ))}
-            </div>
           </section>
 
           <section className="resume-section animate-fade-in">
