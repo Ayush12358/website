@@ -46,6 +46,8 @@ const education: TimelineEntry[] = [
     lines: [
       "B.Tech in Computer Science Engineering (CSE)",
       "M.S. by Research in Computing and Human Sciences (Ongoing)",
+      "Human Sciences Research Centre (HSRC) — Supervisor: Dr. Aniket Alam",
+      "Research Focus: Political Narratives & Electoral Systems in India",
     ],
   },
   {
@@ -87,19 +89,20 @@ const experiences: TaggedEntry[] = [
 
 const projects: ProjectEntry[] = [
   {
-    id: "ml-geoguesser",
-    title: "ML for Local Geoguesser",
-    description:
-      "Created a location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
-    tags: ["Python", "Machine Learning", "PyTorch"],
-  },
-  {
     id: "electoral-sim",
     title: "ElectoralSim",
     description:
-      "Developed an open-source Python library for simulating electoral systems and voting methods as a side project of human sciences research.",
-    tags: ["Python", "Simulation", "Open Source"],
+      "High-performance agent-based electoral simulation toolkit. Simulates 1M+ voter agents with 89x speedup via Polars & Numba, supports 8+ electoral systems across 11 country presets, and models voter psychology (Big Five, Moral Foundations) with social network opinion dynamics.",
+    tags: ["Python", "Agent-Based Modeling", "Polars", "Numba"],
     href: "https://pypi.org/project/electoral-sim",
+  },
+  {
+    id: "ipl-strategy-lab",
+    title: "IPL Strategy Lab",
+    description:
+      "Agentic AI cricket analytics platform using multi-agent architecture (Analyst → Strategist → Evaluator) with a self-healing code loop. Runs Python/Pandas in-browser via Pyodide (WASM) over 260K+ deliveries across all IPL seasons.",
+    tags: ["React", "Agentic AI", "Pyodide (WASM)", "Pandas"],
+    href: "https://ipl.ayushmaurya.online/",
   },
   {
     id: "crowdtwin",
@@ -118,11 +121,27 @@ const projects: ProjectEntry[] = [
     href: "https://drive.google.com/drive/folders/1eeFthW_dBVRH_B3e6DE2cVocBUmpsps0?usp=drive_link",
   },
   {
-    id: "highland-history",
-    title: "Highland History Project",
+    id: "tempus-logic",
+    title: "TempusLogic",
     description:
-      "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks.",
-    tags: ["Machine Learning", "OCR", "LLM"],
+      "NLP diagnostic reasoning suite testing LLM logical consistency under adversarial prompting and contextual shifts. Evaluates models on Dyads/Triads logical reasoning and GSM8K mathematical stress tests.",
+    tags: ["Python", "NLP Research", "LLM Evaluation"],
+    href: "https://github.com/Ayush12358/TempusLogic",
+  },
+  {
+    id: "my-research",
+    title: "My Research — Representing India",
+    description:
+      "Computational human sciences research examining political narratives and electoral dynamics in the Indian democratic system, conducted at IIIT-H's Human Sciences Research Centre.",
+    tags: ["Computational Social Science", "Political Narratives", "Research"],
+    href: "https://research.ayushmaurya.online/",
+  },
+  {
+    id: "ml-geoguesser",
+    title: "ML for Local Geoguesser",
+    description:
+      "Created a location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
+    tags: ["Python", "Machine Learning", "PyTorch"],
   },
   {
     id: "age-prediction",
@@ -130,21 +149,6 @@ const projects: ProjectEntry[] = [
     description:
       "Developed a model to predict age from images using transfer learning and compared it with ensemble methods like Random Forests and SVMs.",
     tags: ["Machine Learning", "PyTorch"],
-  },
-  {
-    id: "campus-mart",
-    title: "Campus Mart",
-    description:
-      "Designed UI/UX for a buy-sell-rent application featuring NFC tracking integration.",
-    tags: ["UI/UX Design", "Prototyping"],
-    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
-  },
-  {
-    id: "katha",
-    title: "Katha Marketplace",
-    description:
-      "Designed a prototype storytelling-based marketplace interface for local artisans.",
-    tags: ["UI/UX Design", "Wireframing"],
   },
 ];
 
@@ -178,11 +182,19 @@ const contacts: ContactEntry[] = [
 const expertise: Array<{ category: string; tags: string[] }> = [
   {
     category: "Languages",
-    tags: ["Python", "C/C++", "JavaScript", "SQL", "HTML/CSS"],
+    tags: ["Python", "C/C++", "JavaScript/TS", "SQL"],
   },
   {
-    category: "Technologies",
-    tags: ["Machine Learning", "PyTorch", "Linux", "System Design", "Systems Programming"],
+    category: "ML & Data",
+    tags: ["PyTorch", "Agentic AI", "Polars", "Numba", "Pandas", "Scikit-learn"],
+  },
+  {
+    category: "Web & Mobile",
+    tags: ["React", "Next.js", "Flutter", "Tailwind CSS", "PWA", "Pyodide (WASM)", "Bun"],
+  },
+  {
+    category: "Systems",
+    tags: ["Linux", "System Design", "Systems Programming"],
   },
   {
     category: "UI/UX & Design",
@@ -205,43 +217,52 @@ const honours = [
   },
 ];
 
-const linktreeLinks: Array<{ title: string; href: string }> = [
+const linktreeLinks: Array<{ title: string; href: string; description: string }> = [
   {
-    title: "My Research - Representing India",
-    href: "https://research.ayushmaurya.online/",
+    title: "Highland History Project",
+    href: "https://github.com/Ayush12358",
+    description: "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks. Collaboration under Dr. Aniket Alam at HSRC.",
   },
   {
-    title: "IPL Strategy Lab | Next-Gen Cricket Analytics",
-    href: "https://ipl.ayushmaurya.online/",
+    title: "Campus Mart",
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
+    description: "UI/UX design for a buy-sell-rent application featuring NFC-based exchange and tracking concepts for university campuses.",
   },
   {
-    title: "TempusLogic NLP Research",
-    href: "https://github.com/Ayush12358/TempusLogic",
+    title: "Katha Marketplace",
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
+    description: "Storytelling-led marketplace prototype designed for local artisans with a stories-first visual interface.",
   },
   {
     title: "WorDrop Android App",
     href: "https://github.com/Ayush12358/WorDrop",
-  },
-  {
-    title: "WebTTS - EPUB to Audiobook",
-    href: "https://tts.ayushmaurya.online/",
+    description: "Privacy-first offline safety app using Vosk on-device speech recognition with configurable trigger-action pipelines.",
   },
   {
     title: "amReader - Minimalist M4B Player",
     href: "https://m4b.ayushmaurya.online/",
+    description: "Client-side M4B audiobook player with chapter parsing, subtitle autoscroll, and IndexedDB offline storage.",
+  },
+  {
+    title: "WebTTS - EPUB to Audiobook",
+    href: "https://tts.ayushmaurya.online/",
+    description: "Browser-based ebook-to-audiobook converter with dual TTS engines, EPUB parsing, and real-time sentence highlighting.",
+  },
+  {
+    title: "ZenFocus HUD",
+    href: "https://zen.ayushmaurya.online/",
+    description: "Cinematic ADHD-friendly productivity dashboard with Pomodoro timer, flow-state intention locking, and offline video playlists.",
   },
   {
     title: "IIIT In Context",
     href: "https://iiit-in-context.vercel.app/",
+    description: "Autonomous student-oriented platform providing IIIT-H campus context and resources.",
   },
   {
     title: "Mental Health Toolkit",
     href: "https://mh.ayushmaurya.online/",
+    description: "Minimal, elegant web wellness toolkit for mental health support.",
   },
-  {
-    title: "ZenFocus",
-    href: "https://zen.ayushmaurya.online/",
-  }
 ];
 
 const asciiProfile = `                                      +++++++++++++++++++++++++                                      
@@ -969,10 +990,10 @@ export function App() {
               </pre>
             </div>
 
-            <p className="resume-subtitle animate-fade-in terminal-cursor" style={{ marginTop: '1rem' }}>
+            <p className="resume-subtitle animate-fade-in" style={{ marginTop: '1rem' }}>
               <DecryptText text="Computer Science Engineering student and researcher at IIIT Hyderabad" />
             </p>
-            <p className="resume-subtitle animate-fade-in" style={{ marginTop: '0rem' }}>
+            <p className="resume-subtitle animate-fade-in terminal-cursor" style={{ marginTop: '0rem' }}>
               <DecryptText text="working at the intersection of computer science and human sciences." />
             </p>
 
@@ -1113,7 +1134,7 @@ export function App() {
                     <DecryptText text={link.title} />
                   </a>
                 </h3>
-                <p><DecryptText text="External project repository/analytics resource. Click to launch site." /></p>
+                <p><DecryptText text={link.description} /></p>
                 <div className="skills-tags" style={{ marginTop: 'auto' }}>
                   <span className="skill-tag">[ External Link ]</span>
                 </div>
