@@ -136,20 +136,6 @@ const projects: ProjectEntry[] = [
     tags: ["Computational Social Science", "Political Narratives", "Research"],
     href: "https://research.ayushmaurya.online/",
   },
-  {
-    id: "ml-geoguesser",
-    title: "ML for Local Geoguesser",
-    description:
-      "Created a location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
-    tags: ["Python", "Machine Learning", "PyTorch"],
-  },
-  {
-    id: "age-prediction",
-    title: "Age Prediction Model",
-    description:
-      "Developed a model to predict age from images using transfer learning and compared it with ensemble methods like Random Forests and SVMs.",
-    tags: ["Machine Learning", "PyTorch"],
-  },
 ];
 
 const contacts: ContactEntry[] = [
@@ -196,28 +182,30 @@ const expertise: Array<{ category: string; tags: string[] }> = [
     category: "Systems",
     tags: ["Linux", "System Design", "Systems Programming"],
   },
-  {
-    category: "UI/UX & Design",
-    tags: ["Wireframing", "Prototyping", "User Stories", "User Research", "Interaction Design"],
-  },
 ];
 
 const honours = [
   {
-    title: "UGEE Rank: 111",
-    description: "Rank 111 out of 40,000+ candidates",
+    title: "Bass Guitar & Ukulele",
+    description: "Bass guitarist in college band, ukulele player",
   },
   {
-    title: "JEE Main",
-    description: "96.9 Percentile",
-  },
-  {
-    title: "Extra-Curricular",
-    description: "Bass guitarist in college band, lawn tennis player",
+    title: "Sports",
+    description: "Lawn tennis & pickleball player",
   },
 ];
 
 const linktreeLinks: Array<{ title: string; href: string; description: string }> = [
+  {
+    title: "ML for Local Geoguesser",
+    href: "",
+    description: "Location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
+  },
+  {
+    title: "Age Prediction Model",
+    href: "",
+    description: "Image-based age prediction using transfer learning, compared with ensemble methods like Random Forests and SVMs.",
+  },
   {
     title: "Highland History Project",
     href: "https://github.com/Ayush12358",
@@ -1089,7 +1077,7 @@ export function App() {
           </section>
 
           <section className="sidebar-section animate-fade-in">
-            <h2><DecryptText text="Honours" /></h2>
+            <h2><DecryptText text="For Fun" /></h2>
             {honours.map(item => (
               <div key={item.title} className="course-item">
                 <h4><DecryptText text={item.title} /></h4>

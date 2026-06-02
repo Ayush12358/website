@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayush Maurya — Resume</title>
+<style>
+  @page { size: A4; margin: 0; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 8.5pt;
+    line-height: 1.35;
+    color: #1a1a1a;
+    background: #fff;
+    max-width: 210mm;
+    margin: 0 auto;
+  }
+
+  .resume { padding: 8mm 11mm 6mm 11mm; }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 4pt;
+    padding-bottom: 4pt;
+    border-bottom: 1.5pt solid #1a1a1a;
+  }
+  .header h1 { font-size: 16pt; font-weight: 700; letter-spacing: 0.8pt; text-transform: uppercase; margin-bottom: 2pt; }
+  .header .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 3pt 10pt; font-size: 7.5pt; color: #555; }
+  .header .contact-row a { color: #1a56db; text-decoration: none; font-size: 7.5pt; }
+  .header .contact-row span { white-space: nowrap; }
+  .header .sep { color: #ccc; user-select: none; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 5pt; }
+  .section-title {
+    font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6pt;
+    border-bottom: 0.8pt solid #1a1a1a; padding-bottom: 1pt; margin-bottom: 3pt;
+  }
+
+  /* ── Two-col layout ── */
+  .two-col { display: flex; gap: 11pt; }
+  .col-main { flex: 1.75; }
+  .col-side { flex: 1; }
+
+  /* ── Summary ── */
+  .summary { font-size: 8pt; color: #333; margin-bottom: 3pt; }
+
+  /* ── Entry ── */
+  .entry { margin-bottom: 3pt; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25pt; }
+  .entry-title { font-weight: 700; font-size: 9.5pt; }
+  .entry-subtitle { font-weight: 600; font-size: 9.5pt; color: #333; }
+  .entry-date { font-size: 9.5pt; color: #777; white-space: nowrap; flex-shrink: 0; }
+  .entry-desc { font-size: 9pt; color: #333; margin-bottom: 0.5pt; text-align: justify; }
+  .entry-details { font-size: 8.25pt; color: #555; margin-top: 0.25pt; padding-left: 8pt; }
+  .entry-details li { margin-bottom: 0.25pt; }
+
+  /* ── Tags ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 1.5pt; margin-top: 0.5pt; }
+  .tag { font-size: 7pt; font-weight: 600; color: #555; background: #f3f3f3; padding: 0.25pt 3pt; border-radius: 2pt; }
+
+  /* ── Sidebar entries ── */
+  .side-entry { margin-bottom: 2pt; }
+  .side-entry h4 { font-size: 9pt; font-weight: 700; }
+  .side-entry p { font-size: 8pt; color: #555; }
+  .side-entry a { color: #1a56db; text-decoration: none; font-size: 8pt; }
+
+  .compact-list { font-size: 8cm; color: #444; line-height: 1.3; }
+</style>
+</head>
+<body>
+<div class="resume">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <h1>Ayush Maurya</h1>
+    <div class="contact-row">
+      <span>ayushmaurya2003@gmail.com</span><span class="sep">|</span>
+      <span>ayush.maurya@research.iiit.ac.in</span><span class="sep">|</span>
+      <span>+91-7985149173</span><span class="sep">|</span>
+      <span><a href="https://linkedin.com/in/ayush-maurya-a41a9721a">linkedin.com/in/ayush-maurya</a></span><span class="sep">|</span>
+      <span><a href="https://github.com/Ayush12358">github.com/Ayush12358</a></span><span class="sep">|</span>
+      <span><a href="https://ayushmaurya.online">ayushmaurya.online</a></span>
+    </div>
+  </header>
+
+  <!-- ── TWO-COLUMN LAYOUT ── -->
+  <div class="two-col">
+
+    <!-- ── LEFT COLUMN ── -->
+    <div class="col-main">
+
+      <!-- About Me -->
+      <section class="section">
+        <h2 class="section-title">About Me</h2>
+        <p class="summary">
+          CS + Computational Human Sciences dual-degree research student at IIIT Hyderabad, working at the intersection of software systems, machine learning, and human behavior - from agent-based electoral simulations to agentic AI platforms. My work spans NLP research, full-stack web apps, product design, and digital humanities.
+        </p>
+      </section>
+
+      <!-- Education -->
+      <section class="section">
+        <h2 class="section-title">Education</h2>
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">IIIT Hyderabad — Dual Degree (B.Tech CSE + M.S. Research)</span>
+            <span class="entry-date">2021 – Present</span>
+          </div>
+          <div class="entry-desc">Human Sciences Research Centre (HSRC). Supervisor: Dr. Aniket Alam.</div>
+          <ul class="entry-details">
+            <li>Research: Political Narratives &amp; Electoral Systems in India</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-subtitle">Relevant Coursework &amp; Labs</span>
+            <span class="entry-date">2022 – 2024</span>
+          </div>
+          <div class="entry-desc">Design &amp; Analysis of Software Systems · Human Science Lab (NLP Research)</div>
+        </div>
+        <div class="entry">
+          <span class="entry-subtitle">Mary Gardiner's Convent School (XII: 90.1%, 2021) &nbsp;·&nbsp; City Montessori School (X: 94.2%, 2019)</span>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="section">
+        <h2 class="section-title">Experience</h2>
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">SERC Digital Twin</span>
+            <span class="entry-date">Environmental IoT</span>
+          </div>
+          <div class="entry-desc">Real-time environmental monitoring dashboard using MERN stack, integrating local IoT sensors for temperature, humidity, water quality, and air quality tracking.</div>
+          <div class="tags"><span class="tag">MERN</span><span class="tag">IoT</span><span class="tag">SQL</span></div>
+        </div>
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">tafea</span>
+            <span class="entry-date">System Design</span>
+          </div>
+          <div class="entry-desc">Designed a student client software system using SDLC methodologies. Integrated LLM APIs for natural language interfaces.</div>
+          <div class="tags"><span class="tag">System Design</span><span class="tag">UI Design</span><span class="tag">LLM</span></div>
+        </div>
+      </section>
+
+      <!-- Key Projects -->
+      <section class="section">
+        <h2 class="section-title">Key Projects</h2>
+
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">ElectoralSim</span>
+            <span class="entry-date"><a href="https://pypi.org/project/electoral-sim">PyPI ↗</a></span>
+          </div>
+          <div class="entry-desc">High-performance agent-based electoral simulation toolkit. Simulates 1M+ voter agents with 89× speedup via Polars &amp; Numba, supports 8+ electoral systems across 11 country presets, models voter psychology with social network opinion dynamics.</div>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Agent-Based Modeling</span><span class="tag">Polars</span><span class="tag">Numba</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">IPL Strategy Lab</span>
+            <span class="entry-date"><a href="https://ipl.ayushmaurya.online">ipl.ayushmaurya.online ↗</a></span>
+          </div>
+          <div class="entry-desc">Agentic AI cricket analytics with multi-agent architecture (Analyst → Strategist → Evaluator) and self-healing code loop. Runs Python/Pandas in-browser via Pyodide (WASM) over 260K+ deliveries.</div>
+          <div class="tags"><span class="tag">React</span><span class="tag">Agentic AI</span><span class="tag">Pyodide (WASM)</span><span class="tag">Pandas</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">CrowdTwin</span>
+            <span class="entry-date"><a href="https://crowdtwin.vercel.app">crowdtwin.vercel.app ↗</a></span>
+          </div>
+          <div class="entry-desc">Predictive crowd monitoring dashboard prototype built for a Tech Product Entrepreneurship course, with idea refinement and pitching to guest evaluators.</div>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">Product Design</span><span class="tag">Prototype</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">Design for Social Innovation (TAFEA)</span>
+          </div>
+          <div class="entry-desc">AI-assisted platform to help Teach For India fellows plan and customize extracurricular curricula for resource-constrained classrooms.</div>
+          <div class="tags"><span class="tag">Human-Centered Design</span><span class="tag">Education</span><span class="tag">AI</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">TempusLogic</span>
+            <span class="entry-date"><a href="https://github.com/Ayush12358/TempusLogic">GitHub ↗</a></span>
+          </div>
+          <div class="entry-desc">NLP diagnostic reasoning suite testing LLM logical consistency under adversarial prompting and contextual shifts via Dyads/Triads reasoning and GSM8K math stress tests.</div>
+          <div class="tags"><span class="tag">Python</span><span class="tag">NLP Research</span><span class="tag">LLM Evaluation</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-title">My Research — Representing India</span>
+            <span class="entry-date"><a href="https://research.ayushmaurya.online">research ↗</a></span>
+          </div>
+          <div class="entry-desc">Computational human sciences research on political narratives &amp; electoral dynamics in India, conducted at IIIT-H's HSRC under Dr. Aniket Alam.</div>
+          <div class="tags"><span class="tag">Computational Social Science</span><span class="tag">Political Narratives</span><span class="tag">Research</span></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── RIGHT COLUMN ── -->
+    <div class="col-side">
+
+      <!-- Expertise -->
+      <section class="section">
+        <h2 class="section-title">Expertise</h2>
+
+        <div class="side-entry">
+          <h4>Languages</h4>
+          <p>Python, C/C++, JavaScript/TS, SQL</p>
+        </div>
+        <div class="side-entry">
+          <h4>ML &amp; Data</h4>
+          <p>PyTorch, Agentic AI, Polars, Numba, Pandas, Scikit-learn</p>
+        </div>
+        <div class="side-entry">
+          <h4>Full Stack</h4>
+          <p>React, Next.js, Flutter, Tailwind CSS, PWA, Pyodide (WASM), Bun</p>
+        </div>
+        <div class="side-entry">
+          <h4>Systems</h4>
+          <p>Linux, System Design, Systems Programming</p>
+        </div>
+        <!-- </div> -->
+      </section>
+
+      <!-- Extra-Curricular -->
+      <section class="section">
+        <h2 class="section-title">For Fun</h2>
+        <div class="side-entry">
+          <h4>Bass Guitar &amp; Ukulele</h4>
+          <p>Bass guitarist in college band, ukulele player</p>
+        </div>
+        <div class="side-entry">
+          <h4>Sports</h4>
+          <p>Lawn tennis &amp; pickleball player</p>
+        </div>
+      </section>
+
+      <!-- Other Projects -->
+      <section class="section">
+        <h2 class="section-title">Other Projects</h2>
+
+        <div class="side-entry">
+          <h4>ML for Local Geoguesser</h4>
+          <p>ResNet50-based location estimation model. Predicts region, lat/lon, and camera angle — 92% region accuracy.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">ResNet50</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>Age Prediction Model</h4>
+          <p>Transfer learning vs. ensemble methods (Random Forests, SVMs) for age prediction from images.</p>
+          <div class="tags"><span class="tag">Machine Learning</span><span class="tag">PyTorch</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>Highland History Project</h4>
+          <p>OCR &amp; LLM-assisted digitization of Himalayan trade registers. Collaboration with Dr. Aniket Alam at HSRC.</p>
+          <div class="tags"><span class="tag">Machine Learning</span><span class="tag">OCR</span><span class="tag">LLM</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>Campus Mart</h4>
+          <p>UI/UX for a buy-sell-rent campus app with NFC-based exchange and tracking.</p>
+          <div class="tags"><span class="tag">UI/UX Design</span><span class="tag">Prototyping</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>Katha Marketplace</h4>
+          <p>Storytelling-led marketplace prototype for local artisans with a stories-first visual interface.</p>
+          <div class="tags"><span class="tag">UI/UX Design</span><span class="tag">Wireframing</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>WorDrop <a href="https://github.com/Ayush12358/WorDrop" style="font-size:6.5pt;">↗</a></h4>
+          <p>Privacy-first offline Android safety app using Vosk on-device speech recognition with configurable hotword triggers.</p>
+          <div class="tags"><span class="tag">Flutter</span><span class="tag">Vosk</span><span class="tag">Android</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>amReader <a href="https://m4b.ayushmaurya.online" style="font-size:6.5pt;">↗</a></h4>
+          <p>Client-side M4B audiobook player with chapter parsing, subtitle autoscroll, and IndexedDB offline storage.</p>
+          <div class="tags"><span class="tag">React 19</span><span class="tag">IndexedDB</span><span class="tag">PWA</span></div>
+        </div>
+
+        <div class="side-entry">
+          <h4>WebTTS <a href="https://tts.ayushmaurya.online" style="font-size:6.5pt;">↗</a></h4>
+          <p>Browser-based EPUB-to-audiobook converter with dual TTS engines (Web Speech API + Google Cloud).</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Web Speech API</span><span class="tag">PWA</span></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
