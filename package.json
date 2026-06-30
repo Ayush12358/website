@@ -4,13 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "bun scripts/generate-posts.ts",
     "dev": "bun --hot src/index.ts",
+    "prebuild": "bun scripts/generate-posts.ts",
     "start": "NODE_ENV=production bun src/index.ts",
-    "build": "bun run build.ts",
-    "migrate": "bun migrate-blogs.ts"
+    "build": "bun run build.ts"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.9.2",
     "bun-plugin-tailwind": "^0.1.2",
     "lucide-react": "^0.545.0",
     "react": "^19",

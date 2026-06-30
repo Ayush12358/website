@@ -5,6 +5,9 @@ node_modules
 out
 dist
 
+# generated post index (run `bun run build` or `bun scripts/generate-posts.ts` to regenerate)
+src/posts.ts
+
 # code coverage
 coverage
 *.lcov

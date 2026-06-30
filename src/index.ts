@@ -1,22 +1,8 @@
 import { serve } from "bun";
 import index from "./index.html";
-import blogApi from "../api/blog";
-import manageBlogApi from "../api/manage-blog";
 
 const server = serve({
   routes: {
-    "/api/blog": {
-      async GET(req) {
-        return blogApi.fetch(req);
-      },
-    },
-
-    "/api/manage-blog": {
-      async POST(req) {
-        return manageBlogApi.fetch(req);
-      },
-    },
-
     "/song.mp3": {
       async GET() {
         return new Response(Bun.file("public/song.mp3"), {

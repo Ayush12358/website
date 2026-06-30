@@ -3,6 +3,7 @@ import "./App.css";
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { Mail, Phone, Linkedin, Github, Volume2, VolumeX } from "lucide-react";
 import { DecryptText } from "./DecryptText";
+import { posts } from "./posts";
 
 type TimelineEntry = {
   title: string;
@@ -30,8 +31,6 @@ type ContactEntry = {
   label: string;
   href?: string;
 };
-
-type BlogArchiveStatus = "querying" | "ready" | "fallback";
 
 const heroHighlights = [
   "Software Engineering",
@@ -580,8 +579,6 @@ export function App() {
   const [loadPercentage, setLoadPercentage] = useState(34);
   const [uptime, setUptime] = useState(6192);
 
-  const [blogPosts, setBlogPosts] = useState<any[]>([]);
-  const [blogArchiveStatus, setBlogArchiveStatus] = useState<BlogArchiveStatus>("querying");
   const accessBadge = useMemo(() => {
     const segment = () => Math.floor(Math.random() * 0xffff).toString(16).toUpperCase().padStart(4, "0");
 
@@ -791,26 +788,6 @@ export function App() {
     };
   }, [isBooting]);
 
-  useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        const response = await fetch("/api/blog");
-        if (response.ok) {
-          const data = await response.json();
-          if (Array.isArray(data)) {
-            setBlogPosts(data);
-            setBlogArchiveStatus("ready");
-            return;
-          }
-        }
-        setBlogArchiveStatus("fallback");
-      } catch (err) {
-        console.error("Failed to fetch blog posts:", err);
-        setBlogArchiveStatus("fallback");
-      }
-    };
-    fetchBlogPosts();
-  }, []);
 
   const triggerDownload = (fileName: string) => {
     playKeySound();
@@ -1134,24 +1111,8 @@ export function App() {
         <section className="resume-section animate-fade-in">
           <h2><DecryptText text="Recent Blog Posts" /></h2>
           <TuiHorizontalScroll>
-            {blogArchiveStatus === "querying" ? (
-              Array(4).fill(null).map((_, i) => (
-                <div key={`archive-loader-${i}`} className="project-item blog-archive-loader">
-                  <h3>[ Querying Archive {String(i + 1).padStart(2, "0")} ]</h3>
-                  <div className="archive-loader-lines">
-                    <span>opening /api/blog stream...</span>
-                    <span>checking public visibility flags...</span>
-                    <span>decrypting markdown index...</span>
-                  </div>
-                  <div className="archive-loader-bar" />
-                  <div className="archive-loader-footer">
-                    <span>NEON::READ</span>
-                    <span>[ WAIT ]</span>
-                  </div>
-                </div>
-              ))
-            ) : blogPosts.length > 0 ? (
-              blogPosts.map(post => (
+            {posts.length > 0 ? (
+              posts.map(post => (
                 <div
                   key={post.filename}
                   className="project-item"
@@ -1181,7 +1142,7 @@ export function App() {
               <div className="project-item blog-archive-loader">
                 <h3>[ Archive Unavailable ]</h3>
                 <div className="archive-loader-lines">
-                  <span>{blogArchiveStatus === "fallback" ? "blog endpoint returned no readable entries." : "no public posts indexed yet."}</span>
+                  <span>no public posts indexed yet.</span>
                   <span>portfolio shell remains online.</span>
                 </div>
                 <div className="archive-loader-footer">

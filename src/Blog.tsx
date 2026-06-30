@@ -1,69 +1,24 @@
 import "./index.css";
 import "./App.css";
-import { useEffect, useState } from "react";
-import { Edit } from "lucide-react";
+import { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { BlogAdmin } from "./BlogAdmin";
-
-interface BlogPost {
-  title: string;
-  content: string;
-  filename: string;
-  date: string;
-}
+import { posts, type Post } from "./posts";
 
 interface BlogProps {
   slug?: string;
 }
 
 export function Blog({ slug }: BlogProps) {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
-
-  // Retro theme state
   const [themeMode, setThemeMode] = useState<"stark" | "green" | "amber">("green");
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch("/api/blog");
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setPosts(data);
-
-          // If slug is provided, find and select that post
-          if (slug) {
-            const decodedSlug = decodeURIComponent(slug);
-            const slugWithoutExt = decodedSlug.replace(/\.md$/, "");
-            const post = data.find(
-              (p: BlogPost) =>
-                p.filename.replace(/\.md$/, "").toLowerCase() ===
-                slugWithoutExt.toLowerCase()
-            );
-            if (post) {
-              setSelectedPost(post);
-            }
-          }
-        } else {
-          console.error("Fetched blog posts is not an array:", data);
-          setPosts([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, [slug]);
-
-  const handleBack = () => {
-    window.location.href = "/";
-  };
+  const selectedPost: Post | null = slug
+    ? posts.find(
+        p =>
+          p.filename.replace(/\.md$/, "").toLowerCase() ===
+          decodeURIComponent(slug).replace(/\.md$/, "").toLowerCase(),
+      ) ?? null
+    : null;
 
   const handleBackToList = () => {
     if (window.history.length > 1) {
@@ -75,8 +30,7 @@ export function Blog({ slug }: BlogProps) {
 
   const formatDate = (dateString: string) => {
     try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
+      return new Date(dateString).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -87,40 +41,14 @@ export function Blog({ slug }: BlogProps) {
   };
 
   const getExcerpt = (content: string) => {
-    // Extract first non-empty paragraph
     const paragraphs = content
       .split("\n")
       .filter(line => line.trim() && !line.startsWith("#"));
     return paragraphs.slice(0, 2).join(" ").substring(0, 120);
   };
 
-  const getSlugFromFilename = (filename: string) => {
-    const nameWithoutExt = filename.replace(/\.md$/, "").toLowerCase();
-    return encodeURIComponent(nameWithoutExt);
-  };
-
-  const refreshPosts = async () => {
-    try {
-      const response = await fetch("/api/blog");
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        setPosts(data);
-      } else {
-        setPosts([]);
-      }
-    } catch (error) {
-      console.error("Failed to refresh blog posts:", error);
-    }
-  };
-
   return (
     <div className={`resume-container theme-${themeMode}`}>
-
-      <BlogAdmin
-        isOpen={isAdminOpen}
-        onClose={() => setIsAdminOpen(false)}
-        onPostsUpdate={refreshPosts}
-      />
 
       <header className="resume-header blog-header">
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
@@ -145,7 +73,7 @@ export function Blog({ slug }: BlogProps) {
                   cursor: 'pointer',
                   fontWeight: 700
                 }}
-                onClick={() => setThemeMode(theme.id as any)}
+                onClick={() => setThemeMode(theme.id as "stark" | "green" | "amber")}
               >
                 {theme.label}
               </button>
@@ -160,7 +88,7 @@ export function Blog({ slug }: BlogProps) {
             <button
               type="button"
               className="header-back-button"
-              onClick={handleBack}
+              onClick={() => { window.location.href = "/"; }}
             >
               [ ← ESC: Portfolio ]
             </button>
@@ -188,11 +116,7 @@ export function Blog({ slug }: BlogProps) {
 
       <div className="resume-content">
         <div className="resume-main">
-          {isLoading ? (
-            <section className="resume-section animate-fade-in">
-              <p>Loading blog posts...</p>
-            </section>
-          ) : selectedPost ? (
+          {selectedPost ? (
             <article className="resume-section animate-fade-in blog-article">
               <div className="blog-article-header">
                 <h2>{selectedPost.title}</h2>
@@ -216,7 +140,7 @@ export function Blog({ slug }: BlogProps) {
                   {posts.map(post => (
                     <a
                       key={post.filename}
-                      href={`/blog/${getSlugFromFilename(post.filename)}`}
+                      href={`/blog/${encodeURIComponent(post.filename.replace(/\.md$/, "").toLowerCase())}`}
                       className="blog-post-card"
                     >
                       <div className="blog-card-header">
@@ -239,15 +163,6 @@ export function Blog({ slug }: BlogProps) {
           {/* Keep sidebar placeholder aligned */}
         </div>
       </div>
-
-      <button
-        type="button"
-        className="edit-blog-button"
-        onClick={() => setIsAdminOpen(true)}
-        title="Manage blog posts"
-      >
-        <Edit size={16} />
-      </button>
     </div>
   );
 }
