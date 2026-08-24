@@ -8,23 +8,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { Blog } from "./Blog";
 
-function Router() {
-  const pathname = window.location.pathname;
-
-  if (pathname.startsWith("/blog")) {
-    const slug = pathname.replace("/blog/", "").replace(/\/$/, "");
-    return <Blog slug={slug || undefined} />;
-  }
-
-  return <App />;
-}
 
 const elem = document.getElementById("root")!;
 const app = (
   <StrictMode>
-    <Router />
+    <App />
   </StrictMode>
 );
 

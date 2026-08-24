@@ -3,7 +3,6 @@ import "./App.css";
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { Mail, Phone, Linkedin, Github, Volume2, VolumeX } from "lucide-react";
 import { DecryptText } from "./DecryptText";
-import { posts } from "./posts";
 
 type TimelineEntry = {
   title: string;
@@ -88,14 +87,6 @@ const experiences: TaggedEntry[] = [
 
 const projects: ProjectEntry[] = [
   {
-    id: "electoral-sim",
-    title: "ElectoralSim",
-    description:
-      "High-performance agent-based electoral simulation toolkit. Simulates 1M+ voter agents with 89x speedup via Polars & Numba, supports 8+ electoral systems across 11 country presets, and models voter psychology (Big Five, Moral Foundations) with social network opinion dynamics.",
-    tags: ["Python", "Agent-Based Modeling", "Polars", "Numba"],
-    href: "https://pypi.org/project/electoral-sim",
-  },
-  {
     id: "ipl-strategy-lab",
     title: "IPL Strategy Lab",
     description:
@@ -128,12 +119,59 @@ const projects: ProjectEntry[] = [
     href: "https://github.com/Ayush12358/TempusLogic",
   },
   {
+    id: "electoral-sim",
+    title: "ElectoralSim",
+    description:
+      "High-performance agent-based electoral simulation toolkit. Simulates 1M+ voter agents with 89x speedup via Polars & Numba, supports 8+ electoral systems across 11 country presets, and models voter psychology (Big Five, Moral Foundations) with social network opinion dynamics.",
+    tags: ["Python", "Agent-Based Modeling", "Polars", "Numba"],
+    href: "https://pypi.org/project/electoral-sim",
+  },
+  {
     id: "my-research",
     title: "My Research — Representing India",
     description:
       "Computational human sciences research examining political narratives and electoral dynamics in the Indian democratic system, conducted at IIIT-H's Human Sciences Research Centre.",
     tags: ["Computational Social Science", "Political Narratives", "Research"],
     href: "https://research.ayushmaurya.online/",
+  },
+];
+
+const linktreeLinks: ProjectEntry[] = [
+  {
+    id: "geoguesser",
+    title: "ML for Local Geoguesser",
+    href: "",
+    tags: [],
+    description: 
+      "Location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
+  },
+  {
+    id: "age-prediction-model",
+    title: "Age Prediction Model",
+    tags: [],
+    href: "",
+    description: "Image-based age prediction using transfer learning, compared with ensemble methods like Random Forests and SVMs.",
+  },
+  {
+    id: "ocr",
+    title: "Highland History Project",
+    href: "https://github.com/Ayush12358",
+    tags: [],
+    description: "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks. Collaboration under Dr. Aniket Alam at HSRC.",
+  },
+  {
+    id: "campus-mart",
+    title: "Campus Mart",
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
+    tags: [],
+    description: "UI/UX design for a buy-sell-rent application featuring NFC-based exchange and tracking concepts for university campuses.",
+  },
+  {
+    id: "katha-marketplace",
+    title: "Katha Marketplace",
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
+    tags: [],
+    description: "Storytelling-led marketplace prototype designed for local artisans with a stories-first visual interface.",
   },
 ];
 
@@ -191,64 +229,6 @@ const honours = [
   {
     title: "Sports",
     description: "Lawn tennis & pickleball player",
-  },
-];
-
-const linktreeLinks: Array<{ title: string; href: string; description: string }> = [
-  {
-    title: "ML for Local Geoguesser",
-    href: "",
-    description: "Location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
-  },
-  {
-    title: "Age Prediction Model",
-    href: "",
-    description: "Image-based age prediction using transfer learning, compared with ensemble methods like Random Forests and SVMs.",
-  },
-  {
-    title: "Highland History Project",
-    href: "https://github.com/Ayush12358",
-    description: "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks. Collaboration under Dr. Aniket Alam at HSRC.",
-  },
-  {
-    title: "Campus Mart",
-    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
-    description: "UI/UX design for a buy-sell-rent application featuring NFC-based exchange and tracking concepts for university campuses.",
-  },
-  {
-    title: "Katha Marketplace",
-    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
-    description: "Storytelling-led marketplace prototype designed for local artisans with a stories-first visual interface.",
-  },
-  {
-    title: "WorDrop Android App",
-    href: "https://github.com/Ayush12358/WorDrop",
-    description: "Privacy-first offline safety app using Vosk on-device speech recognition with configurable trigger-action pipelines.",
-  },
-  {
-    title: "amReader - Minimalist M4B Player",
-    href: "https://m4b.ayushmaurya.online/",
-    description: "Client-side M4B audiobook player with chapter parsing, subtitle autoscroll, and IndexedDB offline storage.",
-  },
-  {
-    title: "WebTTS - EPUB to Audiobook",
-    href: "https://tts.ayushmaurya.online/",
-    description: "Browser-based ebook-to-audiobook converter with dual TTS engines, EPUB parsing, and real-time sentence highlighting.",
-  },
-  {
-    title: "ZenFocus HUD",
-    href: "https://zen.ayushmaurya.online/",
-    description: "Cinematic ADHD-friendly productivity dashboard with Pomodoro timer, flow-state intention locking, and offline video playlists.",
-  },
-  {
-    title: "IIIT In Context",
-    href: "https://iiit-in-context.vercel.app/",
-    description: "Autonomous student-oriented platform providing IIIT-H campus context and resources.",
-  },
-  {
-    title: "Mental Health Toolkit",
-    href: "https://mh.ayushmaurya.online/",
-    description: "Minimal, elegant web wellness toolkit for mental health support.",
   },
 ];
 
@@ -1063,6 +1043,18 @@ export function App() {
             ))}
           </section>
 
+          <section className="sidebar-section animate-fade-in">
+            <h2><DecryptText text="Blog" /></h2>
+            <div className="course-item">
+              <h4>
+                <a href="https://blog.ayushmaurya.online/" target="_blank" rel="noopener noreferrer" className="project-link">
+                  <DecryptText text="blog.ayushmaurya.online ↗" />
+                </a>
+              </h4>
+              <p><DecryptText text="Writing on technology, design, and human sciences." /></p>
+            </div>
+          </section>
+
 
         </div>
       </div>
@@ -1092,67 +1084,24 @@ export function App() {
         <section className="resume-section animate-fade-in">
           <h2><DecryptText text="Other Projects" /></h2>
           <TuiHorizontalScroll>
-            {linktreeLinks.map(link => (
-              <div key={link.title} className="project-item">
+            {linktreeLinks.map(project => (
+              <div key={project.title} className="project-item">
                 <h3>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="project-link">
-                    <DecryptText text={link.title} />
-                  </a>
+                  {project.href ? (
+                    <a href={project.href} target="_blank" rel="noopener noreferrer" className="project-link">
+                      <DecryptText text={project.title} />
+                    </a>
+                  ) : (
+                    <DecryptText text={project.title} />
+                  )}
                 </h3>
-                <p><DecryptText text={link.description} /></p>
-                <div className="skills-tags" style={{ marginTop: 'auto' }}>
-                  <span className="skill-tag">[ External Link ]</span>
-                </div>
+                <p><DecryptText text={project.description} /></p>
+                <Tags tags={project.tags} />
               </div>
             ))}
           </TuiHorizontalScroll>
         </section>
 
-        <section className="resume-section animate-fade-in">
-          <h2><DecryptText text="Recent Blog Posts" /></h2>
-          <TuiHorizontalScroll>
-            {posts.length > 0 ? (
-              posts.map(post => (
-                <div
-                  key={post.filename}
-                  className="project-item"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    playKeySound();
-                    window.location.href = `/blog/${post.filename.replace(/\.md$/, "")}`;
-                  }}
-                >
-                  <h3>
-                    <a
-                      href={`/blog/${post.filename.replace(/\.md$/, "")}`}
-                      className="project-link"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <DecryptText text={post.title} />
-                    </a>
-                  </h3>
-                  <p><DecryptText text={post.content ? post.content.substring(0, 110).replace(/[#*`_-]/g, '') + '...' : 'Retro TUI blog post...'} /></p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', fontSize: '0.7rem', opacity: 0.8, color: 'var(--brand)' }}>
-                    <span><DecryptText text={new Date(post.date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })} /></span>
-                    <span>[ <DecryptText text="Read Post" /> ]</span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="project-item blog-archive-loader">
-                <h3>[ Archive Unavailable ]</h3>
-                <div className="archive-loader-lines">
-                  <span>no public posts indexed yet.</span>
-                  <span>portfolio shell remains online.</span>
-                </div>
-                <div className="archive-loader-footer">
-                  <span>ARCHIVE::EMPTY</span>
-                  <span>[ OK ]</span>
-                </div>
-              </div>
-            )}
-          </TuiHorizontalScroll>
-        </section>
       </div>
 
       <footer className="site-footer animate-fade-in">
