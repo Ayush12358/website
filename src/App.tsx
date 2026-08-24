@@ -127,14 +127,6 @@ const projects: ProjectEntry[] = [
     href: "https://pypi.org/project/electoral-sim",
   },
   {
-    id: "my-research",
-    title: "My Research — Representing India",
-    description:
-      "Computational human sciences research examining political narratives and electoral dynamics in the Indian democratic system, conducted at IIIT-H's Human Sciences Research Centre.",
-    tags: ["Computational Social Science", "Political Narratives", "Research"],
-    href: "https://research.ayushmaurya.online/",
-  },
-  {
     id: "nfs",
     title: "NFS",
     description:
@@ -158,7 +150,7 @@ const projects: ProjectEntry[] = [
   },
 ];
 
-const linktreeLinks: ProjectEntry[] = [
+const otherprojects: ProjectEntry[] = [
   {
     id: "geoguesser",
     title: "ML for Local Geoguesser",
@@ -173,6 +165,14 @@ const linktreeLinks: ProjectEntry[] = [
     tags: [],
     href: "",
     description: "Image-based age prediction using transfer learning, compared with ensemble methods like Random Forests and SVMs.",
+  },
+  {
+    id: "my-research",
+    title: "My Research — Representing India",
+    description:
+      "Computational human sciences research examining political narratives and electoral dynamics in the Indian democratic system, conducted at IIIT-H's Human Sciences Research Centre.",
+    tags: ["Computational Social Science", "Political Narratives", "Research"],
+    href: "https://research.ayushmaurya.online/",
   },
   {
     id: "ocr",
@@ -1114,7 +1114,7 @@ export function App() {
         <section className="resume-section animate-fade-in">
           <h2><DecryptText text="Other Projects" /></h2>
           <TuiHorizontalScroll>
-            {linktreeLinks.map(project => (
+            {otherprojects.map(project => (
               <div key={project.title} className="project-item">
                 <h3>
                   {project.href ? (
