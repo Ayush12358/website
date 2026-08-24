@@ -140,10 +140,10 @@ const linktreeLinks: ProjectEntry[] = [
   {
     id: "geoguesser",
     title: "ML for Local Geoguesser",
-    href: "",
-    tags: [],
     description: 
       "Location prediction model using ResNet50 to estimate latitude, longitude, region, and angle from images, achieving 92% region accuracy.",
+    tags: [],
+    href: "",
   },
   {
     id: "age-prediction-model",
@@ -155,23 +155,23 @@ const linktreeLinks: ProjectEntry[] = [
   {
     id: "ocr",
     title: "Highland History Project",
-    href: "https://github.com/Ayush12358",
-    tags: [],
     description: "Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks. Collaboration under Dr. Aniket Alam at HSRC.",
+    tags: [],
+    href: "",
   },
   {
     id: "campus-mart",
     title: "Campus Mart",
-    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
-    tags: [],
     description: "UI/UX design for a buy-sell-rent application featuring NFC-based exchange and tracking concepts for university campuses.",
+    tags: [],
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
   },
   {
     id: "katha-marketplace",
     title: "Katha Marketplace",
-    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
-    tags: [],
     description: "Storytelling-led marketplace prototype designed for local artisans with a stories-first visual interface.",
+    tags: [],
+    href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
   },
 ];
 
