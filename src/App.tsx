@@ -199,8 +199,8 @@ const otherprojects: ProjectEntry[] = [
     id: "wordrop",
     title: "WorDrop",
     description:
-      "Privacy-first, fully offline Android app for personal safety and device automation. A background service listens for user-defined trigger hotwords via on-device Vosk speech recognition (~50MB local model, no cloud audio); trigger profiles (e.g., Panic Mode) map several phrase aliases to configurable action pipelines — pause media, torch, haptics, mute audio, clear clipboard, panic siren, or launch emergency apps.",
-    tags: ["Flutter", "Vosk Offline Speech", "Material 3", "Personal Safety", "Android"],
+      "Android app for device automation. A background service listens for user-defined trigger hotwords via on-device Vosk speech recognition (~50MB local model, no cloud audio); trigger profiles map several phrase aliases to configurable action pipelines — pause media, torch, haptics, mute audio, clear clipboard, panic siren, or launch emergency apps.",
+    tags: ["Flutter", "Vosk Offline Speech", "Android"],
     href: "https://github.com/Ayush12358/WorDrop",
   },
 ];
