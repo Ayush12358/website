@@ -134,6 +134,28 @@ const projects: ProjectEntry[] = [
     tags: ["Computational Social Science", "Political Narratives", "Research"],
     href: "https://research.ayushmaurya.online/",
   },
+  {
+    id: "nfs",
+    title: "NFS",
+    description:
+      "Distributed file-system control plane prototype in C with a split client, naming server, and storage server architecture. UDP broadcast discovery hands off to per-role TCP connections, with threaded listeners for registration, automatic host IP detection via getifaddrs/getnameinfo, and in-memory bookkeeping of active clients and storage nodes.",
+    tags: ["C", "Distributed Systems", "UDP Broadcast", "TCP", "Multithreading"],
+  },
+  {
+    id: "xv6",
+    title: "xv6",
+    description:
+      "Extended xv6 with custom system calls (getreadcount, sigalarm, sigreturn, waitx), timer-based alarms, process accounting, and copy-on-write fork() using shared physical pages, reference counting, and fault-driven page duplication. Includes pthread-based simulations for concurrent request processing and adaptive sorting workloads.",
+    tags: ["xv6", "Operating Systems", "Kernel Development", "Copy-on-Write", "Pthreads"],
+  },
+  {
+    id: "hoi-shell",
+    title: "Hoi-shell",
+    description:
+      "Custom Unix-like shell in C with prompt rendering, command sequencing via ;, background execution with &, and system command execution. Includes utilities for directory navigation, command logging/replay/purge, PID-based process inspection, and recursive file search.",
+    tags: ["C", "Makefile", "Linux", "Process Management", "Unix Shell"],
+    href: "https://github.com/Ayush12358/Hoi-shell",
+  },
 ];
 
 const linktreeLinks: ProjectEntry[] = [
@@ -173,6 +195,14 @@ const linktreeLinks: ProjectEntry[] = [
     tags: [],
     href: "https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link",
   },
+  {
+    id: "wordrop",
+    title: "WorDrop",
+    description:
+      "Privacy-first, fully offline Android app for personal safety and device automation. A background service listens for user-defined trigger hotwords via on-device Vosk speech recognition (~50MB local model, no cloud audio); trigger profiles (e.g., Panic Mode) map several phrase aliases to configurable action pipelines — pause media, torch, haptics, mute audio, clear clipboard, panic siren, or launch emergency apps..",
+    tags: ["Flutter", "Vosk Offline Speech", "Material 3", "Personal Safety", "Android"],
+    href: "https://github.com/Ayush12358/WorDrop",
+  },
 ];
 
 const contacts: ContactEntry[] = [
@@ -193,7 +223,7 @@ const contacts: ContactEntry[] = [
   {
     code: "IN",
     label: "LinkedIn",
-    href: "https://linkedin.com/in/ayush-maurya-a41a9721a",
+    href: "https://linkedin.com/in/ayush--maurya",
   },
   {
     code: "GH",

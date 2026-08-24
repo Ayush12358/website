@@ -158,7 +158,36 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Overview:** A specialized digital humanities project developed in collaboration with Prof. Aniket Alam's research at HSRC. Focuses on digitizing massive registers of historical trade documents, applying OCR processing, and leveraging LLMs to recover text anomalies to map trade routes throughout the Himalayas.
 * **Tags:** `Machine Learning` | `OCR` | `Himalayan History` | `Digital Humanities` | `LLM`
 
-### 9. **Other Active Projects**
+### 9. **NFS**
+> **Distributed File-System Control Plane Prototype**
+* **Overview:** A lightweight distributed file-system control plane built in C with a split client, naming server, and storage server architecture.
+* **Key Features:**
+  * **Discovery:** UDP broadcast discovery for the naming server endpoint, with TCP handoff from discovery into per-role connections for clients and storage nodes.
+  * **Concurrency:** Threaded listeners for client and storage registration.
+  * **Networking:** Automatic host IP detection using `getifaddrs` and `getnameinfo`, avoiding hard-coded local addresses.
+  * **State:** In-memory bookkeeping for active clients and storage servers.
+* **Tags:** `C` | `Distributed Systems` | `UDP Broadcast` | `TCP` | `Multithreading`
+
+### 10. **xv6**
+> **Operating Systems Kernel Extensions and Concurrency Work**
+* **Overview:** Extended xv6 with custom system calls, timer-based alarms, process accounting, and copy-on-write memory management, alongside separate pthread-based concurrency simulations.
+* **Key Features:**
+  * **Custom System Calls:** Added `getreadcount`, `sigalarm`, `sigreturn`, and `waitx` support for kernel instrumentation and process timing.
+  * **Copy-on-Write:** Implemented copy-on-write `fork()` with shared physical pages, reference counting, and fault-driven page duplication.
+  * **Process Accounting:** Tracked per-process creation, exit, runtime, and wait time for scheduler and reporting support.
+  * **Concurrency Simulations:** Built pthread-based simulations for concurrent request processing and adaptive sorting workloads.
+* **Tags:** `xv6` | `Operating Systems` | `Kernel Development` | `Copy-on-Write` | `Pthreads`
+
+### 11. **Hoi-shell**
+> **Custom Unix Shell in C**
+* **Overview:** A custom Unix-like shell built in C with prompt rendering, command sequencing, background execution, and system command execution.
+* **Key Features:**
+  * **Shell Core:** Command sequencing using `;`, background execution using `&`, and system command execution.
+  * **Utilities:** Directory navigation, command logging/replay/purge, PID-based process inspection, and recursive file search.
+* **Tags:** `C` | `Makefile` | `Linux` | `Process Management` | `Unix Shell`
+* **Link:** [Hoi-shell on GitHub](https://github.com/Ayush12358/Hoi-shell)
+
+### 12. **Other Active Projects**
 * **ML for Local Geoguesser:** Image location estimation model using ResNet50. Predicts region, lat/lon, and camera angle, achieving **92% region accuracy**. (`Python`, `PyTorch`)
 * **Campus Mart:** Buy-sell-rent mobile prototype integrating **NFC item tracking** for university campuses. [Google Drive Folder](https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link)
 * **Design for Social Innovation (TAFEA):** Platform enabling Teach for India fellows to draft extracurricular courses. [Google Drive Folder](https://drive.google.com/drive/folders/1eeFthW_dBVRH_B3e6DE2cVocBUmpsps0?usp=drive_link)
