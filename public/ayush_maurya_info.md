@@ -78,7 +78,41 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 
 ## 🚀 Pinned & Deep-Dive Projects
 
-### 1. **ElectoralSim**
+*Sections below mirror the portfolio website ([ayushmaurya.online](https://ayushmaurya.online)): first the eight **Key Projects**, then **Other Projects**, followed by additional live projects not currently featured on the main site.*
+
+### 1. **IPL Strategy Lab**
+> **Next-Generation Cricket Analytics Platform**
+* **Overview:** An intelligent cricket strategy analyzer powered by agentic AI models (Gemini/Gemma 3) and client-side Python execution. Users ask complex analytical cricket questions in natural language and receive interactive charts, insights, and PDF reports.
+* **Key Architecture Features:**
+  * **Multi-Agent Architecture:** Runs a pipeline composed of an *Analyst* (generating Pandas analysis), a *Strategist* (extracting tactical insights), and an *Evaluator* (performing quality audit).
+  * **Self-Healing Analysis Loop:** Integrates recursive feedback that restarts coding tasks with refined prompts if initial code executions encounter exceptions.
+  * **Client-Side WASM Engine:** Runs Python's Pandas engine entirely in the browser using **Pyodide** (WebAssembly), keeping computing fully client-side.
+  * **Rich Analytics:** Analyzes a massive, Gzip-optimized dataset of **260,000+ deliveries** (covering IPL seasons from 2008 to 2024) with interactive Recharts diagrams.
+* **Tags:** `React` | `Agentic AI` | `Pyodide (WASM)` | `Pandas` | `Recharts` | `PWA`
+* **Link:** [ipl.ayushmaurya.online](https://ipl.ayushmaurya.online/)
+
+### 2. **CrowdTwin**
+> **Predictive Crowd Monitoring Dashboard**
+* **Overview:** A predictive crowd monitoring dashboard prototype created as part of a Tech Product Entrepreneurship course, focusing on idea refinement and pitching to guest evaluators.
+* **Tags:** `Next.js` | `Product Design` | `Prototype`
+* **Link:** [crowdtwin.vercel.app](https://crowdtwin.vercel.app/)
+
+### 3. **Design for Social Innovation (TAFEA)**
+> **AI-Assisted Curriculum Planning for Teach For India**
+* **Overview:** Designed TAFEA (Teaching Assistant for Extracurricular Activities), an AI-assisted platform to help Teach For India fellows plan and customize extracurricular curricula for resource-constrained classrooms.
+* **Tags:** `Human-Centered Design` | `Education` | `AI`
+* **Link:** [Google Drive Folder](https://drive.google.com/drive/folders/1eeFthW_dBVRH_B3e6DE2cVocBUmpsps0?usp=drive_link)
+
+### 4. **TempusLogic**
+> **NLP Diagnostic Reasoning Robustness Suite**
+* **Overview:** An advanced NLP research toolkit consisting of two evaluation tracks designed to test the limits of modern Large Language Models under contextual shifts and adversarial prompting.
+* **Evaluation Tracks:**
+  * **Logical Reasoning Diagnostics:** Uses **Dyads** (2 premises) and **Triads** (3 premises) to test model logical consistency. It compares original logical conclusions against modified contexts (where statements are added but the question is kept identical) to measure models' recall drops and sensitivity to contextual changes.
+  * **Mathematical Stress Tests:** Subjects models to the GSM8K benchmark while applying adversarial prompting (misleading exemplars) to evaluate math stability.
+* **Tags:** `Python` | `NLP Research` | `Logical Reasoning` | `API Gateways` | `GSM8K`
+* **Link:** [TempusLogic on GitHub](https://github.com/Ayush12358/TempusLogic)
+
+### 5. **ElectoralSim**
 > **Advanced Agent-Based Electoral Simulation Toolkit**
 * **Overview:** A modular, high-performance simulation toolkit for electoral systems, voter behavior, and political dynamics. Developed as a side-project of computational human sciences research at IIIT-H, enabling researchers to run massive agent-based simulations of democratic processes.
 * **Key Architecture & Performance Features:**
@@ -95,18 +129,36 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Tags:** `Python` | `Agent-Based Modeling (Mesa)` | `Polars` | `Numba` | `Open Source`
 * **PyPI:** [electoral-sim on PyPI](https://pypi.org/project/electoral-sim)
 
-### 2. **IPL Strategy Lab**
-> **Next-Generation Cricket Analytics Platform**
-* **Overview:** An intelligent cricket strategy analyzer powered by agentic AI models (Gemini/Gemma 3) and client-side Python execution. Users ask complex analytical cricket questions in natural language and receive interactive charts, insights, and PDF reports.
-* **Key Architecture Features:**
-  * **Multi-Agent Architecture:** Runs a pipeline composed of an *Analyst* (generating Pandas analysis), a *Strategist* (extracting tactical insights), and an *Evaluator* (performing quality audit).
-  * **Self-Healing Analysis Loop:** Integrates recursive feedback that restarts coding tasks with refined prompts if initial code executions encounter exceptions.
-  * **Client-Side WASM Engine:** Runs Python's Pandas engine entirely in the browser using **Pyodide** (WebAssembly), keeping computing fully client-side.
-  * **Rich Analytics:** Analyzes a massive, Gzip-optimized dataset of **260,000+ deliveries** (covering IPL seasons from 2008 to 2024) with interactive Recharts diagrams.
-* **Tags:** `React` | `Agentic AI` | `Pyodide (WASM)` | `Pandas` | `Recharts` | `PWA`
-* **Link:** [ipl.ayushmaurya.online](https://ipl.ayushmaurya.online/)
+### 6. **NFS**
+> **Distributed File-System Control Plane Prototype**
+* **Overview:** A lightweight distributed file-system control plane built in C with a split client, naming server, and storage server architecture.
+* **Key Features:**
+  * **Discovery:** UDP broadcast discovery for the naming server endpoint, with TCP handoff from discovery into per-role connections for clients and storage nodes.
+  * **Concurrency:** Threaded listeners for client and storage registration.
+  * **Networking:** Automatic host IP detection using `getifaddrs` and `getnameinfo`, avoiding hard-coded local addresses.
+  * **State:** In-memory bookkeeping for active clients and storage servers.
+* **Tags:** `C` | `Distributed Systems` | `UDP Broadcast` | `TCP` | `Multithreading`
 
-### 3. **WorDrop**
+### 7. **xv6**
+> **Operating Systems Kernel Extensions and Concurrency Work**
+* **Overview:** Extended xv6 with custom system calls, timer-based alarms, process accounting, and copy-on-write memory management, alongside separate pthread-based concurrency simulations.
+* **Key Features:**
+  * **Custom System Calls:** Added `getreadcount`, `sigalarm`, `sigreturn`, and `waitx` support for kernel instrumentation and process timing.
+  * **Copy-on-Write:** Implemented copy-on-write `fork()` with shared physical pages, reference counting, and fault-driven page duplication.
+  * **Process Accounting:** Tracked per-process creation, exit, runtime, and wait time for scheduler and reporting support.
+  * **Concurrency Simulations:** Built pthread-based simulations for concurrent request processing and adaptive sorting workloads.
+* **Tags:** `xv6` | `Operating Systems` | `Kernel Development` | `Copy-on-Write` | `Pthreads`
+
+### 8. **Hoi-shell**
+> **Custom Unix Shell in C**
+* **Overview:** A custom Unix-like shell built in C with prompt rendering, command sequencing, background execution, and system command execution.
+* **Key Features:**
+  * **Shell Core:** Command sequencing using `;`, background execution using `&`, and system command execution.
+  * **Utilities:** Directory navigation, command logging/replay/purge, PID-based process inspection, and recursive file search.
+* **Tags:** `C` | `Makefile` | `Linux` | `Process Management` | `Unix Shell`
+* **Link:** [Hoi-shell on GitHub](https://github.com/Ayush12358/Hoi-shell)
+
+### 9. **WorDrop**
 > **Offline Personal Safety & Automation Android App**
 * **Overview:** A privacy-first, offline Android app designed for personal safety, privacy, and local device automation. The app runs as a background service listening for user-defined trigger words (hotwords) to execute custom action pipelines.
 * **Key Architectural Features:**
@@ -117,84 +169,33 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Tags:** `Flutter` | `Vosk Offline Speech` | `Material 3` | `Personal Safety` | `Android`
 * **Link:** [WorDrop on GitHub](https://github.com/Ayush12358/WorDrop)
 
-### 4. **TempusLogic**
-> **NLP Diagnostic Reasoning Robustness Suite**
-* **Overview:** An advanced NLP research toolkit consisting of two evaluation tracks designed to test the limits of modern Large Language Models under contextual shifts and adversarial prompting.
-* **Evaluation Tracks:**
-  * **Logical Reasoning Diagnostics:** Uses **Dyads** (2 premises) and **Triads** (3 premises) to test model logical consistency. It compares original logical conclusions against modified contexts (where statements are added but the question is kept identical) to measure models' recall drops and sensitivity to contextual changes.
-  * **Mathematical Stress Tests:** Subjects models to the GSM8K benchmark while applying adversarial prompting (misleading exemplars) to evaluate math stability.
-* **Tags:** `Python` | `NLP Research` | `Logical Reasoning` | `API Gateways` | `GSM8K`
-* **Link:** [TempusLogic on GitHub](https://github.com/Ayush12358/TempusLogic)
+### 10. **My Research — Representing India**
+> **Computational Human Sciences at HSRC**
+* **Overview:** Computational human sciences research examining political narratives and electoral dynamics in the Indian democratic system, conducted at IIIT-H's Human Sciences Research Centre.
+* **Tags:** `Computational Social Science` | `Political Narratives` | `Research`
+* **Link:** [research.ayushmaurya.online](https://research.ayushmaurya.online/)
 
-### 5. **amReader**
-> **Premium Client-Side M4B Audiobook Player**
-* **Overview:** A premium web-based player optimized specifically for M4B audiobooks, supporting chapter divisions and lyric/subtitle formats (ASS, SSA, SRT, VTT).
-* **Key Technical Features:**
-  * **Chapter Parsing:** Client-side parsing of M4B file structures to extract embedded chapters.
-  * **Lyric Autoscroll:** Imports subtitle files to sync text lines automatically with the audio playhead.
-  * **IndexedDB Storage:** Keeps files, metadata, playback speeds, bookmark timestamps, and cover art (`music-metadata-browser`) stored locally inside the browser.
-  * **UI/UX:** Dual-axis theme configurations (5 preset visual colors + Light/Dark modes) built in React 19 and Vite 6.
-* **Tags:** `React 19` | `Vite 6` | `Tailwind CSS` | `IndexedDB` | `M4B Player` | `PWA`
-* **Link:** [m4b.ayushmaurya.online](https://m4b.ayushmaurya.online/)
+### 11. **ML for Local Geoguesser**
+* **Overview:** Image location estimation model using ResNet50. Predicts region, latitude/longitude, and camera angle, achieving **92% region accuracy**.
+* **Tags:** `Machine Learning` | `PyTorch` | `ResNet50`
 
-### 6. **WebTTS**
-> **Ebook-to-Audiobook Converter PWA**
-* **Overview:** An immersive browser-based application that turns digital reading materials (EPUB ebooks, Markdown, or pasted text) into custom audiobooks using advanced text-to-speech engines.
-* **Key Technical Features:**
-  * **Dual Engine Support:** Uses local Web Speech API (system voices) or Google Cloud Text-to-Speech (neural voices).
-  * **Interactive Reader:** Highlights active sentences in real time, supports right-click bookmarking on specific sentences, and dynamically calculates remaining "reading time" relative to playback speeds.
-  * **Storage:** Integrates Vercel Blob storage.
-* **Tags:** `React` | `Vite` | `Web Speech API` | `Google Cloud TTS` | `EPUB Parser` | `PWA`
-* **Link:** [tts.ayushmaurya.online](https://tts.ayushmaurya.online/)
+### 12. **Age Prediction Model**
+* **Overview:** Image-based age prediction using transfer learning, compared with ensemble methods like Random Forests and SVMs.
+* **Tags:** `Machine Learning` | `Transfer Learning` | `Ensemble Methods`
 
-### 7. **ZenFocus HUD**
-> **Cinematic, ADHD-Friendly Productivity Dashboard**
-* **Overview:** A highly aesthetic Progressive Web App (PWA) "Heads-Up Display" designed to help users reach flow states. It integrates ambient custom visual streams (curated YouTube lofi/nature channels or offline drag-and-drop playlists) with custom productivity anchors.
-* **Key Features:** Animated Circular Pomodoro timer, focus intention locking (`"I am focusing on..."`), IndexedDB offline local video playlists, custom quick-link docks, and JSON configuration importing/exporting.
-* **Tags:** `HTML5` | `IndexedDB` | `ADHD-Friendly` | `Pomodoro` | `PWA`
-* **Link:** [zen.ayushmaurya.online](https://zen.ayushmaurya.online/)
-
-### 8. **Himalayan Trade Networks (Highland History Project)**
-* **Overview:** A specialized digital humanities project developed in collaboration with Prof. Aniket Alam's research at HSRC. Focuses on digitizing massive registers of historical trade documents, applying OCR processing, and leveraging LLMs to recover text anomalies to map trade routes throughout the Himalayas.
+### 13. **Highland History Project (Himalayan Trade Networks)**
+* **Overview:** Digitized historical documents using OCR and LLM-assisted text recovery to map Himalayan trade networks. Collaboration under Dr. Aniket Alam at HSRC.
 * **Tags:** `Machine Learning` | `OCR` | `Himalayan History` | `Digital Humanities` | `LLM`
 
-### 9. **NFS**
-> **Distributed File-System Control Plane Prototype**
-* **Overview:** A lightweight distributed file-system control plane built in C with a split client, naming server, and storage server architecture.
-* **Key Features:**
-  * **Discovery:** UDP broadcast discovery for the naming server endpoint, with TCP handoff from discovery into per-role connections for clients and storage nodes.
-  * **Concurrency:** Threaded listeners for client and storage registration.
-  * **Networking:** Automatic host IP detection using `getifaddrs` and `getnameinfo`, avoiding hard-coded local addresses.
-  * **State:** In-memory bookkeeping for active clients and storage servers.
-* **Tags:** `C` | `Distributed Systems` | `UDP Broadcast` | `TCP` | `Multithreading`
+### 14. **Campus Mart**
+* **Overview:** UI/UX design for a buy-sell-rent application featuring NFC-based exchange and tracking concepts for university campuses.
+* **Tags:** `UI/UX Design` | `NFC`
+* **Link:** [Google Drive Folder](https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link)
 
-### 10. **xv6**
-> **Operating Systems Kernel Extensions and Concurrency Work**
-* **Overview:** Extended xv6 with custom system calls, timer-based alarms, process accounting, and copy-on-write memory management, alongside separate pthread-based concurrency simulations.
-* **Key Features:**
-  * **Custom System Calls:** Added `getreadcount`, `sigalarm`, `sigreturn`, and `waitx` support for kernel instrumentation and process timing.
-  * **Copy-on-Write:** Implemented copy-on-write `fork()` with shared physical pages, reference counting, and fault-driven page duplication.
-  * **Process Accounting:** Tracked per-process creation, exit, runtime, and wait time for scheduler and reporting support.
-  * **Concurrency Simulations:** Built pthread-based simulations for concurrent request processing and adaptive sorting workloads.
-* **Tags:** `xv6` | `Operating Systems` | `Kernel Development` | `Copy-on-Write` | `Pthreads`
+### 15. **Katha Marketplace**
+* **Overview:** Storytelling-led marketplace prototype designed for local artisans with a stories-first visual interface.
+* **Tags:** `UI/UX Design`
 
-### 11. **Hoi-shell**
-> **Custom Unix Shell in C**
-* **Overview:** A custom Unix-like shell built in C with prompt rendering, command sequencing, background execution, and system command execution.
-* **Key Features:**
-  * **Shell Core:** Command sequencing using `;`, background execution using `&`, and system command execution.
-  * **Utilities:** Directory navigation, command logging/replay/purge, PID-based process inspection, and recursive file search.
-* **Tags:** `C` | `Makefile` | `Linux` | `Process Management` | `Unix Shell`
-* **Link:** [Hoi-shell on GitHub](https://github.com/Ayush12358/Hoi-shell)
-
-### 12. **Other Active Projects**
-* **ML for Local Geoguesser:** Image location estimation model using ResNet50. Predicts region, lat/lon, and camera angle, achieving **92% region accuracy**. (`Python`, `PyTorch`)
-* **Campus Mart:** Buy-sell-rent mobile prototype integrating **NFC item tracking** for university campuses. [Google Drive Folder](https://drive.google.com/drive/folders/12ZXtbmZpdcGo3j2tK9wqVYBc4WFLgdW4?usp=drive_link)
-* **Design for Social Innovation (TAFEA):** Platform enabling Teach for India fellows to draft extracurricular courses. [Google Drive Folder](https://drive.google.com/drive/folders/1eeFthW_dBVRH_B3e6DE2cVocBUmpsps0?usp=drive_link)
-* **Katha Marketplace:** Stories-first visual interface prototype for rural artisans. (`UI/UX Design`)
-* **IIIT In Context:** Autonomous student-oriented platform context. [iiit-in-context.vercel.app](https://iiit-in-context.vercel.app/)
-* **Mental Health Toolkit:** Minimal, elegant web wellness toolkit. [mh.ayushmaurya.online](https://mh.ayushmaurya.online/)
- 
 ---
 
 ## 🏆 Honours & Extra-Curricular Activities
@@ -203,8 +204,8 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
   * **UGEE Rank 111:** High-standing rank out of 40,000+ candidates for the IIIT Dual Degree track.
   * **JEE Main:** 96.9 Percentile.
 * **Creative & Artistic Pursuits:**
-  * **Bass Guitarist:** Active bass guitar player in his college band.
-  * **Sports:** Lawn tennis player.
+  * **Bass Guitar & Ukulele:** Bass guitarist in college band, ukulele player.
+  * **Sports:** Lawn tennis & pickleball player.
 
 ---
 
@@ -213,6 +214,7 @@ This document is a comprehensive compilation and deep-dive into the portfolio, r
 * **Email (Personal):** [ayushmaurya2003@gmail.com](mailto:ayushmaurya2003@gmail.com)
 * **Email (IIIT-H Research):** [ayush.maurya@research.iiit.ac.in](mailto:ayush.maurya@research.iiit.ac.in)
 * **Phone:** +91-7985149173
-* **LinkedIn:** [/in/ayush-maurya-a41a9721a](https://linkedin.com/in/ayush-maurya-a41a9721a)
+* **LinkedIn:** [/in/ayush--maurya](https://linkedin.com/in/ayush--maurya)
 * **GitHub Profile:** [Ayush12358](https://github.com/Ayush12358)
 * **Personal/Portfolio Website:** [ayushmaurya.online](https://ayushmaurya.online)
+* **Blog:** [blog.ayushmaurya.online](https://blog.ayushmaurya.online/) — writing on technology, design, and human sciences.
